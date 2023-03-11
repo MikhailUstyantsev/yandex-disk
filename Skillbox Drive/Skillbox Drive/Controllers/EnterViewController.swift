@@ -9,11 +9,11 @@ import UIKit
 
 class EnterViewController: UIViewController {
 
-    var viewModel: EnterViewModel?
+    var viewModel: LoginViewModel?
     
     
-    private let enterView: EnterView = {
-       let view = EnterView()
+    private let enterView: LoginView = {
+       let view = LoginView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

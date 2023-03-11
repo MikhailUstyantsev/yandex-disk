@@ -15,9 +15,7 @@ final class YDService {
     
     private var token: String = ""
     
-    
     private init() { }
-    
     
     enum YDServiceError: Error {
         case failedToCreateRequest

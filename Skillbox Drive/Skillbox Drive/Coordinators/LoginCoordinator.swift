@@ -39,7 +39,7 @@ final class LoginCoordinator: LoginCoordinatorProtocol {
     
     func showEnterViewController() {
         let enterViewController = EnterViewController()
-        let enterViewModel = EnterViewModel()
+        let enterViewModel = LoginViewModel()
         enterViewModel.coordinator = self
         enterViewController.viewModel = enterViewModel
         navigationController.setViewControllers([enterViewController], animated: false)

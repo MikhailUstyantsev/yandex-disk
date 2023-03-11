@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIButton {
-    static func customButton(title: String, backgroundColor: UIColor, titleColor: UIColor, fontSize: CGFloat, radius: CGFloat) -> UIButton {
+    static func customButton(title: String, backgroundColor: UIColor = .systemBackground, titleColor: UIColor = .label, fontSize: CGFloat, radius: CGFloat) -> UIButton {
         let button = UIButton (type: .system)
         button.setTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false

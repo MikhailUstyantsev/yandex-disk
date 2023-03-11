@@ -11,11 +11,13 @@ class AllFilesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .cyan
+        setupViews()
     }
     
-
+    private func setupViews() {
+        view.backgroundColor = .cyan
+        title = "Все файлы"
+    }
     
 
 }

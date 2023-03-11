@@ -1,5 +1,5 @@
 //
-//  EnterViewModel.swift
+//  LoginViewModel.swift
 //  Skillbox Drive
 //
 //  Created by Mikhail Ustyantsev on 06.03.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class EnterViewModel {
+final class LoginViewModel {
     
     let defaults = UserDefaults.standard
     var coordinator: LoginCoordinator?

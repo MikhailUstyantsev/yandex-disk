@@ -11,8 +11,12 @@ class UserProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupViews()
+    }
+    
+    private func setupViews() {
         view.backgroundColor = .yellow
+        title = "Профиль"
     }
     
 

@@ -30,11 +30,11 @@ enum TabBarPage {
     func pageTitleValue() -> String {
         switch self {
         case .profile:
-            return "Profile"
+            return "Профиль"
         case .lastUploaded:
-            return "Last Uploaded"
+            return "Последние"
         case .allFiles:
-            return "All Files"
+            return "Все файлы"
         }
     }
 
@@ -127,7 +127,7 @@ final class TabCoordinator: NSObject, Coordinator {
         let navController = UINavigationController()
         navController.setNavigationBarHidden(false, animated: false)
 
-        navController.tabBarItem = UITabBarItem.init(title: nil,
+        navController.tabBarItem = UITabBarItem.init(title: page.pageTitleValue(),
                                                      image: page.pageTabIcon(),
                                                      tag: page.pageOrderNumber())
 
@@ -138,6 +138,9 @@ final class TabCoordinator: NSObject, Coordinator {
             navController.pushViewController(profileVC, animated: true)
         case .lastUploaded:
             let lastUploadedVC = LastUploadedViewController()
+            let lastUploadedViewModel = LastUploadedViewModel()
+            lastUploadedVC.viewModel = lastUploadedViewModel
+            lastUploadedViewModel.coordinator = self
             navController.pushViewController(lastUploadedVC, animated: true)
         case .allFiles:
             let allFilesVC = AllFilesViewController()

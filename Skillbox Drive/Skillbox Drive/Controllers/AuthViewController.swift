@@ -21,12 +21,12 @@ final class AuthViewController: UIViewController {
     var viewModel: AuthViewModel?
    
     weak var delegate: AuthViewControllerDelegate?
-    
+    //call back URL указанный при регистрации приложения
     private let scheme = "myfiles"
     
     private let webView = WKWebView()
     
-//    clientID мы копируем из браузера со страницы зарегистрированного приложения
+    //clientID мы копируем из браузера со страницы зарегистрированного приложения
     private let clientId: String = "d236e36b801346798d07d9a6e663fe8e"
     
     override func viewDidLoad() {
@@ -80,7 +80,6 @@ final class AuthViewController: UIViewController {
 //        теперь мы можем сформировать url
         guard let url = urlComponents.url else { return nil}
 //        далее создаем объект класса URLRequest с целью его дальнейшего использования в вебвью
-        print("URL for request: '\(url)' ")
         return URLRequest(url: url)
     }
     
