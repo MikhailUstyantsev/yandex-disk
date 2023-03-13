@@ -23,4 +23,6 @@ struct YDFile: Codable {
     let created: String?
 //дата изменения
     let modified: String?
+//путь к файлу
+    let path: String?
 }

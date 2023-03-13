@@ -11,4 +11,5 @@ import Foundation
     case lastUploaded = "last-uploaded"
     case allFiles = "files"
     case publicFiles = "public"
+    case download = "download"
 }

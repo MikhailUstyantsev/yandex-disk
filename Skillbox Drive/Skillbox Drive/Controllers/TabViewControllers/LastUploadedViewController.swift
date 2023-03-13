@@ -32,6 +32,14 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         viewModel?.fetchFiles()
+        
+        viewModel?.refreshTableView = { [weak self] in
+            self?.viewModel?.cellViewModels.removeAll()
+            DispatchQueue.main.async {
+                self?.tableView.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     private func setupViews() {
@@ -39,7 +47,10 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         title = "Последние"
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 60
+        tableView.rowHeight = 70
+        
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
     }
     
     private func setupHierarchy() {
@@ -55,6 +66,12 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! LastUploadedTableViewCell
         guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
+        cell.downloadButtonPressed = {
+            print("download button tapped")
+            // 1. Сохранить вьюмодель данной ячейки в CoreData
+            // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
+            // 3. Обновить картинку кнопки загрузки на "download.finish"
+        }
         cell.selectionStyle = .default
         return cell
     }
@@ -68,11 +85,14 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        viewModel?.didSelectRow(at: indexPath)
+        guard let viewModelToPass = viewModel?.cellViewModels[indexPath.row] else { return }
+        viewModel?.didSelectRow(with: viewModelToPass)
     }
     
     
-    
+    @objc func didPullToRefresh() {
+        viewModel?.reFetchData()
+    }
     
 }
 

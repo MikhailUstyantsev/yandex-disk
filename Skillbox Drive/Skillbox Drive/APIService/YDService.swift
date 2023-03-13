@@ -56,7 +56,7 @@ final class YDService {
             var request = URLRequest(url: url)
             request.httpMethod = request.httpMethod
             request.setValue("OAuth \(token)", forHTTPHeaderField: "Authorization")
-            return request
-        }
+        return request
+    }
     
 }

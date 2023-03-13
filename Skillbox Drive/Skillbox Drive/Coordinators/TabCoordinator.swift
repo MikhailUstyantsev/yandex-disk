@@ -117,7 +117,10 @@ final class TabCoordinator: NSObject, Coordinator {
         /// Let set index
         tabBarController.selectedIndex = TabBarPage.lastUploaded.pageOrderNumber()
         /// Styling
-        tabBarController.tabBar.isTranslucent = false
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .systemBackground
+        tabBarController.tabBar.standardAppearance = appearance
+        //tabBarController.tabBar.isTranslucent = false
         
         /// In this step, we attach tabBarController to navigation controller associated with this coordinator
         navigationController.viewControllers = [tabBarController]
@@ -137,11 +140,8 @@ final class TabCoordinator: NSObject, Coordinator {
             let profileVC = UserProfileViewController()
             navController.pushViewController(profileVC, animated: true)
         case .lastUploaded:
-            let lastUploadedVC = LastUploadedViewController()
-            let lastUploadedViewModel = LastUploadedViewModel()
-            lastUploadedVC.viewModel = lastUploadedViewModel
-            lastUploadedViewModel.coordinator = self
-            navController.pushViewController(lastUploadedVC, animated: true)
+            let lastUploadedCoordinator = LastUploadedCoordinator(navController)
+            lastUploadedCoordinator.start()
         case .allFiles:
             let allFilesVC = AllFilesViewController()
            
@@ -169,5 +169,6 @@ extension TabCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
         // Some implementation
+        
     }
 }

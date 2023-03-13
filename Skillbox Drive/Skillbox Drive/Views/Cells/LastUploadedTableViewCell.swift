@@ -10,11 +10,13 @@ import UIKit
 class LastUploadedTableViewCell: UITableViewCell {
 
     private var viewModel: LastUploadedCellViewModel?
-    
+
+    var downloadButtonPressed: () -> Void = {}
+
     let nameLabel: UILabel = {
        let label = UILabel()
         label.font = UIFont(name: "Inter-Regular", size: 16)
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.textColor = .label
         label.backgroundColor = .systemBackground
         label.lineBreakMode = .byWordWrapping
@@ -52,6 +54,14 @@ class LastUploadedTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    let downloadButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "download"), for: .normal)
+        button.addTarget(self, action: #selector(tappedDownload), for: .touchUpInside)
+        return button
     }()
 
 
@@ -91,7 +101,7 @@ class LastUploadedTableViewCell: UITableViewCell {
     }
     
     private func setupHierarchy() {
-        contentView.addSubviews(cellImageView, nameLabel, dateLabel, sizeLabel)
+        contentView.addSubviews(cellImageView, nameLabel, dateLabel, sizeLabel, downloadButton)
     }
     
     private func setupLayout() {
@@ -105,15 +115,24 @@ class LastUploadedTableViewCell: UITableViewCell {
             
             nameLabel.topAnchor.constraint(equalTo: margins.topAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: cellImageView.trailingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(equalTo: downloadButton.leadingAnchor, constant: -5),
             
-            dateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+            dateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 3),
             dateLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             
             sizeLabel.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -24),
-            sizeLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
+            sizeLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            
+            downloadButton.heightAnchor.constraint(equalToConstant: 35),
+            downloadButton.widthAnchor.constraint(equalToConstant: 35),
+            downloadButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -24),
+            downloadButton.bottomAnchor.constraint(equalTo: sizeLabel.topAnchor)
         ])
     }
     
+    @objc private func tappedDownload() {
+        downloadButtonPressed()
+    }
     
     
 }

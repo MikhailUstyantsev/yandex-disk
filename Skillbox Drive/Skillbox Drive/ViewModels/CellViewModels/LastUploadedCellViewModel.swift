@@ -17,7 +17,7 @@ final class LastUploadedCellViewModel {
     let date: String
     var size: Int64
     let preview: String
-    
+    let filePath: String
     
     var formattedDate: String {
         let createdDate = Date.createDateFromString(dateString: date)
@@ -33,15 +33,16 @@ final class LastUploadedCellViewModel {
         if let url = URL(string: preview) {
             return url
         } else {
-            return AssetExtractor.createLocalUrl(forImageNamed: "folder")!
+            return AssetExtractor.createLocalUrl(forImageNamed: "file")!
         }
     }
     
-    init(name: String, date: String, size: Int64, preview: String) {
+    init(name: String, date: String, size: Int64, preview: String, filePath: String) {
         self.name = name
         self.date = date
         self.size = size
         self.preview = preview
+        self.filePath = filePath
         self.token = defaults.object(forKey: "token") as? String ?? ""
     }
     

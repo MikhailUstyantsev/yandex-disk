@@ -39,6 +39,10 @@
 		8368BA2329BC1CE200ACB05A /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8368BA1A29BC1CE200ACB05A /* Inter-Regular.ttf */; };
 		8368BA2429BC1CE200ACB05A /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8368BA1B29BC1CE200ACB05A /* Inter-Bold.ttf */; };
 		8368BA2629BC31F300ACB05A /* AssetExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2529BC31F300ACB05A /* AssetExtractor.swift */; };
+		8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */; };
+		8368BA2D29BE599400ACB05A /* LastUploadedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */; };
+		8368BA3029BE59EF00ACB05A /* LastUploadedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2F29BE59EF00ACB05A /* LastUploadedDetailViewController.swift */; };
+		8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */; };
 		838DB5FB28D6C0FE00BF54E9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB5FA28D6C0FE00BF54E9 /* LoginView.swift */; };
 		838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62328D77E4400BF54E9 /* DemoViewController.swift */; };
 		838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */; };
@@ -85,6 +89,10 @@
 		8368BA1A29BC1CE200ACB05A /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		8368BA1B29BC1CE200ACB05A /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		8368BA2529BC31F300ACB05A /* AssetExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetExtractor.swift; sourceTree = "<group>"; };
+		8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedCoordinator.swift; sourceTree = "<group>"; };
+		8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedDetailViewModel.swift; sourceTree = "<group>"; };
+		8368BA2F29BE59EF00ACB05A /* LastUploadedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedDetailViewController.swift; sourceTree = "<group>"; };
+		8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDDownloadResponse.swift; sourceTree = "<group>"; };
 		838DB5FA28D6C0FE00BF54E9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		838DB62328D77E4400BF54E9 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +138,7 @@
 				8368B9E929B7C1EC00ACB05A /* AppCoordinator.swift */,
 				8368B9E729B7C0AE00ACB05A /* LoginCoordinator.swift */,
 				8368B9EB29B7C21900ACB05A /* TabCoordinator.swift */,
+				8368BA2829BE561000ACB05A /* TabBarsCoordinators */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -179,6 +188,7 @@
 				8368B9E529B7BFFC00ACB05A /* UserProfileViewController.swift */,
 				83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */,
 				8368B9DC29B7BEDF00ACB05A /* AllFilesViewController.swift */,
+				8368BA2E29BE59BA00ACB05A /* TabsDetailViewControllers */,
 			);
 			path = TabViewControllers;
 			sourceTree = "<group>";
@@ -189,6 +199,7 @@
 				8368B9E329B7BFB500ACB05A /* UserProfileViewModel.swift */,
 				8368B9DF29B7BF4A00ACB05A /* LastUploadedViewModel.swift */,
 				8368B9E129B7BF7200ACB05A /* AllFilesViewModel.swift */,
+				8368BA2B29BE596C00ACB05A /* DetailViewModels */,
 			);
 			path = TabViewModels;
 			sourceTree = "<group>";
@@ -204,6 +215,7 @@
 		8368B9FB29B8FEC100ACB05A /* APIResponseTypes */ = {
 			isa = PBXGroup;
 			children = (
+				8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */,
 				83F4815828DE1D9C00F3C12F /* YDGetAllFilesResponse.swift */,
 				8368B9FC29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift */,
 			);
@@ -232,6 +244,39 @@
 				8368BA1429BC1CE200ACB05A /* Inter-Thin.ttf */,
 			);
 			path = Inter;
+			sourceTree = "<group>";
+		};
+		8368BA2729BD7FEB00ACB05A /* Onbording Screen */ = {
+			isa = PBXGroup;
+			children = (
+				838DB62328D77E4400BF54E9 /* DemoViewController.swift */,
+				838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */,
+			);
+			path = "Onbording Screen";
+			sourceTree = "<group>";
+		};
+		8368BA2829BE561000ACB05A /* TabBarsCoordinators */ = {
+			isa = PBXGroup;
+			children = (
+				8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */,
+			);
+			path = TabBarsCoordinators;
+			sourceTree = "<group>";
+		};
+		8368BA2B29BE596C00ACB05A /* DetailViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */,
+			);
+			path = DetailViewModels;
+			sourceTree = "<group>";
+		};
+		8368BA2E29BE59BA00ACB05A /* TabsDetailViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8368BA2F29BE59EF00ACB05A /* LastUploadedDetailViewController.swift */,
+			);
+			path = TabsDetailViewControllers;
 			sourceTree = "<group>";
 		};
 		838DB62928D77F7800BF54E9 /* Views */ = {
@@ -298,8 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				83DD61442891A6110078100A /* EnterViewController.swift */,
-				838DB62328D77E4400BF54E9 /* DemoViewController.swift */,
-				838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */,
+				8368BA2729BD7FEB00ACB05A /* Onbording Screen */,
 				83F4815428DCF52E00F3C12F /* AuthViewController.swift */,
 				8368B9DB29B75B3E00ACB05A /* TabViewControllers */,
 			);
@@ -404,6 +448,8 @@
 				8368B9FD29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift in Sources */,
 				83F4815928DE1D9C00F3C12F /* YDGetAllFilesResponse.swift in Sources */,
 				8368B99B29B6546100ACB05A /* LoginViewModel.swift in Sources */,
+				8368BA2D29BE599400ACB05A /* LastUploadedDetailViewModel.swift in Sources */,
+				8368BA3029BE59EF00ACB05A /* LastUploadedDetailViewController.swift in Sources */,
 				8368B9EA29B7C1EC00ACB05A /* AppCoordinator.swift in Sources */,
 				838DB5FB28D6C0FE00BF54E9 /* LoginView.swift in Sources */,
 				8368B9A029B6609A00ACB05A /* AuthViewModel.swift in Sources */,
@@ -418,7 +464,9 @@
 				8368B9EC29B7C21900ACB05A /* TabCoordinator.swift in Sources */,
 				8368B9F829B8D94000ACB05A /* YDService.swift in Sources */,
 				8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */,
+				8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */,
 				83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */,
+				8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */,
 				8368BA0729BBB22B00ACB05A /* YDEndpoint.swift in Sources */,
 				8368BA0929BC143100ACB05A /* LastUploadedCellViewModel.swift in Sources */,
 				8368B99729B64F8F00ACB05A /* UIButton + Extensions.swift in Sources */,

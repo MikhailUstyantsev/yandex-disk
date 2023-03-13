@@ -61,7 +61,7 @@ class LoginView: UIView {
         return stackView
     }()
     
-    private let loginButton = UIButton.customButton(title: "Войти", backgroundColor: UIColor(named: "EnterButton") ?? .systemBlue, titleColor: .label, fontSize: 16, radius: 10)
+    private let loginButton = UIButton.customButton(title: "Войти", backgroundColor: UIColor(named: "EnterButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
     
     private func setupBehaviour() {
         loginButton.addTarget(self, action: #selector(onButtonTapHandler), for: .touchUpInside)

@@ -1,34 +1,28 @@
-//
-//  ViewController.swift
-//  OnboardingTest
-//
-//  Created by Mikhail Ustyantsev on 18.09.2022.
-//
 
 import UIKit
 
 class DemoViewController: UIPageViewController {
-
+    
     var viewModel: DemoViewModel?
-  
+    
     var pages = [UIViewController]()
-        
-        let nextButton = UIButton.customButton(title: "Далее", backgroundColor: UIColor(named: "PurpleButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
-        let pageControl = UIPageControl()
-        let initialPage = 0
-
-        // animations
-        var pageControlBottomAnchor: NSLayoutConstraint?
-        var nextButtonBottomAnchor: NSLayoutConstraint?
-        var skipButtonTopAnchor: NSLayoutConstraint?
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            view.backgroundColor = .white
-            setup()
-            style()
-            layout()
-        }
+    
+    let nextButton = UIButton.customButton(title: "Далее", backgroundColor: UIColor(named: "PurpleButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
+    let pageControl = UIPageControl()
+    let initialPage = 0
+    
+    // animations
+    var pageControlBottomAnchor: NSLayoutConstraint?
+    var nextButtonBottomAnchor: NSLayoutConstraint?
+    var skipButtonTopAnchor: NSLayoutConstraint?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        setup()
+        style()
+        layout()
+    }
     
     deinit {
         print("DemoViewController deinit")
@@ -46,7 +40,9 @@ extension DemoViewController {
         delegate = self
         
         pageControl.addTarget(self, action: #selector(pageControlTapped(_:)), for: .valueChanged)
-
+        
+        pageControl.currentPageIndicatorTintColor = .label
+        
         let page1 = OnboardingViewController(imageName: "TwoFolders", titleText: "Теперь ваши документы в одном месте", subtitleText: "")
         
         let page2 = OnboardingViewController(imageName: "CheckedFolder", titleText: "Доступ к файлам без интернета", subtitleText: "")
@@ -59,41 +55,41 @@ extension DemoViewController {
         pages.append(page3)
         
         setViewControllers([pages[initialPage]], direction: .forward, animated: true, completion: nil)
-        }
+    }
     
     func style() {
-            pageControl.translatesAutoresizingMaskIntoConstraints = false
-            pageControl.currentPageIndicatorTintColor = .black
-            pageControl.pageIndicatorTintColor = .systemGray2
-            pageControl.numberOfPages = pages.count
-            pageControl.currentPage = initialPage
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.pageIndicatorTintColor = .systemGray2
+        pageControl.numberOfPages = pages.count
+        pageControl.currentPage = initialPage
         
-            nextButton.addTarget(self, action: #selector(nextTapped(_:)), for: .primaryActionTriggered)
-        }
+        nextButton.addTarget(self, action: #selector(nextTapped(_:)), for: .primaryActionTriggered)
+    }
     
     func layout() {
-            view.addSubview(pageControl)
-            view.addSubview(nextButton)
-            
-            NSLayoutConstraint.activate([
-                pageControl.widthAnchor.constraint(equalTo: view.widthAnchor),
-                pageControl.heightAnchor.constraint(equalToConstant: 30),
-                pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                nextButton.heightAnchor.constraint(equalToConstant: 50),
-                nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 27),
-                view.trailingAnchor.constraint(equalTo: nextButton.trailingAnchor, constant: 27),
-            ])
-            
-            // for animations
+        view.addSubview(pageControl)
+        view.addSubview(nextButton)
+        
+        NSLayoutConstraint.activate([
+            pageControl.widthAnchor.constraint(equalTo: view.widthAnchor),
+            pageControl.heightAnchor.constraint(equalToConstant: 30),
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: 50),
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 27),
+            view.trailingAnchor.constraint(equalTo: nextButton.trailingAnchor, constant: 27),
+        ])
+        
+        // for animations
         pageControlBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 180)
         nextButtonBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 92)
         
         
-            pageControlBottomAnchor?.isActive = true
-            skipButtonTopAnchor?.isActive = true
-            nextButtonBottomAnchor?.isActive = true
-        }
-
+        pageControlBottomAnchor?.isActive = true
+        skipButtonTopAnchor?.isActive = true
+        nextButtonBottomAnchor?.isActive = true
+    }
+    
 }
 
 // MARK: - DataSource
@@ -101,7 +97,7 @@ extension DemoViewController {
 extension DemoViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-
+        
         guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
         
         if currentIndex == 0 {
@@ -110,11 +106,11 @@ extension DemoViewController: UIPageViewControllerDataSource {
             return pages[currentIndex - 1]  // go previous
         }
     }
-        
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
-
+        
         if currentIndex < pages.count - 1 {
             return pages[currentIndex + 1]  // go next
         } else {
@@ -146,31 +142,31 @@ extension DemoViewController: UIPageViewControllerDelegate {
         } else {
             showControls()
         }
-
+        
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.1, delay: 0, options: [.curveEaseOut], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
-
+    
     private func hideControls() {
         skipButtonTopAnchor?.constant = -80
-       }
-
-       private func showControls() {
-           skipButtonTopAnchor?.constant = 16
-       }
-   }
+    }
+    
+    private func showControls() {
+        skipButtonTopAnchor?.constant = 16
+    }
+}
 
 // MARK: - Actions
 
 extension DemoViewController {
-
+    
     
     @objc func pageControlTapped(_ sender: UIPageControl) {
         setViewControllers([pages[sender.currentPage]], direction: .forward, animated: true, completion: nil)
         animateControlsIfNeeded()
     }
-
+    
     @objc func skipTapped(_ sender: UIButton) {
         let lastPage = pages.count - 1
         pageControl.currentPage = lastPage
@@ -196,7 +192,7 @@ extension DemoViewController {
 // MARK: - Extensions
 
 extension UIPageViewController {
-
+    
     func goToNextPage(animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
         guard let currentPage = viewControllers?[0] else { return }
         guard let nextPage = dataSource?.pageViewController(self, viewControllerAfter: currentPage) else { return }
