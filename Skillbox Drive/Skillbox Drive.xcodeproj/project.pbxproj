@@ -20,7 +20,7 @@
 		8368B9E829B7C0AE00ACB05A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9E729B7C0AE00ACB05A /* LoginCoordinator.swift */; };
 		8368B9EA29B7C1EC00ACB05A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9E929B7C1EC00ACB05A /* AppCoordinator.swift */; };
 		8368B9EC29B7C21900ACB05A /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9EB29B7C21900ACB05A /* TabCoordinator.swift */; };
-		8368B9EE29B7E38700ACB05A /* LoaderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9ED29B7E38700ACB05A /* LoaderImageView.swift */; };
+		8368B9EE29B7E38700ACB05A /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9ED29B7E38700ACB05A /* ImageLoader.swift */; };
 		8368B9F829B8D94000ACB05A /* YDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9F729B8D94000ACB05A /* YDService.swift */; };
 		8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9F929B8D99300ACB05A /* YDRequest.swift */; };
 		8368B9FD29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B9FC29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift */; };
@@ -41,8 +41,13 @@
 		8368BA2629BC31F300ACB05A /* AssetExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2529BC31F300ACB05A /* AssetExtractor.swift */; };
 		8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */; };
 		8368BA2D29BE599400ACB05A /* LastUploadedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */; };
-		8368BA3029BE59EF00ACB05A /* LastUploadedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2F29BE59EF00ACB05A /* LastUploadedDetailViewController.swift */; };
+		8368BA3029BE59EF00ACB05A /* ImageViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2F29BE59EF00ACB05A /* ImageViewDetailViewController.swift */; };
 		8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */; };
+		836F9C2429C0E17A00D0DE63 /* UINavigationItem + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2329C0E17A00D0DE63 /* UINavigationItem + Extensions.swift */; };
+		836F9C2829C0F65900D0DE63 /* WKWebView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */; };
+		836F9C2B29C1ECD200D0DE63 /* WebViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */; };
+		836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */; };
+		836F9C3029C23CD700D0DE63 /* SDWebImageSVGCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 836F9C2F29C23CD700D0DE63 /* SDWebImageSVGCoder */; };
 		838DB5FB28D6C0FE00BF54E9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB5FA28D6C0FE00BF54E9 /* LoginView.swift */; };
 		838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62328D77E4400BF54E9 /* DemoViewController.swift */; };
 		838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */; };
@@ -70,7 +75,7 @@
 		8368B9E729B7C0AE00ACB05A /* LoginCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		8368B9E929B7C1EC00ACB05A /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		8368B9EB29B7C21900ACB05A /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
-		8368B9ED29B7E38700ACB05A /* LoaderImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderImageView.swift; sourceTree = "<group>"; };
+		8368B9ED29B7E38700ACB05A /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		8368B9F729B8D94000ACB05A /* YDService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDService.swift; sourceTree = "<group>"; };
 		8368B9F929B8D99300ACB05A /* YDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDRequest.swift; sourceTree = "<group>"; };
 		8368B9FC29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDGetLastUploadedResponse.swift; sourceTree = "<group>"; };
@@ -91,8 +96,12 @@
 		8368BA2529BC31F300ACB05A /* AssetExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetExtractor.swift; sourceTree = "<group>"; };
 		8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedCoordinator.swift; sourceTree = "<group>"; };
 		8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedDetailViewModel.swift; sourceTree = "<group>"; };
-		8368BA2F29BE59EF00ACB05A /* LastUploadedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedDetailViewController.swift; sourceTree = "<group>"; };
+		8368BA2F29BE59EF00ACB05A /* ImageViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewDetailViewController.swift; sourceTree = "<group>"; };
 		8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDDownloadResponse.swift; sourceTree = "<group>"; };
+		836F9C2329C0E17A00D0DE63 /* UINavigationItem + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem + Extensions.swift"; sourceTree = "<group>"; };
+		836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView + Extensions.swift"; sourceTree = "<group>"; };
+		836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDetailViewController.swift; sourceTree = "<group>"; };
+		836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewDetailViewController.swift; sourceTree = "<group>"; };
 		838DB5FA28D6C0FE00BF54E9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		838DB62328D77E4400BF54E9 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				836F9C3029C23CD700D0DE63 /* SDWebImageSVGCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,17 +160,12 @@
 				8368B9FE29B901D600ACB05A /* Date+Extensions.swift */,
 				8368BA0A29BC16F700ACB05A /* UIView+Extensions .swift */,
 				8368BA0C29BC170300ACB05A /* UITableView+Extensions.swift */,
+				836F9C2329C0E17A00D0DE63 /* UINavigationItem + Extensions.swift */,
+				836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */,
 				8368BA2529BC31F300ACB05A /* AssetExtractor.swift */,
+				8368B9ED29B7E38700ACB05A /* ImageLoader.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8368B99E29B65CE000ACB05A /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				8368B9ED29B7E38700ACB05A /* LoaderImageView.swift */,
-			);
-			path = Helper;
 			sourceTree = "<group>";
 		};
 		8368B9A329B6657C00ACB05A /* Resources */ = {
@@ -274,9 +279,19 @@
 		8368BA2E29BE59BA00ACB05A /* TabsDetailViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8368BA2F29BE59EF00ACB05A /* LastUploadedDetailViewController.swift */,
+				836F9C2929C1EC8B00D0DE63 /* LastUploadedTab */,
 			);
 			path = TabsDetailViewControllers;
+			sourceTree = "<group>";
+		};
+		836F9C2929C1EC8B00D0DE63 /* LastUploadedTab */ = {
+			isa = PBXGroup;
+			children = (
+				8368BA2F29BE59EF00ACB05A /* ImageViewDetailViewController.swift */,
+				836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */,
+				836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */,
+			);
+			path = LastUploadedTab;
 			sourceTree = "<group>";
 		};
 		838DB62928D77F7800BF54E9 /* Views */ = {
@@ -332,7 +347,6 @@
 				8368B99129B64EBD00ACB05A /* ViewModels */,
 				83F4810828DA1A5C00F3C12F /* Controllers */,
 				8368B9A329B6657C00ACB05A /* Resources */,
-				8368B99E29B65CE000ACB05A /* Helper */,
 				8368B99529B64F7400ACB05A /* Extensions */,
 				83DD614E2891A6110078100A /* Info.plist */,
 			);
@@ -375,6 +389,7 @@
 			);
 			name = "Skillbox Drive";
 			packageProductDependencies = (
+				836F9C2F29C23CD700D0DE63 /* SDWebImageSVGCoder */,
 			);
 			productName = "Skillbox Drive";
 			productReference = 83DD613D2891A6110078100A /* Skillbox Drive.app */;
@@ -405,6 +420,7 @@
 			);
 			mainGroup = 83DD61342891A6110078100A;
 			packageReferences = (
+				836F9C2E29C23CD700D0DE63 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
 			);
 			productRefGroup = 83DD613E2891A6110078100A /* Products */;
 			projectDirPath = "";
@@ -446,23 +462,27 @@
 				83DD61452891A6110078100A /* EnterViewController.swift in Sources */,
 				8368BA0B29BC16F700ACB05A /* UIView+Extensions .swift in Sources */,
 				8368B9FD29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift in Sources */,
+				836F9C2829C0F65900D0DE63 /* WKWebView + Extensions.swift in Sources */,
 				83F4815928DE1D9C00F3C12F /* YDGetAllFilesResponse.swift in Sources */,
 				8368B99B29B6546100ACB05A /* LoginViewModel.swift in Sources */,
 				8368BA2D29BE599400ACB05A /* LastUploadedDetailViewModel.swift in Sources */,
-				8368BA3029BE59EF00ACB05A /* LastUploadedDetailViewController.swift in Sources */,
+				8368BA3029BE59EF00ACB05A /* ImageViewDetailViewController.swift in Sources */,
 				8368B9EA29B7C1EC00ACB05A /* AppCoordinator.swift in Sources */,
 				838DB5FB28D6C0FE00BF54E9 /* LoginView.swift in Sources */,
 				8368B9A029B6609A00ACB05A /* AuthViewModel.swift in Sources */,
+				836F9C2429C0E17A00D0DE63 /* UINavigationItem + Extensions.swift in Sources */,
+				836F9C2B29C1ECD200D0DE63 /* WebViewDetailViewController.swift in Sources */,
 				8368BA0D29BC170300ACB05A /* UITableView+Extensions.swift in Sources */,
 				8368BA2629BC31F300ACB05A /* AssetExtractor.swift in Sources */,
 				8368B9FF29B901D600ACB05A /* Date+Extensions.swift in Sources */,
 				838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */,
 				8368B9E629B7BFFC00ACB05A /* UserProfileViewController.swift in Sources */,
 				83B64FFF28F2AEA7004F1061 /* LastUploadedTableViewCell.swift in Sources */,
-				8368B9EE29B7E38700ACB05A /* LoaderImageView.swift in Sources */,
+				8368B9EE29B7E38700ACB05A /* ImageLoader.swift in Sources */,
 				8368B9DD29B7BEDF00ACB05A /* AllFilesViewController.swift in Sources */,
 				8368B9EC29B7C21900ACB05A /* TabCoordinator.swift in Sources */,
 				8368B9F829B8D94000ACB05A /* YDService.swift in Sources */,
+				836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */,
 				8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */,
 				8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */,
 				83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */,
@@ -686,6 +706,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		836F9C2E29C23CD700D0DE63 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSVGCoder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		836F9C2F29C23CD700D0DE63 /* SDWebImageSVGCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 836F9C2E29C23CD700D0DE63 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */;
+			productName = SDWebImageSVGCoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83DD61352891A6110078100A /* Project object */;
 }

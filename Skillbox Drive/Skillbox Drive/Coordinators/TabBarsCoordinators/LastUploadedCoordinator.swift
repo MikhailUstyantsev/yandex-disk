@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QuickLook
 
 final class LastUploadedCoordinator: Coordinator {
     
@@ -29,13 +30,31 @@ final class LastUploadedCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
-    func showDetailViewController(with viewModeltoDisplay: LastUploadedCellViewModel) {
-        let lastUploadedDetailViewController = LastUploadedDetailViewController()
+    func showImageDetailViewController(with viewModeltoDisplay: LastUploadedCellViewModel) {
+        let imageViewDetailViewController = ImageViewDetailViewController()
         let lastUploadedDetailViewModel = LastUploadedDetailViewModel()
         lastUploadedDetailViewModel.cellViewModel = viewModeltoDisplay
-        lastUploadedDetailViewController.viewModel = lastUploadedDetailViewModel
+        imageViewDetailViewController.viewModel = lastUploadedDetailViewModel
         lastUploadedDetailViewModel.coordinator = self
-        navigationController.pushViewController(lastUploadedDetailViewController, animated: true)
+        navigationController.pushViewController(imageViewDetailViewController, animated: true)
+    }
+    
+    func showWebViewDetailViewController(with viewModeltoDisplay: LastUploadedCellViewModel) {
+        let webViewDetailViewController = WebViewDetailViewController()
+        let lastUploadedDetailViewModel = LastUploadedDetailViewModel()
+        lastUploadedDetailViewModel.cellViewModel = viewModeltoDisplay
+        webViewDetailViewController.viewModel = lastUploadedDetailViewModel
+        lastUploadedDetailViewModel.coordinator = self
+        navigationController.pushViewController(webViewDetailViewController, animated: true)
+    }
+    
+    func showPDFViewDetailViewController(with viewModeltoDisplay: LastUploadedCellViewModel) {
+        let pdfViewDetailViewController = PDFViewDetailViewController()
+        let lastUploadedDetailViewModel = LastUploadedDetailViewModel()
+        lastUploadedDetailViewModel.cellViewModel = viewModeltoDisplay
+        pdfViewDetailViewController.viewModel = lastUploadedDetailViewModel
+        lastUploadedDetailViewModel.coordinator = self
+        navigationController.pushViewController(pdfViewDetailViewController, animated: true)
     }
     
 }

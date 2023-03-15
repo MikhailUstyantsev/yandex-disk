@@ -18,6 +18,7 @@ final class LastUploadedCellViewModel {
     var size: Int64
     let preview: String
     let filePath: String
+    let mediaType: String
     
     var formattedDate: String {
         let createdDate = Date.createDateFromString(dateString: date)
@@ -37,12 +38,13 @@ final class LastUploadedCellViewModel {
         }
     }
     
-    init(name: String, date: String, size: Int64, preview: String, filePath: String) {
+    init(name: String, date: String, size: Int64, preview: String, filePath: String, mediaType: String) {
         self.name = name
         self.date = date
         self.size = size
         self.preview = preview
         self.filePath = filePath
+        self.mediaType = mediaType
         self.token = defaults.object(forKey: "token") as? String ?? ""
     }
     

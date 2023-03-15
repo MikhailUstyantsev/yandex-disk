@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 final class LastUploadedDetailViewModel: NSObject {
     
     weak var coordinator: Coordinator?
@@ -26,7 +27,15 @@ final class LastUploadedDetailViewModel: NSObject {
         }
     }
     
+    func prepareSubtitle(subtitle: String) -> String {
+        let date = Date.createDateFromString(dateString: subtitle)
+        let stringFromDate = Date.createStringFromDate(date: date)
+        return stringFromDate
+    }
+    
     deinit {
         print("deinit from LastUploadedDetailViewModel")
     }
 }
+
+

@@ -108,6 +108,7 @@ final class TabCoordinator: NSObject, Coordinator {
     deinit {
         print("TabCoordinator deinit")
     }
+
     
     private func prepareTabBarController(withTabControllers tabControllers: [UIViewController]) {
         /// Set delegate for UITabBarController
@@ -118,10 +119,9 @@ final class TabCoordinator: NSObject, Coordinator {
         tabBarController.selectedIndex = TabBarPage.lastUploaded.pageOrderNumber()
         /// Styling
         let appearance = UITabBarAppearance()
-        appearance.backgroundColor = .systemBackground
+//        appearance.backgroundColor = .systemBackground
         tabBarController.tabBar.standardAppearance = appearance
-        //tabBarController.tabBar.isTranslucent = false
-        
+//        tabBarController.tabBar.isTranslucent = false
         /// In this step, we attach tabBarController to navigation controller associated with this coordinator
         navigationController.viewControllers = [tabBarController]
     }
@@ -129,7 +129,7 @@ final class TabCoordinator: NSObject, Coordinator {
     private func getTabController(_ page: TabBarPage) -> UINavigationController {
         let navController = UINavigationController()
         navController.setNavigationBarHidden(false, animated: false)
-
+        
         navController.tabBarItem = UITabBarItem.init(title: page.pageTitleValue(),
                                                      image: page.pageTabIcon(),
                                                      tag: page.pageOrderNumber())

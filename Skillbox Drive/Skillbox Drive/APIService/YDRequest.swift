@@ -38,8 +38,9 @@ final class YDRequest {
             
             string += argumentString
         }
+        guard let resultURL = string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return string }
         
-        return string
+        return resultURL
     }
     //    computed & constructed API url
     public var url: URL? {

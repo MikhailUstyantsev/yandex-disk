@@ -25,4 +25,6 @@ struct YDFile: Codable {
     let modified: String?
 //путь к файлу
     let path: String?
+//медиа тип файла
+    let mime_type: String?
 }

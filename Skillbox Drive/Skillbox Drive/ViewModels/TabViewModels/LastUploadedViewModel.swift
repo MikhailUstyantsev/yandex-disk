@@ -22,7 +22,7 @@ final class LastUploadedViewModel {
     private(set) var files: [YDFile] = [] {
         didSet {
             for file in files where !cellViewModels.contains(where: { $0.name == file.name }) {
-                let viewModel = LastUploadedCellViewModel(name: file.name ?? "", date: file.created ?? "", size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path ?? "")
+                let viewModel = LastUploadedCellViewModel(name: file.name ?? "", date: file.created ?? "", size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path ?? "", mediaType: file.mime_type ?? "")
                 cellViewModels.append(viewModel)
             }
         }
@@ -42,13 +42,23 @@ final class LastUploadedViewModel {
         }
     }
     
-    func didSelectRow(with viewModel: LastUploadedCellViewModel) {
-        print("Path to file: \(viewModel.filePath)")
-        coordinator?.showDetailViewController(with: viewModel)
+    func didSelectRow(with viewModel: LastUploadedCellViewModel, fileType: String) {
+        switch fileType.lowercased() {
+        case _ where fileType.localizedStandardContains("image"):
+            coordinator?.showImageDetailViewController(with: viewModel)
+        case _ where fileType.localizedStandardContains("xml"):
+            coordinator?.showWebViewDetailViewController(with: viewModel)
+        case _ where fileType.localizedStandardContains("pdf"):
+            coordinator?.showPDFViewDetailViewController(with: viewModel)
+        default: break
+        }
     }
+    
     
     func reFetchData() {
         fetchFiles()
         refreshTableView()
     }
+    
+    
 }

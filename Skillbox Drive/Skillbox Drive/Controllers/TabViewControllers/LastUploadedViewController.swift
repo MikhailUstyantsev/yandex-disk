@@ -86,7 +86,8 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let viewModelToPass = viewModel?.cellViewModels[indexPath.row] else { return }
-        viewModel?.didSelectRow(with: viewModelToPass)
+        guard let mediaType = viewModel?.cellViewModels[indexPath.row].mediaType else { return }
+        viewModel?.didSelectRow(with: viewModelToPass, fileType: mediaType)
     }
     
     
