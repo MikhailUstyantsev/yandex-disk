@@ -9,10 +9,9 @@ import Foundation
 import WebKit
 
 extension WKWebView {
-    func load(_ urlString: String, _ token: String) {
+    func load(_ urlString: String) {
         if let url = URL(string: urlString) {
-            var request = URLRequest(url: url)
-            request.setValue("OAuth \(token)", forHTTPHeaderField: "Authorization")
+            let request = URLRequest(url: url)
             load(request)
         }
     }

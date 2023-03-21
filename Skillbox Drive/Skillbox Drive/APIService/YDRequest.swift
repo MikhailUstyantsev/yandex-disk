@@ -47,22 +47,24 @@ final class YDRequest {
         return URL(string: urlString)
     }
     //desired http method
-    public let httpMethod = "GET"
+    public var httpMethod = ""
     
     //construct request
     public init(endpoint: YDEndpoint,
+                httpMethod: String,
                 pathComponents: [String] = [],
                 queryParameters: [URLQueryItem] = []) {
         self.pathComponents = pathComponents
         self.queryParameters = queryParameters
         self.endpoint = endpoint
+        self.httpMethod = httpMethod
     }
     
 }
 
 extension YDRequest {
-    static let lastUploadedRequest = YDRequest(endpoint: .lastUploaded)
-    static let getAllFilesRequest = YDRequest(endpoint: .allFiles)
-    static let getPublicFilesRequest = YDRequest(endpoint: .publicFiles)
+    static let lastUploadedRequest = YDRequest(endpoint: .lastUploaded, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "limit", value: "200")])
+    static let getAllFilesRequest = YDRequest(endpoint: .allFiles, httpMethod: "GET")
+    static let getPublicFilesRequest = YDRequest(endpoint: .publicFiles, httpMethod: "GET")
 }
 

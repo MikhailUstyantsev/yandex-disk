@@ -12,15 +12,31 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     
     var viewModel: LastUploadedDetailViewModel?
     
-    let defaults = UserDefaults.standard
-    
-    var token: String = ""
-    
     private let webView = WKWebView()
     private let activityIndicator = UIActivityIndicatorView()
     
+    var items = [UIBarButtonItem]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(renameTapped))
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.backward"), style: .plain, target: self, action: #selector(backTapped))
+        
+        let shareToolBarButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareTapped))
+        items.append(shareToolBarButton)
+        
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        items.append(spacer)
+        
+        let deleteToolBarButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteTapped))
+        items.append(deleteToolBarButton)
+    
+        toolbarItems = items
+        
+        navigationController?.setToolbarHidden(false, animated: false)
+        
         setupViews()
         setupHierarchy()
         setupLayout()
@@ -28,9 +44,8 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
         activityIndicator.startAnimating()
         
         viewModel?.downloadFile(completion: { downloadResponse in
-            self.token = self.defaults.object(forKey: "token") as? String ?? ""
             DispatchQueue.main.async {
-                self.webView.load(downloadResponse.href, self.token)
+                self.webView.load(downloadResponse.href)
             }
         })
     }
@@ -63,20 +78,35 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     }
     
     private func setupLayout() {
-        let margins = view.safeAreaLayoutGuide
+        
+        let margins = view.layoutMarginsGuide
+        
         NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.topAnchor.constraint(equalTo: margins.topAnchor),
             webView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: margins.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: margins.centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: margins.centerYAnchor),
         ])
     }
     
+    @objc private func backTapped() {
+        dismiss(animated: true)
+    }
     
+    @objc private func renameTapped() {
+//        viewModel?.renameFile()
+    }
     
+    @objc private func shareTapped() {
+        viewModel?.shareFile()
+    }
+    
+    @objc private func deleteTapped() {
+        viewModel?.deleteFile()
+    }
     
     deinit {
         print("deinit from WebViewDetailViewController")

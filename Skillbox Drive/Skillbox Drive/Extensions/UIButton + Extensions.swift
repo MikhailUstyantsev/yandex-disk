@@ -19,4 +19,25 @@ extension UIButton {
         button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
         return button
     }
+    
+    static func systemRenameButton() -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+    
+    static func systemShareButton() -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+    
+    static func systemDeleteButton() -> UIButton {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
 }

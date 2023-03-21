@@ -54,9 +54,31 @@ final class YDService {
             token = defaults.object(forKey: "token") as? String ?? ""
             guard let url = ydRequest.url else { return nil }
             var request = URLRequest(url: url)
-            request.httpMethod = request.httpMethod
+            //request.httpMethod = request.httpMethod
+            request.httpMethod = ydRequest.httpMethod
             request.setValue("OAuth \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
+    
+    public func getData<T: Codable>(
+        _ request: URLRequest,
+        expecting type: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void) {
+            
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(error ?? YDServiceError.failedToGetData))
+                    return
+                }
+                // decode response
+                do {
+                    let result = try JSONDecoder().decode(type.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
     
 }

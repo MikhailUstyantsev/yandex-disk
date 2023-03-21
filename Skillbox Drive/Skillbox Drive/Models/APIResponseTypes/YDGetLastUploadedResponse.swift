@@ -9,6 +9,7 @@ import Foundation
 
 struct YDGetLastUploadedResponse: Codable {
     let items: [YDFile]?
+    let limit: Int
 }
 
 

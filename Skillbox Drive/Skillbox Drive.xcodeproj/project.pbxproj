@@ -48,9 +48,15 @@
 		836F9C2B29C1ECD200D0DE63 /* WebViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */; };
 		836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */; };
 		836F9C3029C23CD700D0DE63 /* SDWebImageSVGCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 836F9C2F29C23CD700D0DE63 /* SDWebImageSVGCoder */; };
+		836F9C3229C38EC600D0DE63 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C3129C38EC600D0DE63 /* UIViewController+Extensions.swift */; };
+		836F9C3429C38F4700D0DE63 /* UnknownDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C3329C38F4700D0DE63 /* UnknownDetailViewController.swift */; };
 		838DB5FB28D6C0FE00BF54E9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB5FA28D6C0FE00BF54E9 /* LoginView.swift */; };
 		838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62328D77E4400BF54E9 /* DemoViewController.swift */; };
 		838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */; };
+		83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */; };
+		83B288A429C6B96B002F7629 /* YDRenameResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A329C6B96B002F7629 /* YDRenameResponse.swift */; };
+		83B288A629C6BF90002F7629 /* YDFileMetaDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */; };
+		83B288A829C72844002F7629 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A729C72844002F7629 /* Observable.swift */; };
 		83B64FFF28F2AEA7004F1061 /* LastUploadedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64FFE28F2AEA7004F1061 /* LastUploadedTableViewCell.swift */; };
 		83DD61412891A6110078100A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DD61402891A6110078100A /* AppDelegate.swift */; };
 		83DD61452891A6110078100A /* EnterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DD61442891A6110078100A /* EnterViewController.swift */; };
@@ -102,9 +108,15 @@
 		836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView + Extensions.swift"; sourceTree = "<group>"; };
 		836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDetailViewController.swift; sourceTree = "<group>"; };
 		836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewDetailViewController.swift; sourceTree = "<group>"; };
+		836F9C3129C38EC600D0DE63 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		836F9C3329C38F4700D0DE63 /* UnknownDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownDetailViewController.swift; sourceTree = "<group>"; };
 		838DB5FA28D6C0FE00BF54E9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		838DB62328D77E4400BF54E9 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanZoomImageView.swift; sourceTree = "<group>"; };
+		83B288A329C6B96B002F7629 /* YDRenameResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDRenameResponse.swift; sourceTree = "<group>"; };
+		83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDFileMetaDataResponse.swift; sourceTree = "<group>"; };
+		83B288A729C72844002F7629 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		83B64FFE28F2AEA7004F1061 /* LastUploadedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastUploadedTableViewCell.swift; sourceTree = "<group>"; };
 		83DD613D2891A6110078100A /* Skillbox Drive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skillbox Drive.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83DD61402891A6110078100A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +168,7 @@
 		8368B99529B64F7400ACB05A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				836F9C3129C38EC600D0DE63 /* UIViewController+Extensions.swift */,
 				8368B99629B64F8F00ACB05A /* UIButton + Extensions.swift */,
 				8368B9FE29B901D600ACB05A /* Date+Extensions.swift */,
 				8368BA0A29BC16F700ACB05A /* UIView+Extensions .swift */,
@@ -164,6 +177,8 @@
 				836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */,
 				8368BA2529BC31F300ACB05A /* AssetExtractor.swift */,
 				8368B9ED29B7E38700ACB05A /* ImageLoader.swift */,
+				83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */,
+				83B288A729C72844002F7629 /* Observable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -223,6 +238,8 @@
 				8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */,
 				83F4815828DE1D9C00F3C12F /* YDGetAllFilesResponse.swift */,
 				8368B9FC29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift */,
+				83B288A329C6B96B002F7629 /* YDRenameResponse.swift */,
+				83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */,
 			);
 			path = APIResponseTypes;
 			sourceTree = "<group>";
@@ -290,6 +307,7 @@
 				8368BA2F29BE59EF00ACB05A /* ImageViewDetailViewController.swift */,
 				836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */,
 				836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */,
+				836F9C3329C38F4700D0DE63 /* UnknownDetailViewController.swift */,
 			);
 			path = LastUploadedTab;
 			sourceTree = "<group>";
@@ -346,8 +364,8 @@
 				838DB62928D77F7800BF54E9 /* Views */,
 				8368B99129B64EBD00ACB05A /* ViewModels */,
 				83F4810828DA1A5C00F3C12F /* Controllers */,
-				8368B9A329B6657C00ACB05A /* Resources */,
 				8368B99529B64F7400ACB05A /* Extensions */,
+				8368B9A329B6657C00ACB05A /* Resources */,
 				83DD614E2891A6110078100A /* Info.plist */,
 			);
 			path = "Skillbox Drive";
@@ -478,15 +496,21 @@
 				838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */,
 				8368B9E629B7BFFC00ACB05A /* UserProfileViewController.swift in Sources */,
 				83B64FFF28F2AEA7004F1061 /* LastUploadedTableViewCell.swift in Sources */,
+				83B288A429C6B96B002F7629 /* YDRenameResponse.swift in Sources */,
+				83B288A829C72844002F7629 /* Observable.swift in Sources */,
 				8368B9EE29B7E38700ACB05A /* ImageLoader.swift in Sources */,
+				83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */,
 				8368B9DD29B7BEDF00ACB05A /* AllFilesViewController.swift in Sources */,
 				8368B9EC29B7C21900ACB05A /* TabCoordinator.swift in Sources */,
 				8368B9F829B8D94000ACB05A /* YDService.swift in Sources */,
 				836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */,
 				8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */,
+				836F9C3429C38F4700D0DE63 /* UnknownDetailViewController.swift in Sources */,
 				8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */,
 				83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */,
 				8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */,
+				836F9C3229C38EC600D0DE63 /* UIViewController+Extensions.swift in Sources */,
+				83B288A629C6BF90002F7629 /* YDFileMetaDataResponse.swift in Sources */,
 				8368BA0729BBB22B00ACB05A /* YDEndpoint.swift in Sources */,
 				8368BA0929BC143100ACB05A /* LastUploadedCellViewModel.swift in Sources */,
 				8368B99729B64F8F00ACB05A /* UIButton + Extensions.swift in Sources */,

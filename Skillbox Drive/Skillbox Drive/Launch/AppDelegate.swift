@@ -23,17 +23,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 13.0, *) {
             let standartAppearence = UINavigationBarAppearance()
             standartAppearence.configureWithDefaultBackground()
-            
+
             let backButtonAppearence = UIBarButtonItemAppearance()
             let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.clear]
             backButtonAppearence.normal.titleTextAttributes = titleTextAttributes
             backButtonAppearence.highlighted.titleTextAttributes = titleTextAttributes
             standartAppearence.backButtonAppearance = backButtonAppearence
-            
+
             UINavigationBar.appearance().standardAppearance = standartAppearence
             UINavigationBar.appearance().compactAppearance = standartAppearence
             UINavigationBar.appearance().scrollEdgeAppearance = standartAppearence
-            
+
         }
         
         window = UIWindow(frame: UIScreen.main.bounds)

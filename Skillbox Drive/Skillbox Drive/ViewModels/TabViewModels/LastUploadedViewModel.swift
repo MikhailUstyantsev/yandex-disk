@@ -11,6 +11,8 @@ final class LastUploadedViewModel {
     
     var coordinator: LastUploadedCoordinator?
     
+    var isLoadingMoreData = false
+    
     var onUpdate: () -> Void = {}
     
     var refreshTableView: () -> Void = {}
@@ -42,6 +44,19 @@ final class LastUploadedViewModel {
         }
     }
     
+    public func fetchAdditionalFiles() {
+        guard !isLoadingMoreData else {
+            return
+        }
+        isLoadingMoreData = true
+        print("Fetching more files")
+        //create additional request
+//        в блоке success меняем флаг на false
+        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+            self.isLoadingMoreData = false            
+        }
+    }
+    
     func didSelectRow(with viewModel: LastUploadedCellViewModel, fileType: String) {
         switch fileType.lowercased() {
         case _ where fileType.localizedStandardContains("image"):
@@ -50,7 +65,7 @@ final class LastUploadedViewModel {
             coordinator?.showWebViewDetailViewController(with: viewModel)
         case _ where fileType.localizedStandardContains("pdf"):
             coordinator?.showPDFViewDetailViewController(with: viewModel)
-        default: break
+        default: coordinator?.showUnknowDetailViewController(with: viewModel)
         }
     }
     
@@ -60,5 +75,8 @@ final class LastUploadedViewModel {
         refreshTableView()
     }
     
+    deinit {
+        print("Deinit from LastUploadedViewModel")
+    }
     
 }

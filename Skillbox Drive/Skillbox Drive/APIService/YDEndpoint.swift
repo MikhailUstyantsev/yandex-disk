@@ -12,4 +12,6 @@ import Foundation
     case allFiles = "files"
     case publicFiles = "public"
     case download = "download"
+    case move = "move"
+    case emptyEndpoint = ""
 }

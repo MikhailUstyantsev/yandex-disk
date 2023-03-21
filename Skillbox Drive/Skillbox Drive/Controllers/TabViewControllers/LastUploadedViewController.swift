@@ -7,9 +7,11 @@
 
 import UIKit
 
-class LastUploadedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LastUploadedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     var viewModel: LastUploadedViewModel?
+    
+    private let activityIndicator = UIActivityIndicatorView()
     
     let tableView: UITableView = {
         let table = UITableView(frame: CGRect.zero, style: .plain)
@@ -20,6 +22,10 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(fileNameDidChanged(_:)), name: NSNotification.Name("fileNameDidChange"), object: nil)
+        
+        activityIndicator.startAnimating()
         // Do any additional setup after loading the view.
         setupViews()
         setupHierarchy()
@@ -27,6 +33,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         viewModel?.onUpdate = { [weak self] in
             DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
                 self?.tableView.reloadData()
             }
         }
@@ -40,6 +47,13 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
                 self?.tableView.reloadData()
             }
         }
+        
+        
+    }
+    
+    @objc func fileNameDidChanged(_ notification: Notification) {
+        viewModel?.cellViewModels.removeAll()
+        viewModel?.fetchFiles()
     }
     
     private func setupViews() {
@@ -51,14 +65,23 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        
+        activityIndicator.color = .darkGray
+        activityIndicator.style = .large
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupHierarchy() {
-        view.addSubview(tableView)
+        view.addSubviews(tableView, activityIndicator)
     }
     
     private func setupLayout() {
         tableView.pinToSuperviewEdges()
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,6 +113,25 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         viewModel?.didSelectRow(with: viewModelToPass, fileType: mediaType)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        guard !viewModel!.isLoadingMoreData,
+              !viewModel!.cellViewModels.isEmpty
+        else {
+            return
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
+            let offset = scrollView.contentOffset.y
+            let totalContentHeight = scrollView.contentSize.height
+            let totalScrollViewFixedHeight = scrollView.frame.size.height
+            
+            if offset >= (totalContentHeight - totalScrollViewFixedHeight) {
+                self?.viewModel?.fetchAdditionalFiles()
+            }
+            t.invalidate()
+        }
+    }
     
     @objc func didPullToRefresh() {
         viewModel?.reFetchData()
