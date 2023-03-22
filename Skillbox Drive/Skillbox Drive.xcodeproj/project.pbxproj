@@ -42,7 +42,6 @@
 		8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */; };
 		8368BA2D29BE599400ACB05A /* LastUploadedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */; };
 		8368BA3029BE59EF00ACB05A /* ImageViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA2F29BE59EF00ACB05A /* ImageViewDetailViewController.swift */; };
-		8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */; };
 		836F9C2429C0E17A00D0DE63 /* UINavigationItem + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2329C0E17A00D0DE63 /* UINavigationItem + Extensions.swift */; };
 		836F9C2829C0F65900D0DE63 /* WKWebView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */; };
 		836F9C2B29C1ECD200D0DE63 /* WebViewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */; };
@@ -54,7 +53,7 @@
 		838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62328D77E4400BF54E9 /* DemoViewController.swift */; };
 		838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */; };
 		83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */; };
-		83B288A429C6B96B002F7629 /* YDRenameResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A329C6B96B002F7629 /* YDRenameResponse.swift */; };
+		83B288A429C6B96B002F7629 /* YDFileLinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */; };
 		83B288A629C6BF90002F7629 /* YDFileMetaDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */; };
 		83B288A829C72844002F7629 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A729C72844002F7629 /* Observable.swift */; };
 		83B64FFF28F2AEA7004F1061 /* LastUploadedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64FFE28F2AEA7004F1061 /* LastUploadedTableViewCell.swift */; };
@@ -103,7 +102,6 @@
 		8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedCoordinator.swift; sourceTree = "<group>"; };
 		8368BA2C29BE599400ACB05A /* LastUploadedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedDetailViewModel.swift; sourceTree = "<group>"; };
 		8368BA2F29BE59EF00ACB05A /* ImageViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewDetailViewController.swift; sourceTree = "<group>"; };
-		8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDDownloadResponse.swift; sourceTree = "<group>"; };
 		836F9C2329C0E17A00D0DE63 /* UINavigationItem + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem + Extensions.swift"; sourceTree = "<group>"; };
 		836F9C2729C0F65900D0DE63 /* WKWebView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView + Extensions.swift"; sourceTree = "<group>"; };
 		836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDetailViewController.swift; sourceTree = "<group>"; };
@@ -114,7 +112,7 @@
 		838DB62328D77E4400BF54E9 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanZoomImageView.swift; sourceTree = "<group>"; };
-		83B288A329C6B96B002F7629 /* YDRenameResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDRenameResponse.swift; sourceTree = "<group>"; };
+		83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDFileLinkResponse.swift; sourceTree = "<group>"; };
 		83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDFileMetaDataResponse.swift; sourceTree = "<group>"; };
 		83B288A729C72844002F7629 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		83B64FFE28F2AEA7004F1061 /* LastUploadedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastUploadedTableViewCell.swift; sourceTree = "<group>"; };
@@ -235,10 +233,9 @@
 		8368B9FB29B8FEC100ACB05A /* APIResponseTypes */ = {
 			isa = PBXGroup;
 			children = (
-				8368BA3129BFA32800ACB05A /* YDDownloadResponse.swift */,
 				83F4815828DE1D9C00F3C12F /* YDGetAllFilesResponse.swift */,
 				8368B9FC29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift */,
-				83B288A329C6B96B002F7629 /* YDRenameResponse.swift */,
+				83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */,
 				83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */,
 			);
 			path = APIResponseTypes;
@@ -496,7 +493,7 @@
 				838DB62428D77E4400BF54E9 /* DemoViewController.swift in Sources */,
 				8368B9E629B7BFFC00ACB05A /* UserProfileViewController.swift in Sources */,
 				83B64FFF28F2AEA7004F1061 /* LastUploadedTableViewCell.swift in Sources */,
-				83B288A429C6B96B002F7629 /* YDRenameResponse.swift in Sources */,
+				83B288A429C6B96B002F7629 /* YDFileLinkResponse.swift in Sources */,
 				83B288A829C72844002F7629 /* Observable.swift in Sources */,
 				8368B9EE29B7E38700ACB05A /* ImageLoader.swift in Sources */,
 				83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */,
@@ -506,7 +503,6 @@
 				836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */,
 				8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */,
 				836F9C3429C38F4700D0DE63 /* UnknownDetailViewController.swift in Sources */,
-				8368BA3229BFA32800ACB05A /* YDDownloadResponse.swift in Sources */,
 				83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */,
 				8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */,
 				836F9C3229C38EC600D0DE63 /* UIViewController+Extensions.swift in Sources */,

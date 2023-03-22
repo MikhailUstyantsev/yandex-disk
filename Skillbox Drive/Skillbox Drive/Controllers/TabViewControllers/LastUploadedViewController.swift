@@ -23,7 +23,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(fileNameDidChanged(_:)), name: NSNotification.Name("fileNameDidChange"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
         
         activityIndicator.startAnimating()
         // Do any additional setup after loading the view.
@@ -51,7 +51,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-    @objc func fileNameDidChanged(_ notification: Notification) {
+    @objc func filesDidChanged(_ notification: Notification) {
         viewModel?.cellViewModels.removeAll()
         viewModel?.fetchFiles()
     }

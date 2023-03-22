@@ -8,10 +8,10 @@
 import Foundation
 
 @frozen enum YDEndpoint: String {
-    case lastUploaded = "last-uploaded"
-    case allFiles = "files"
-    case publicFiles = "public"
-    case download = "download"
-    case move = "move"
+    case lastUploaded = "/last-uploaded"
+    case allFiles = "/files"
+    case publicFiles = "/public"
+    case download = "/download"
+    case move = "/move"
     case emptyEndpoint = ""
 }

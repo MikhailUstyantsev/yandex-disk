@@ -10,7 +10,7 @@ import Foundation
 final class YDRequest {
     
     struct Constants {
-        static let baseUrl = "https://cloud-api.yandex.net/v1/disk/resources/"
+        static let baseUrl = "https://cloud-api.yandex.net/v1/disk/resources"
     }
     
     let endpoint: YDEndpoint

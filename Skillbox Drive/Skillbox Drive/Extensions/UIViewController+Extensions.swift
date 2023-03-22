@@ -33,6 +33,15 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
+    func showDeleteAlert(title: String = "Удалить объект?", message: String? = nil, buttonTitle: String = "Удалить", action: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: { _ in
+            action()
+        }))
+        present(alertController, animated: true)
+    }
+    
     func showRenamingLabel(_ renamingLabel: UILabel) {
         renamingLabel.textColor = .label
         renamingLabel.backgroundColor = .secondarySystemBackground
@@ -57,5 +66,32 @@ extension UIViewController {
             renamingLabel.removeFromSuperview()
         }
     }
+    
+    func showDeleteLabel(_ deleteLabel: UILabel) {
+        deleteLabel.textColor = .label
+        deleteLabel.backgroundColor = .secondarySystemBackground
+        deleteLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
+        deleteLabel.clipsToBounds = true
+        deleteLabel.layer.cornerRadius = 5
+        deleteLabel.translatesAutoresizingMaskIntoConstraints = false
+        deleteLabel.textAlignment = .center
+        deleteLabel.text = "Удаляется..."
+        view.addSubview(deleteLabel)
+        NSLayoutConstraint.activate([
+            deleteLabel.widthAnchor.constraint(equalToConstant: view.bounds.size.width - 130),
+            deleteLabel.heightAnchor.constraint(equalToConstant: 35),
+            deleteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            deleteLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+              ])
+    }
+    
+    
+    func removeDeleteLabel(_ deleteLabel: UILabel) {
+        DispatchQueue.main.async {
+            deleteLabel.translatesAutoresizingMaskIntoConstraints = false
+            deleteLabel.removeFromSuperview()
+        }
+    }
+    
     
 }

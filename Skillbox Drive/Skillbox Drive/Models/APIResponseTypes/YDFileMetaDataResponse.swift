@@ -9,41 +9,43 @@ import Foundation
 
 // MARK: - MetaDataResponse
 struct YDFileMetaDataResponse: Codable {
-//    let public_key: String
+    let publicKey: String?
 //    let embedded: Embedded
     let name: String
     let created: String
 //    let customProperties: CustomProperties
-//    let public_url: String
+    let publicURL: String?
     let modified: String
     let path, type: String
 
     enum CodingKeys: String, CodingKey {
-//        case publicKey = "public_key"
+        case publicKey = "public_key"
 //        case embedded = "_embedded"
         case name, created
 //        case customProperties = "custom_properties"
-//        case publicURL = "public_url"
+        case publicURL = "public_url"
         case modified, path, type
     }
 }
 
 // MARK: - CustomProperties
 struct CustomProperties: Codable {
-    let foo, bar: String
+    let foo: String?
+    let bar: String?
 }
 
 // MARK: - Embedded
 struct Embedded: Codable {
-    let sort, path: String
+    let sort, path: String?
     let items: [Item]
-    let limit, offset: Int
+    let limit, offset: Int?
 }
 
 // MARK: - Item
 struct Item: Codable {
-    let path, type, name: String
-    let modified, created: String
+    let name: String?
+    let path, type: String?
+    let modified, created: String?
     let preview: String?
     let md5, mimeType: String?
     let size: Int?

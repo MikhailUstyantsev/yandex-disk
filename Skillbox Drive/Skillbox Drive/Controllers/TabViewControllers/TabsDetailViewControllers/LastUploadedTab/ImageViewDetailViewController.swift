@@ -18,21 +18,32 @@ class ImageViewDetailViewController: UIViewController {
     
     var items = [UIBarButtonItem]()
     
-    let renamingLabel = UILabel()
+    let `label` = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel?.onUpdate = { [weak self] renameResponse in
-            NotificationCenter.default.post(name: NSNotification.Name("fileNameDidChange"), object: nil)
-            //при необходимости можно притащить с сервера новое имя и засетить в тайтл
-            //сделал небольшую задержку, чтобы дать время обновить данные в LastUploadedViewController после выпуска нотификации
+        viewModel?.onDeleteUpdate = { [weak self] deleteResponse in
+            NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
+//            отправляя GET запрос по ссылке, полученной в блоке success удаления файла (тело ответа мы получаем только для непустой папки), мы можем узнать текущий статус операции удаления
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 self?.dismiss(animated: true)
-                guard let label = self?.renamingLabel else { return }
-                self?.removeRenamingLabel(label)
+                guard let label = self?.label else { return }
+                self?.removeDeleteLabel(label)
             }
-            
+        }
+        
+        viewModel?.onRenameUpdate = { [weak self] renameResponse in
+            NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
+            //при необходимости можно притащить с сервера новое имя и засетить в тайтл
+//            self?.viewModel?.getFileProperty(renameResponse.href, completion: { fileMetaDataResponse in
+            //сделал небольшую задержку, чтобы дать время обновить данные в LastUploadedViewController после выпуска нотификации
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.dismiss(animated: true)
+                    guard let label = self?.label else { return }
+                    self?.removeRenamingLabel(label)
+                }
+//          })
         }
                     
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(renameTapped))
@@ -110,9 +121,17 @@ class ImageViewDetailViewController: UIViewController {
     @objc private func renameTapped() {
         guard let name = viewModel?.cellViewModel?.name else { return }
         self.showRenameAlert(name: name) { [weak self] newName in
-            guard let label = self?.renamingLabel else { return }
+            guard let label = self?.label else { return }
             self?.viewModel?.renameFile(newName)
             self?.showRenamingLabel(label)
+        }
+    }
+    
+    @objc private func deleteTapped() {
+        self.showDeleteAlert { [weak self] in
+            self?.viewModel?.deleteFile()
+            guard let label = self?.label else { return }
+            self?.showDeleteLabel(label)
         }
     }
     
@@ -120,9 +139,6 @@ class ImageViewDetailViewController: UIViewController {
         viewModel?.shareFile()
     }
     
-    @objc private func deleteTapped() {
-        viewModel?.deleteFile()
-    }
     
     deinit {
         print("deinit from ImageViewDetailViewController")
