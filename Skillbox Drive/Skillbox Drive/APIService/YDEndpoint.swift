@@ -13,5 +13,6 @@ import Foundation
     case publicFiles = "/public"
     case download = "/download"
     case move = "/move"
+    case publish = "/publish"
     case emptyEndpoint = ""
 }

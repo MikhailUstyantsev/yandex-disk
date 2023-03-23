@@ -66,12 +66,11 @@ final class YDService {
         completion: @escaping (Result<T, Error>) -> Void) {
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, let httpResponse = response as? HTTPURLResponse, error == nil else {
+                guard let data = data, error == nil else {
                     completion(.failure(error ?? YDServiceError.failedToGetData))
                     return
                 }
                 // decode response
-                print("Response code is: \(httpResponse.statusCode)")
                 do {
                     let result = try JSONDecoder().decode(type.self, from: data)
                     completion(.success(result))
@@ -87,32 +86,25 @@ final class YDService {
         _ request: YDRequest,
         expecting type: T.Type,
         completion: @escaping (Result<T, Error>) -> Void) {
-            
             guard let urlRequest = self.authorizedRequest(from: request) else {
                 completion(.failure(YDServiceError.failedToCreateRequest))
                 return
             }
-            
             let mockData = YDFileLinkResponse(href: "", method: "", templated: false)
             
             let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-                
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-
-                if let response = response as? HTTPURLResponse, response.statusCode == 204 {
-                    completion(.success(mockData as! T))
-                    return
-                }
-                
-                guard let data = data else {
-                    completion(.failure(error ?? YDServiceError.failedToGetData))
-                    return
-                }
-                    
-                // decode response
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    if let response = response as? HTTPURLResponse, response.statusCode == 204 {
+                        completion(.success(mockData as! T))
+                        return
+                    }
+                    guard let data = data else {
+                        completion(.failure(error ?? YDServiceError.failedToGetData))
+                        return
+                    }
                 do {
                     let result = try JSONDecoder().decode(type.self, from: data)
                     completion(.success(result))
@@ -122,6 +114,8 @@ final class YDService {
             }
             task.resume()
         }
+    
+    
     
     
 }

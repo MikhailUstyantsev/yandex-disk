@@ -120,7 +120,7 @@ class ImageViewDetailViewController: UIViewController {
     
     @objc private func renameTapped() {
         guard let name = viewModel?.cellViewModel?.name else { return }
-        self.showRenameAlert(name: name) { [weak self] newName in
+        self.presentRenameAlert(name: name) { [weak self] newName in
             guard let label = self?.label else { return }
             self?.viewModel?.renameFile(newName)
             self?.showRenamingLabel(label)
@@ -128,7 +128,7 @@ class ImageViewDetailViewController: UIViewController {
     }
     
     @objc private func deleteTapped() {
-        self.showDeleteAlert { [weak self] in
+        self.presentDeleteAlert { [weak self] in
             self?.viewModel?.deleteFile()
             guard let label = self?.label else { return }
             self?.showDeleteLabel(label)
@@ -136,7 +136,31 @@ class ImageViewDetailViewController: UIViewController {
     }
     
     @objc private func shareTapped() {
-        viewModel?.shareFile()
+        self.presentShareAlert { [weak self] in
+            guard let imageData = self?.resizableImageView.imageView.image?.jpegData(compressionQuality: 0.8) else {
+                print("No image found")
+                return
+            }
+            let image = UIImage(data: imageData) as Any
+            let imageName = self?.viewModel?.cellViewModel?.name as Any
+            let vc = UIActivityViewController(activityItems: [image, imageName], applicationActivities: [])
+            DispatchQueue.main.async {
+                vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                self?.present(vc, animated: true)
+            }
+//            self?.viewModel?.shareFile()
+            
+        } action2: { [weak self] in
+            self?.viewModel?.shareReferenceToFile()
+            self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
+                let url = URL(string: publicURLstring) as Any
+                let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+                DispatchQueue.main.async {
+                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                    self?.present(vc, animated: true)
+                }
+            }
+        }
     }
     
     

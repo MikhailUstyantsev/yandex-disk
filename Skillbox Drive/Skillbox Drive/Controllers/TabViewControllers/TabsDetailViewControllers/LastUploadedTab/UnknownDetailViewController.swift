@@ -21,7 +21,7 @@ class UnknownDetailViewController: UIViewController {
         setupLayout()
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) { [weak self] in
-            self?.showDefaultAlert(action: {
+            self?.presentUnknownFileAlert(action: {
                 self?.navigationController?.popViewController(animated: true)
             })
         }

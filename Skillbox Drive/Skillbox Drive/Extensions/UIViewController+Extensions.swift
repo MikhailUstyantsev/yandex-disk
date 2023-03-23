@@ -9,7 +9,7 @@ import UIKit
 
 extension UIViewController {
     
-    func showDefaultAlert(title: String = "К сожалению данный формат пока не поддерживается", message: String? = "Мы работаем над этим", buttonTitle: String = "OK", action: @escaping () -> Void) {
+    func presentUnknownFileAlert(title: String = "К сожалению данный формат пока не поддерживается", message: String? = "Мы работаем над этим", buttonTitle: String = "OK", action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
         alertController.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { _ in
@@ -18,7 +18,7 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
-    func showRenameAlert(title: String = "Переименовать", message: String? = "Введите новое имя файла", buttonTitle: String = "Готово", name: String, action: @escaping (String) -> Void) {
+    func presentRenameAlert(title: String = "Переименовать", message: String? = "Введите новое имя файла", buttonTitle: String = "Готово", name: String, action: @escaping (String) -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addTextField { textfield in
             textfield.text = name
@@ -33,11 +33,23 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
-    func showDeleteAlert(title: String = "Удалить объект?", message: String? = nil, buttonTitle: String = "Удалить", action: @escaping () -> Void) {
+    func presentDeleteAlert(title: String = "Удалить объект?", message: String? = nil, buttonTitle: String = "Удалить", action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
         alertController.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: { _ in
             action()
+        }))
+        present(alertController, animated: true)
+    }
+    
+    func presentShareAlert(title: String = "Поделиться", message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Файлом", style: .default, handler: { _ in
+            action1()
+        }))
+        alertController.addAction(UIAlertAction(title: "Ссылкой", style: .default, handler: { _ in
+            action2()
         }))
         present(alertController, animated: true)
     }

@@ -14,11 +14,29 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     
     private let webView = WKWebView()
     private let activityIndicator = UIActivityIndicatorView()
-    
+    private let `label` = UILabel()
     var items = [UIBarButtonItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel?.onDeleteUpdate = { [weak self] deleteResponse in
+            NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.dismiss(animated: true)
+                guard let label = self?.label else { return }
+                self?.removeDeleteLabel(label)
+            }
+        }
+        
+        viewModel?.onRenameUpdate = { [weak self] renameResponse in
+            NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.dismiss(animated: true)
+                guard let label = self?.label else { return }
+                self?.removeRenamingLabel(label)
+            }
+        }
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(renameTapped))
         
@@ -97,15 +115,45 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     }
     
     @objc private func renameTapped() {
-//        viewModel?.renameFile()
+        guard let name = viewModel?.cellViewModel?.name else { return }
+        self.presentRenameAlert(name: name) { [weak self] newName in
+            guard let label = self?.label else { return }
+            self?.viewModel?.renameFile(newName)
+            self?.showRenamingLabel(label)
+        }
     }
     
     @objc private func shareTapped() {
-        viewModel?.shareFile()
+        //viewModel?.shareFile()
+        self.presentShareAlert { [weak self] in
+            let fileName = self?.viewModel?.cellViewModel?.name as Any
+            if let webViewData = self?.webView.url?.dataRepresentation {
+                let vc = UIActivityViewController(activityItems: [webViewData, fileName], applicationActivities: [])
+                DispatchQueue.main.async {
+                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                    self?.present(vc, animated: true)
+                }
+            }
+        } action2: { [weak self] in
+            self?.viewModel?.shareReferenceToFile()
+            self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
+                let url = URL(string: publicURLstring) as Any
+                let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+                DispatchQueue.main.async {
+                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                    self?.present(vc, animated: true)
+                }
+            }
+        }
+        
     }
     
     @objc private func deleteTapped() {
-        viewModel?.deleteFile()
+        self.presentDeleteAlert { [weak self] in
+            self?.viewModel?.deleteFile()
+            guard let label = self?.label else { return }
+            self?.showDeleteLabel(label)
+        }
     }
     
     deinit {

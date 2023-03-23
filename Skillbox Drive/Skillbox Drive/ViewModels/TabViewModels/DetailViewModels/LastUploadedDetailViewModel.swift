@@ -12,7 +12,9 @@ final class LastUploadedDetailViewModel: NSObject {
     
     weak var coordinator: Coordinator?
     
-    var cellViewModel: LastUploadedCellViewModel? 
+    var cellViewModel: LastUploadedCellViewModel?
+    
+    var shareFileURL: (String) -> Void = { _ in }
     
     var onRenameUpdate: (YDFileLinkResponse) -> Void = { _ in }
     
@@ -82,8 +84,32 @@ final class LastUploadedDetailViewModel: NSObject {
         
     }
     
+    //MARK: Share file
+    
     func shareFile() {
         print("share file")
+    }
+    
+    func shareReferenceToFile() {
+        print("share reference to file")
+        //отправим с помощью APIService запрос publish
+        guard let filePath = cellViewModel?.filePath else { return }
+        let request = YDRequest(endpoint: .publish, httpMethod: "PUT", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(filePath)")])
+        YDService.shared.execute(request, expecting: YDFileLinkResponse.self) { result in
+            switch result {
+            case .success(let success):
+                //по ссылке из успешного ответа отправляем запрос на получение метаданных файла, а именно public_url - пользователи, которым владелец ресурса передаст эту ссылку, смогут открыть опубликованную папку или скачать файл.
+                self.getFileMetaData(success.href) { fileMetaData in
+                    //передаем эту ссылку (string) в комплишн
+                    guard let urlString = fileMetaData.publicURL else { return }
+                    self.shareFileURL(urlString)
+                    //в контроллере реализуем комплишн, презентуя UIActivityViewController
+                }
+            case .failure(_):
+                print("Failed to get Link object")
+            }
+        }
+        
     }
     
     //MARK: Delete file
