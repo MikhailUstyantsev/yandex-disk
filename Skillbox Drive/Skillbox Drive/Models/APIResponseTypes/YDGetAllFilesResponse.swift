@@ -9,14 +9,21 @@ import Foundation
 
 struct YDGetAllFilesResponse: Codable {
     let items: [DiskFile]?
+    let limit: Int
+    let offset: Int
 }
 
 
 struct DiskFile: Codable {
-//    имя файла
-    let name: String?
-//    ссылка на превью
-    let preview: String?
-//    размер
-    let size: Int64?
+    let name: String
+    let preview: String
+    let created, modified: String
+    let path, md5, type, mimeType: String
+    let size: Int64
+    
+    enum CodingKeys: String, CodingKey {
+        case name, preview, created, modified, path, md5, type
+        case mimeType = "mime_type"
+        case size
+    }
 }

@@ -143,9 +143,8 @@ final class TabCoordinator: NSObject, Coordinator {
             let lastUploadedCoordinator = LastUploadedCoordinator(navController)
             lastUploadedCoordinator.start()
         case .allFiles:
-            let allFilesVC = AllFilesViewController()
-           
-            navController.pushViewController(allFilesVC, animated: true)
+            let allFilesCoordinator = AllFilesCoordinator(navController)
+            allFilesCoordinator.start()
         }
         
         return navController

@@ -64,7 +64,6 @@ final class YDRequest {
 
 extension YDRequest {
     static let lastUploadedRequest = YDRequest(endpoint: .lastUploaded, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "limit", value: "200")])
-    static let getAllFilesRequest = YDRequest(endpoint: .allFiles, httpMethod: "GET")
     static let getPublicFilesRequest = YDRequest(endpoint: .publicFiles, httpMethod: "GET")
 }
 

@@ -10,7 +10,7 @@ import Foundation
 // MARK: - MetaDataResponse
 struct YDFileMetaDataResponse: Codable {
     let publicKey: String?
-//    let embedded: Embedded
+    let embedded: Embedded
     let name: String
     let created: String
 //    let customProperties: CustomProperties
@@ -20,7 +20,7 @@ struct YDFileMetaDataResponse: Codable {
 
     enum CodingKeys: String, CodingKey {
         case publicKey = "public_key"
-//        case embedded = "_embedded"
+        case embedded = "_embedded"
         case name, created
 //        case customProperties = "custom_properties"
         case publicURL = "public_url"
@@ -44,11 +44,11 @@ struct Embedded: Codable {
 // MARK: - Item
 struct Item: Codable {
     let name: String?
-    let path, type: String?
+    let path, type: String
     let modified, created: String?
     let preview: String?
     let md5, mimeType: String?
-    let size: Int?
+    let size: Int64?
 
     enum CodingKeys: String, CodingKey {
         case path, type, name, modified, created, preview, md5

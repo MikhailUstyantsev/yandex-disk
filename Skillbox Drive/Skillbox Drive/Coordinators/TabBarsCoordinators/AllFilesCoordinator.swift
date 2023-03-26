@@ -1,13 +1,13 @@
 //
-//  LastUploadedCoordinator.swift
+//  AllFilesCoordinator.swift
 //  Skillbox Drive
 //
-//  Created by Mikhail Ustyantsev on 12.03.2023.
+//  Created by Mikhail Ustyantsev on 25.03.2023.
 //
 
 import UIKit
 
-final class LastUploadedCoordinator: Coordinator {
+final class AllFilesCoordinator: Coordinator {
     
     var finishDelegate: CoordinatorFinishDelegate?
     
@@ -21,11 +21,11 @@ final class LastUploadedCoordinator: Coordinator {
     
     
     func start() {
-        let lastUploadedVC = LastUploadedViewController()
-        let lastUploadedViewModel = LastUploadedViewModel()
-        lastUploadedVC.viewModel = lastUploadedViewModel
-        lastUploadedViewModel.coordinator = self
-        navigationController.pushViewController(lastUploadedVC, animated: true)
+        let allFilesViewController = AllFilesViewController()
+        let allFilesViewModel = AllFilesViewModel()
+        allFilesViewController.viewModel = allFilesViewModel
+        allFilesViewModel.coordinator = self
+        navigationController.pushViewController(allFilesViewController, animated: true)
     }
     
     init(_ navigationController: UINavigationController) {
@@ -52,7 +52,6 @@ final class LastUploadedCoordinator: Coordinator {
         if let modalNavigationController = modalNavigationController {
             navigationController.present(modalNavigationController, animated: true)
         }
-//        navigationController.pushViewController(webViewDetailViewController, animated: true)
     }
     
     //MARK: Navigate to ImageViewViewController
@@ -78,7 +77,7 @@ final class LastUploadedCoordinator: Coordinator {
         if let modalNavigationController = modalNavigationController {
             navigationController.present(modalNavigationController, animated: true)
         }
-//        navigationController.pushViewController(imageViewDetailViewController, animated: true)
+
     }
     
     //MARK: Navigate to PDFViewViewController
@@ -97,7 +96,6 @@ final class LastUploadedCoordinator: Coordinator {
             navigationController.present(modalNavigationController, animated: true)
         }
         
-//        navigationController.pushViewController(pdfViewDetailViewController, animated: true)
     }
     
     //MARK: Navigate to UnknownViewController
@@ -110,5 +108,17 @@ final class LastUploadedCoordinator: Coordinator {
         lastUploadedDetailViewModel.coordinator = self
         navigationController.pushViewController(unknownDetailViewController, animated: true)
     }
+    
+    //MARK: Navigate to directory content
+    
+    func showDirectoryViewController(with viewModeltoDisplay: TableViewCellViewModel) {
+        let directoryViewController = DirectoryViewController()
+        directoryViewController.dataViewModel = viewModeltoDisplay
+        let serviceViewModel = AllFilesViewModel()
+        serviceViewModel.coordinator = self
+        directoryViewController.serviceViewModel = serviceViewModel
+        navigationController.pushViewController(directoryViewController, animated: true)
+    }
+    
     
 }

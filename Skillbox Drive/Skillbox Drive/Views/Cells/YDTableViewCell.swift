@@ -7,9 +7,9 @@
 
 import UIKit
 
-class LastUploadedTableViewCell: UITableViewCell {
+class YDTableViewCell: UITableViewCell {
 
-    private var viewModel: LastUploadedCellViewModel?
+    private var viewModel: TableViewCellViewModel?
 
     var downloadButtonPressed: () -> Void = {}
 
@@ -78,7 +78,7 @@ class LastUploadedTableViewCell: UITableViewCell {
          super.init(coder: aDecoder)
     }
 
-    func update(with viewModel: LastUploadedCellViewModel) {
+    func update(with viewModel: TableViewCellViewModel) {
         self.viewModel = viewModel
         nameLabel.text = viewModel.name
         dateLabel.text = viewModel.formattedDate

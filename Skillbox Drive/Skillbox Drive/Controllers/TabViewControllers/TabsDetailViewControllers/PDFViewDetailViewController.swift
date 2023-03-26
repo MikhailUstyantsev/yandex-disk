@@ -10,7 +10,7 @@ import PDFKit
 
 class PDFViewDetailViewController: UIViewController {
     
-    var viewModel: LastUploadedDetailViewModel?
+    var viewModel: DetailViewControllerViewModel?
     
     private let activityIndicator = UIActivityIndicatorView()
     let pdfView = PDFView()

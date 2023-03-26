@@ -9,7 +9,7 @@ import UIKit
 
 class UnknownDetailViewController: UIViewController {
 
-    var viewModel: LastUploadedDetailViewModel?
+    var viewModel: DetailViewControllerViewModel?
     
     private let imageView = UIImageView()
     private let activityIndicator = UIActivityIndicatorView()

@@ -32,4 +32,8 @@ final class LoginViewModel {
         
     }
     
+    func enterButtonPressedWithNoNetwork() {
+        
+    }
+    
 }

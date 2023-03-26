@@ -11,7 +11,7 @@ import UIKit
 
 class ImageViewDetailViewController: UIViewController {
     
-    var viewModel: LastUploadedDetailViewModel?
+    var viewModel: DetailViewControllerViewModel?
     
     private let resizableImageView = PanZoomImageView()
     private let activityIndicator = UIActivityIndicatorView()

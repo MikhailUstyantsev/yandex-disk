@@ -8,11 +8,11 @@
 import Foundation
 
 
-final class LastUploadedDetailViewModel: NSObject {
+final class DetailViewControllerViewModel: NSObject {
     
     weak var coordinator: Coordinator?
     
-    var cellViewModel: LastUploadedCellViewModel?
+    var cellViewModel: TableViewCellViewModel?
     
     var shareFileURL: (String) -> Void = { _ in }
     

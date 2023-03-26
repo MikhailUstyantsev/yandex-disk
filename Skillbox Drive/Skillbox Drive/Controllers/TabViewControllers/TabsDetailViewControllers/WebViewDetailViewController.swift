@@ -10,7 +10,7 @@ import WebKit
 
 class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUIDelegate {
     
-    var viewModel: LastUploadedDetailViewModel?
+    var viewModel: DetailViewControllerViewModel?
     
     private let webView = WKWebView()
     private let activityIndicator = UIActivityIndicatorView()

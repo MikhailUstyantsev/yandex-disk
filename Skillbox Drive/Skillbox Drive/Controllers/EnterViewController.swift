@@ -6,25 +6,27 @@
 //
 
 import UIKit
+import Network
 
 class EnterViewController: UIViewController {
-
+    
     var viewModel: LoginViewModel?
     
-    
     private let enterView: LoginView = {
-       let view = LoginView()
+        let view = LoginView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
         setupView()
     }
-
+        
     
     private func setupView() {
         view.backgroundColor = .white
@@ -44,9 +46,10 @@ class EnterViewController: UIViewController {
     }
     
     
+        
     
     
     
-
+    
+    
 }
-

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class LastUploadedCellViewModel {
+final class TableViewCellViewModel {
    
     let defaults = UserDefaults.standard
     
@@ -19,6 +19,7 @@ final class LastUploadedCellViewModel {
     let preview: String
     let filePath: String
     let mediaType: String
+    let directoryType: String
     
     var formattedDate: String {
         let createdDate = Date.createDateFromString(dateString: date)
@@ -34,17 +35,18 @@ final class LastUploadedCellViewModel {
         if let url = URL(string: preview) {
             return url
         } else {
-            return AssetExtractor.createLocalUrl(forImageNamed: "file")!
+            return AssetExtractor.createLocalUrl(forImageNamed: "folder")!
         }
     }
     
-    init(name: String, date: String, size: Int64, preview: String, filePath: String, mediaType: String) {
+    init(name: String, date: String, size: Int64, preview: String, filePath: String, mediaType: String, directoryType: String) {
         self.name = name
         self.date = date
         self.size = size
         self.preview = preview
         self.filePath = filePath
         self.mediaType = mediaType
+        self.directoryType = directoryType
         self.token = defaults.object(forKey: "token") as? String ?? ""
     }
     
@@ -57,5 +59,8 @@ final class LastUploadedCellViewModel {
         return roundedMegabytes
     }
     
+    deinit {
+        print("deinit from TableViewCellViewModel")
+    }
     
 }

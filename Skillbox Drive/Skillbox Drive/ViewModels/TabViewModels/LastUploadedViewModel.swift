@@ -17,14 +17,14 @@ final class LastUploadedViewModel {
     
     var refreshTableView: () -> Void = {}
     
-    var cellViewModels: [LastUploadedCellViewModel] = []
+    var cellViewModels: [TableViewCellViewModel] = []
     
     let request = YDRequest.lastUploadedRequest
     
     private(set) var files: [YDFile] = [] {
         didSet {
             for file in files where !cellViewModels.contains(where: { $0.name == file.name }) {
-                let viewModel = LastUploadedCellViewModel(name: file.name ?? "", date: file.created ?? "", size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path ?? "", mediaType: file.mime_type ?? "")
+                let viewModel = TableViewCellViewModel(name: file.name ?? "", date: file.created ?? "", size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path ?? "", mediaType: file.mime_type ?? "", directoryType: "")
                 cellViewModels.append(viewModel)
             }
         }
@@ -57,7 +57,7 @@ final class LastUploadedViewModel {
         }
     }
     
-    func didSelectRow(with viewModel: LastUploadedCellViewModel, fileType: String) {
+    func didSelectRow(with viewModel: TableViewCellViewModel, fileType: String) {
         switch fileType.lowercased() {
         case _ where fileType.localizedStandardContains("image"):
             coordinator?.showImageDetailViewController(with: viewModel)
