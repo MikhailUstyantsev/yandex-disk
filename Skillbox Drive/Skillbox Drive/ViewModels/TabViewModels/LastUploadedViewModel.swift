@@ -21,10 +21,10 @@ final class LastUploadedViewModel {
     
     let request = YDRequest.lastUploadedRequest
     
-    private(set) var files: [YDFile] = [] {
+    private(set) var files: [YDResource] = [] {
         didSet {
             for file in files where !cellViewModels.contains(where: { $0.name == file.name }) {
-                let viewModel = TableViewCellViewModel(name: file.name ?? "", date: file.created ?? "", size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path ?? "", mediaType: file.mime_type ?? "", directoryType: "")
+                let viewModel = TableViewCellViewModel(name: file.name , date: file.created , size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path , mediaType: file.mimeType ?? "", directoryType: "")
                 cellViewModels.append(viewModel)
             }
         }
@@ -36,7 +36,7 @@ final class LastUploadedViewModel {
         YDService.shared.execute(request, expecting: YDGetLastUploadedResponse.self) { result in
             switch result {
             case .success(let recievedItems):
-                self.files = recievedItems.items ?? []
+                self.files = recievedItems.items 
                 self.onUpdate()
             case .failure(let error):
                 print(error.localizedDescription)

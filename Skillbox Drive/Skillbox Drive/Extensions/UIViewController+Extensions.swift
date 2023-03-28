@@ -131,4 +131,24 @@ extension UIViewController {
         }
     }
     
+    func showNoFilesLabel() {
+        let label = UILabel()
+        label.textColor = .label
+        label.numberOfLines = 3
+        label.backgroundColor = .systemBackground
+        label.font = UIFont.systemFont(ofSize: 36, weight: .regular)
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.text = "Директория не содержит файлов"
+        view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.widthAnchor.constraint(equalTo: view.widthAnchor),
+            label.heightAnchor.constraint(equalToConstant: 300),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+              ])
+    }
+    
 }

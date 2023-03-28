@@ -24,23 +24,25 @@ final class AllFilesViewModel {
     
     var isShowLoader = true
     
-    private(set) var files: [Item] = [] {
+    private(set) var files: [YDResource] = [] {
         didSet {
             for file in files where !cellViewModels.contains(where: { $0.name == file.name }) {
-                let viewModel = TableViewCellViewModel(name: file.name ?? "" , date: file.created ?? "" , size: file.size ?? 0 , preview: file.preview ?? "" , filePath: file.path , mediaType: file.mimeType ?? "", directoryType: file.type)
+                let viewModel = TableViewCellViewModel(name: file.name, date: file.created, size: file.size ?? 0, preview: file.preview ?? "" , filePath: file.path , mediaType: file.mimeType ?? "", directoryType: file.type)
                 cellViewModels.append(viewModel)
             }
         }
     }
     
     
+    
     public func fetchFiles() {
-        let request = YDRequest(endpoint: .emptyEndpoint, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "/")])
-        
-        YDService.shared.execute(request, expecting: YDFileMetaDataResponse.self) { result in
+        let request = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [
+            URLQueryItem(name: "path", value: "/")
+        ])
+        YDService.shared.execute(request, expecting: YDResource.self) { result in
             switch result {
             case .success(let recievedItems):
-                self.files = recievedItems.embedded.items
+                self.files = recievedItems.embedded?.items ?? []
                 self.onUpdate()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -57,17 +59,18 @@ final class AllFilesViewModel {
         isLoadingMoreData = true
         print("Fetching more files")
         offset += 20
+        print(offset)
         //create additional request
-        let newRequest = YDRequest(endpoint: .emptyEndpoint, httpMethod: "GET", pathComponents: [], queryParameters: [
+        let newRequest = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [
             URLQueryItem(name: "path", value: "/"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "offset", value: "\(offset)")
         ])
         
-        YDService.shared.execute(newRequest, expecting: YDFileMetaDataResponse.self) { result in
+        YDService.shared.execute(newRequest, expecting: YDResource.self) { result in
             switch result {
             case .success(let moreResult):
-                let additionalItems = moreResult.embedded.items
+                let additionalItems = moreResult.embedded?.items ?? []
                 
                 if additionalItems.count < self.limit {
                     self.isShowLoader = false
@@ -85,9 +88,9 @@ final class AllFilesViewModel {
         }
         
 
-        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-            self.isLoadingMoreData = false
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+//            self.isLoadingMoreData = false
+//        }
     }
     
     func didSelectRow(with viewModel: TableViewCellViewModel, fileType: String, directoryType: String) {
@@ -116,12 +119,12 @@ final class AllFilesViewModel {
     func fetchDirectoryFiles(_ pathForFetchingData: String) {
         //pass here directory path
         
-        let request = YDRequest(endpoint: .emptyEndpoint, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(pathForFetchingData)")])
+        let request = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(pathForFetchingData)")])
         
-        YDService.shared.execute(request, expecting: YDFileMetaDataResponse.self) { result in
+        YDService.shared.execute(request, expecting: YDResource.self) { result in
             switch result {
             case .success(let recievedItems):
-                self.files = recievedItems.embedded.items
+                self.files = recievedItems.embedded?.items ?? []
                 self.onUpdate()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -129,8 +132,40 @@ final class AllFilesViewModel {
         }
     }
     
-    func fetchAdditionalDirectoryFiles() {
+    func fetchAdditionalDirectoryFiles(_ pathForFetchingData: String) {
+        guard !isLoadingMoreData else {
+            return
+        }
+        isLoadingMoreData = true
+        print("Fetching more files")
+        offset += 20
+        print(offset)
+        //create additional request
+        let newRequest = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [
+            URLQueryItem(name: "path", value: "\(pathForFetchingData)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+            URLQueryItem(name: "offset", value: "\(offset)")
+        ])
         
+        YDService.shared.execute(newRequest, expecting: YDResource.self) { result in
+            switch result {
+            case .success(let moreResult):
+                let additionalItems = moreResult.embedded?.items ?? []
+                
+                if additionalItems.count < self.limit {
+                    self.isShowLoader = false
+                }
+                
+                self.files.append(contentsOf: additionalItems)
+                DispatchQueue.main.async {
+                    self.onUpdate()
+                    //в блоке success меняем флаг на false
+                    self.isLoadingMoreData = false
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func reFetchDirectoryData(_ pathForFetchingData: String) {

@@ -10,7 +10,7 @@ import Foundation
 final class YDRequest {
     
     struct Constants {
-        static let baseUrl = "https://cloud-api.yandex.net/v1/disk/resources"
+        static let baseUrl = "https://cloud-api.yandex.net/v1/disk/"
     }
     
     let endpoint: YDEndpoint
@@ -65,5 +65,6 @@ final class YDRequest {
 extension YDRequest {
     static let lastUploadedRequest = YDRequest(endpoint: .lastUploaded, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "limit", value: "200")])
     static let getPublicFilesRequest = YDRequest(endpoint: .publicFiles, httpMethod: "GET")
+    static let getDiskDataRequest = YDRequest(endpoint: .empty, httpMethod: "GET")
 }
 

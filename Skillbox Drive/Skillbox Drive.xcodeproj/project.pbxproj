@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		830BFC4E29D3664200890547 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 830BFC4D29D3664200890547 /* Charts */; };
+		83178BAF29D20E7B00C0CC3D /* UserProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */; };
+		83178BB129D21C0800C0CC3D /* YDGetDiskDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */; };
+		83178BBC29D3480D00C0CC3D /* YDResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BBB29D3480D00C0CC3D /* YDResource.swift */; };
+		83178BBE29D3486A00C0CC3D /* YDResourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BBD29D3486A00C0CC3D /* YDResourceList.swift */; };
 		8368B99429B64F0E00ACB05A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B99329B64F0E00ACB05A /* Coordinator.swift */; };
 		8368B99729B64F8F00ACB05A /* UIButton + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B99629B64F8F00ACB05A /* UIButton + Extensions.swift */; };
 		8368B99B29B6546100ACB05A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B99A29B6546100ACB05A /* LoginViewModel.swift */; };
@@ -57,7 +62,6 @@
 		839974E729D0C75400628F5C /* DirectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839974E629D0C75400628F5C /* DirectoryViewController.swift */; };
 		83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */; };
 		83B288A429C6B96B002F7629 /* YDFileLinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */; };
-		83B288A629C6BF90002F7629 /* YDFileMetaDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */; };
 		83B288A829C72844002F7629 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A729C72844002F7629 /* Observable.swift */; };
 		83B64FFF28F2AEA7004F1061 /* YDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64FFE28F2AEA7004F1061 /* YDTableViewCell.swift */; };
 		83DD61412891A6110078100A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DD61402891A6110078100A /* AppDelegate.swift */; };
@@ -66,10 +70,13 @@
 		83DD614D2891A6110078100A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83DD614B2891A6110078100A /* LaunchScreen.storyboard */; };
 		83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815428DCF52E00F3C12F /* AuthViewController.swift */; };
 		83F4815728DCF77A00F3C12F /* LastUploadedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */; };
-		83F4815928DE1D9C00F3C12F /* YDGetAllFilesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815828DE1D9C00F3C12F /* YDGetAllFilesResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCoordinator.swift; sourceTree = "<group>"; };
+		83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDGetDiskDataResponse.swift; sourceTree = "<group>"; };
+		83178BBB29D3480D00C0CC3D /* YDResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDResource.swift; sourceTree = "<group>"; };
+		83178BBD29D3486A00C0CC3D /* YDResourceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDResourceList.swift; sourceTree = "<group>"; };
 		8368B99329B64F0E00ACB05A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		8368B99629B64F8F00ACB05A /* UIButton + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extensions.swift"; sourceTree = "<group>"; };
 		8368B99A29B6546100ACB05A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -119,7 +126,6 @@
 		839974E629D0C75400628F5C /* DirectoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryViewController.swift; sourceTree = "<group>"; };
 		83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanZoomImageView.swift; sourceTree = "<group>"; };
 		83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDFileLinkResponse.swift; sourceTree = "<group>"; };
-		83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDFileMetaDataResponse.swift; sourceTree = "<group>"; };
 		83B288A729C72844002F7629 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		83B64FFE28F2AEA7004F1061 /* YDTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YDTableViewCell.swift; sourceTree = "<group>"; };
 		83DD613D2891A6110078100A /* Skillbox Drive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skillbox Drive.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +136,6 @@
 		83DD614E2891A6110078100A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83F4815428DCF52E00F3C12F /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedViewController.swift; sourceTree = "<group>"; };
-		83F4815828DE1D9C00F3C12F /* YDGetAllFilesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDGetAllFilesResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				836F9C3029C23CD700D0DE63 /* SDWebImageSVGCoder in Frameworks */,
+				830BFC4E29D3664200890547 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,10 +245,10 @@
 		8368B9FB29B8FEC100ACB05A /* APIResponseTypes */ = {
 			isa = PBXGroup;
 			children = (
-				83F4815828DE1D9C00F3C12F /* YDGetAllFilesResponse.swift */,
 				8368B9FC29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift */,
 				83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */,
-				83B288A529C6BF90002F7629 /* YDFileMetaDataResponse.swift */,
+				83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */,
+				83F4815A28DE1DA200F3C12F /* Models */,
 			);
 			path = APIResponseTypes;
 			sourceTree = "<group>";
@@ -285,6 +291,7 @@
 			children = (
 				8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */,
 				839974E229CF638300628F5C /* AllFilesCoordinator.swift */,
+				83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */,
 			);
 			path = TabBarsCoordinators;
 			sourceTree = "<group>";
@@ -366,7 +373,7 @@
 				83B6500528F2E726004F1061 /* Launch */,
 				8368B99229B64EF300ACB05A /* Coordinators */,
 				8368B9A429B6677F00ACB05A /* APIService */,
-				83F4815A28DE1DA200F3C12F /* Models */,
+				8368B9FB29B8FEC100ACB05A /* APIResponseTypes */,
 				838DB62928D77F7800BF54E9 /* Views */,
 				8368B99129B64EBD00ACB05A /* ViewModels */,
 				83F4810828DA1A5C00F3C12F /* Controllers */,
@@ -391,7 +398,8 @@
 		83F4815A28DE1DA200F3C12F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8368B9FB29B8FEC100ACB05A /* APIResponseTypes */,
+				83178BBB29D3480D00C0CC3D /* YDResource.swift */,
+				83178BBD29D3486A00C0CC3D /* YDResourceList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -414,6 +422,7 @@
 			name = "Skillbox Drive";
 			packageProductDependencies = (
 				836F9C2F29C23CD700D0DE63 /* SDWebImageSVGCoder */,
+				830BFC4D29D3664200890547 /* Charts */,
 			);
 			productName = "Skillbox Drive";
 			productReference = 83DD613D2891A6110078100A /* Skillbox Drive.app */;
@@ -445,6 +454,7 @@
 			mainGroup = 83DD61342891A6110078100A;
 			packageReferences = (
 				836F9C2E29C23CD700D0DE63 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
+				830BFC4C29D3664200890547 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 83DD613E2891A6110078100A /* Products */;
 			projectDirPath = "";
@@ -487,7 +497,6 @@
 				8368BA0B29BC16F700ACB05A /* UIView+Extensions .swift in Sources */,
 				8368B9FD29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift in Sources */,
 				836F9C2829C0F65900D0DE63 /* WKWebView + Extensions.swift in Sources */,
-				83F4815928DE1D9C00F3C12F /* YDGetAllFilesResponse.swift in Sources */,
 				8368B99B29B6546100ACB05A /* LoginViewModel.swift in Sources */,
 				8368BA2D29BE599400ACB05A /* DetailViewControllerViewModel.swift in Sources */,
 				8368BA3029BE59EF00ACB05A /* ImageViewDetailViewController.swift in Sources */,
@@ -508,6 +517,8 @@
 				83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */,
 				8368B9DD29B7BEDF00ACB05A /* AllFilesViewController.swift in Sources */,
 				8368B9EC29B7C21900ACB05A /* TabCoordinator.swift in Sources */,
+				83178BAF29D20E7B00C0CC3D /* UserProfileCoordinator.swift in Sources */,
+				83178BBE29D3486A00C0CC3D /* YDResourceList.swift in Sources */,
 				8368B9F829B8D94000ACB05A /* YDService.swift in Sources */,
 				836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */,
 				8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */,
@@ -516,7 +527,8 @@
 				83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */,
 				8368BA2A29BE567A00ACB05A /* LastUploadedCoordinator.swift in Sources */,
 				836F9C3229C38EC600D0DE63 /* UIViewController+Extensions.swift in Sources */,
-				83B288A629C6BF90002F7629 /* YDFileMetaDataResponse.swift in Sources */,
+				83178BBC29D3480D00C0CC3D /* YDResource.swift in Sources */,
+				83178BB129D21C0800C0CC3D /* YDGetDiskDataResponse.swift in Sources */,
 				839974E329CF638300628F5C /* AllFilesCoordinator.swift in Sources */,
 				8368BA0729BBB22B00ACB05A /* YDEndpoint.swift in Sources */,
 				8368BA0929BC143100ACB05A /* TableViewCellViewModel.swift in Sources */,
@@ -744,6 +756,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		830BFC4C29D3664200890547 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		836F9C2E29C23CD700D0DE63 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSVGCoder.git";
@@ -755,6 +775,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		830BFC4D29D3664200890547 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 830BFC4C29D3664200890547 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
 		836F9C2F29C23CD700D0DE63 /* SDWebImageSVGCoder */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 836F9C2E29C23CD700D0DE63 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */;

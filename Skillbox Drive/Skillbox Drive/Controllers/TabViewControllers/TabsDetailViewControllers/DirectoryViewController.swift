@@ -35,6 +35,9 @@ final class DirectoryViewController: UIViewController, UITableViewDelegate, UITa
         serviceViewModel?.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
+                if self?.serviceViewModel?.cellViewModels.count == 0 {
+                    self?.showNoFilesLabel()
+                }
                 self?.tableView.reloadData()
             }
         }
@@ -63,6 +66,7 @@ final class DirectoryViewController: UIViewController, UITableViewDelegate, UITa
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
+        title = dataViewModel?.name
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -135,8 +139,10 @@ final class DirectoryViewController: UIViewController, UITableViewDelegate, UITa
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height
             
+            guard let path = self?.dataViewModel?.filePath else { return }
+            
             if offset >= (totalContentHeight - totalScrollViewFixedHeight) {
-                self?.serviceViewModel?.fetchAdditionalDirectoryFiles()
+                self?.serviceViewModel?.fetchAdditionalDirectoryFiles(path)
             }
             t.invalidate()
         }

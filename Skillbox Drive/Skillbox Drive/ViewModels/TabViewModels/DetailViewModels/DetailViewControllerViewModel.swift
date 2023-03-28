@@ -67,16 +67,18 @@ final class DetailViewControllerViewModel: NSObject {
     
     //MARK: Get file's meta data
     
-    func getFileMetaData(_ urlString: String, completion: @escaping (YDFileMetaDataResponse)->Void) {
+    func getFileMetaData(_ urlString: String, completion: @escaping (YDResource)->Void) {
         token = defaults.object(forKey: "token") as? String ?? ""
         guard let url = URL(string: urlString) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("OAuth \(token)", forHTTPHeaderField: "Authorization")
-        YDService.shared.getData(request, expecting: YDFileMetaDataResponse.self) { result in
+        YDService.shared.getData(request, expecting: YDResource.self) { result in
             switch result {
             case .success(let fileMetaDataResponse):
+                print("File's public URL: \(fileMetaDataResponse.publicURL)")
                 completion(fileMetaDataResponse)
+//                TODO: Запрос проваливается в failure
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -118,7 +120,7 @@ final class DetailViewControllerViewModel: NSObject {
     
     func deleteFile() {
         guard let filePath = cellViewModel?.filePath else { return }
-        let request = YDRequest(endpoint: .emptyEndpoint, httpMethod: "DELETE", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(filePath)")])
+        let request = YDRequest(endpoint: .resourcesOnly, httpMethod: "DELETE", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(filePath)")])
         YDService.shared.deleteFile(request, expecting: YDFileLinkResponse.self) { result in
             switch result {
             case .success(let success):

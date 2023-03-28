@@ -15,7 +15,7 @@ final class TableViewCellViewModel {
     
     let name: String
     let date: String
-    var size: Int64
+    var size: Int
     let preview: String
     let filePath: String
     let mediaType: String
@@ -39,7 +39,7 @@ final class TableViewCellViewModel {
         }
     }
     
-    init(name: String, date: String, size: Int64, preview: String, filePath: String, mediaType: String, directoryType: String) {
+    init(name: String, date: String, size: Int, preview: String, filePath: String, mediaType: String, directoryType: String) {
         self.name = name
         self.date = date
         self.size = size
@@ -53,7 +53,7 @@ final class TableViewCellViewModel {
     
     //MARK: - Helper methods
     
-    func bytesToMegabytes(_ bytes: Int64) -> Double {
+    func bytesToMegabytes(_ bytes: Int) -> Double {
         let megabytes = Double(bytes) / 1048576
         let roundedMegabytes = Double(round(100 * megabytes) / 100)
         return roundedMegabytes

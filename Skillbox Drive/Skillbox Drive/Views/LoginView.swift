@@ -80,14 +80,14 @@ class LoginView: UIView {
     
     private lazy var regularConstraints: [NSLayoutConstraint] = {
        return [
-        labelStack.topAnchor.constraint(equalTo: margins.topAnchor, constant: 180),
+        labelStack.topAnchor.constraint(equalTo: margins.topAnchor, constant: 250),
         margins.bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 92)
        ]
     }()
     
     private lazy var compactConstraints: [NSLayoutConstraint] = {
         return [
-            labelStack.topAnchor.constraint(equalTo: margins.topAnchor, constant: 40),
+            labelStack.topAnchor.constraint(equalTo: margins.topAnchor, constant: 80),
             margins.bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 35)
         ]
     }()

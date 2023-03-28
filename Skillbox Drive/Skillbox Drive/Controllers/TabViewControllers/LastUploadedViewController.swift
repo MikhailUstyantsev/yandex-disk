@@ -54,7 +54,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
         
-//        viewModel?.fetchFiles()
+        
         
         viewModel?.refreshTableView = { [weak self] in
             self?.viewModel?.cellViewModels.removeAll()

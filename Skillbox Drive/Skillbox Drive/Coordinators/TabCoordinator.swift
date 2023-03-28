@@ -137,8 +137,8 @@ final class TabCoordinator: NSObject, Coordinator {
         switch page {
         case .profile:
             // If needed: Each tab bar flow can have it's own Coordinator.
-            let profileVC = UserProfileViewController()
-            navController.pushViewController(profileVC, animated: true)
+            let userProfileCoordinator = UserProfileCoordinator(navController)
+            userProfileCoordinator.start()
         case .lastUploaded:
             let lastUploadedCoordinator = LastUploadedCoordinator(navController)
             lastUploadedCoordinator.start()
