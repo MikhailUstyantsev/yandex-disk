@@ -11,8 +11,6 @@ import WebKit
 
 final class AuthViewController: UIViewController {
     
-    let defaults = UserDefaults.standard
-    
     var viewModel: AuthViewModel?
    
     //call back URL указанный при регистрации приложения
@@ -25,17 +23,20 @@ final class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        webView.clean()
+
         setupViews()
         setupLayout()
 //        когда у нас есть правильный urlRequest, мы вызываем его в вебвью для авторизации пользователя
         guard let request = viewModel?.request else { return }
-        
         DispatchQueue.main.async { [weak self] in
             self?.webView.load(request)
         }
+        
 //        после успешного вызова в редиректе нам будет направлен токен, чтобы перехватить редирект нам нужно реализовать протокол делегата для вебвью
 //        webView.navigationDelegate = self
-                webView.navigationDelegate = viewModel
+        webView.navigationDelegate = viewModel
 
 
     }

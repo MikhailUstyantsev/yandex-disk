@@ -109,15 +109,15 @@ final class AllFilesCoordinator: Coordinator {
         navigationController.pushViewController(unknownDetailViewController, animated: true)
     }
     
-    //MARK: Navigate to directory content
+    //MARK: Navigate to folder content
     
     func showDirectoryViewController(with viewModeltoDisplay: TableViewCellViewModel) {
-        let directoryViewController = DirectoryViewController()
-        directoryViewController.dataViewModel = viewModeltoDisplay
+        let folderViewController = FolderViewController()
+        folderViewController.dataViewModel = viewModeltoDisplay
         let serviceViewModel = AllFilesViewModel()
         serviceViewModel.coordinator = self
-        directoryViewController.serviceViewModel = serviceViewModel
-        navigationController.pushViewController(directoryViewController, animated: true)
+        folderViewController.serviceViewModel = serviceViewModel
+        navigationController.pushViewController(folderViewController, animated: true)
     }
     
     

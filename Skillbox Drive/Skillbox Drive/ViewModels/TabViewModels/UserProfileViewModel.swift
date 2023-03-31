@@ -16,9 +16,16 @@ final class UserProfileViewModel: ChartViewDelegate {
     var onUpdate: () -> Void = {}
     
     var occupiedData: Double = 0
+    var freeSpace: Double = 0
     var totalData: Double = 0
     
     var entries = [ChartDataEntry]()
+    
+    var didSendEventClosure: ((UserProfileViewModel.Event) -> Void) = {_ in }
+    
+    enum Event {
+        case closeMainTabFlow
+    }
     
     func fetchDiskData() {
         let request = YDRequest.getDiskDataRequest
@@ -27,8 +34,7 @@ final class UserProfileViewModel: ChartViewDelegate {
             case .success(let diskDataResponse):
                 self.occupiedData = self.bytesToMegabytes(diskDataResponse.usedSpace)
                 self.totalData = self.bytesToMegabytes(diskDataResponse.totalSpace)
-                print("Occupied \(self.occupiedData) MB")
-                print("Total disk has \(self.totalData) MB")
+                self.freeSpace = self.totalData - self.occupiedData
                 self.onUpdate()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -37,7 +43,20 @@ final class UserProfileViewModel: ChartViewDelegate {
     }
     
     
+    //MARK: - Navigation:
     
+    func openPublishedFiles() {
+        print("Opening published files...")
+    }
+    
+    
+    
+    func logoutUserProfile() {
+        // удалить токен из Keychain
+        KeychainManager.shared.delete()
+        
+        didSendEventClosure(.closeMainTabFlow)
+    }
     
     //MARK: - Helper methods
     

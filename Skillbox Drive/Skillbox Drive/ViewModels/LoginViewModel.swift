@@ -10,6 +10,8 @@ import Foundation
 final class LoginViewModel {
     
     let defaults = UserDefaults.standard
+    
+    
     var coordinator: LoginCoordinator?
     
     func isAppAlreadyLaunchedOnce() -> Bool {
@@ -22,14 +24,21 @@ final class LoginViewModel {
     }
     
     func enterButtonPressed() {
-        //показываем онбординг если первый раз запущено приложение
+        //показываем онбординг, если приложение запущено впервые
         if !isAppAlreadyLaunchedOnce() {
             coordinator?.goToOnboarding()
-        } else {
-            //переходим сразу к авторизации если ранее приложение уже запускалось
+        } else if KeychainManager.shared.getTokenFromKeychain() == nil {
+            /*
+             переходим сразу к авторизации если ранее приложение уже запускалось, но токен
+             например удален
+             */
             coordinator?.goToAuthPage()
+        } else {
+            /*
+             возможен третий сценарий - в случае если есть токен и приложение уже запускается не впервые, то можно сразу открывать main tab bar controller
+             */
+             coordinator?.finish()
         }
-        
     }
     
     func enterButtonPressedWithNoNetwork() {

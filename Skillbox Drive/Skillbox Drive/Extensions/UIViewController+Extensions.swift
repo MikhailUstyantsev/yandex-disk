@@ -151,4 +151,25 @@ extension UIViewController {
               ])
     }
     
+//    MARK: - Log out Alerts
+    
+    func presentLogoutAlert(title: String = "Профиль", message: String? = nil, action: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Выйти", style: .destructive, handler: { _ in
+            action()
+        }))
+        present(alertController, animated: true)
+    }
+    
+    func presentConfirmLogoutAlert(title: String = "Выход", message: String = "Вы уверены, что хотите выйти?", buttonTitle: String = "Да", action: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
+        alertController.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: { _ in
+            action()
+        }))
+        present(alertController, animated: true)
+    }
+    
+    
 }

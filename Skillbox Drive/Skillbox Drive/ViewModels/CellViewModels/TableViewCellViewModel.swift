@@ -8,10 +8,8 @@
 import Foundation
 
 final class TableViewCellViewModel {
-   
-    let defaults = UserDefaults.standard
-    
-    var token: String = ""
+
+    var token: String
     
     let name: String
     let date: String
@@ -47,7 +45,7 @@ final class TableViewCellViewModel {
         self.filePath = filePath
         self.mediaType = mediaType
         self.directoryType = directoryType
-        self.token = defaults.object(forKey: "token") as? String ?? ""
+        self.token = KeychainManager.shared.getTokenFromKeychain() ?? ""
     }
     
     

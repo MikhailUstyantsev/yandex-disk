@@ -20,10 +20,6 @@ final class DetailViewControllerViewModel: NSObject {
     
     var onDeleteUpdate: (YDFileLinkResponse) -> Void = { _ in }
     
-    let defaults = UserDefaults.standard
-    
-    private var token: String = ""
-    
     public func downloadFile(completion: @escaping (YDFileLinkResponse)->Void) {
         let request = YDRequest(endpoint: .download, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(cellViewModel?.filePath ?? "")")])
         
@@ -68,7 +64,7 @@ final class DetailViewControllerViewModel: NSObject {
     //MARK: Get file's meta data
     
     func getFileMetaData(_ urlString: String, completion: @escaping (YDResource)->Void) {
-        token = defaults.object(forKey: "token") as? String ?? ""
+       let token = KeychainManager.shared.getTokenFromKeychain() 
         guard let url = URL(string: urlString) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -76,9 +72,7 @@ final class DetailViewControllerViewModel: NSObject {
         YDService.shared.getData(request, expecting: YDResource.self) { result in
             switch result {
             case .success(let fileMetaDataResponse):
-                print("File's public URL: \(fileMetaDataResponse.publicURL)")
                 completion(fileMetaDataResponse)
-//                TODO: Запрос проваливается в failure
             case .failure(let error):
                 print(error.localizedDescription)
             }

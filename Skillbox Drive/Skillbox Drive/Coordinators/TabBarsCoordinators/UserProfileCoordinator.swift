@@ -19,12 +19,17 @@ final class UserProfileCoordinator: Coordinator {
     
     var type: CoordinatorType { .userProfileTab }
     
+    weak var parentCoordinator: Coordinator?
     
     func start() {
         let userProfileViewController = UserProfileViewController()
         let userProfileViewModel = UserProfileViewModel()
         userProfileViewController.viewModel = userProfileViewModel
         userProfileViewModel.coordinator = self
+        userProfileViewModel.didSendEventClosure = {
+            [weak self] event in
+            self?.parentCoordinator?.finish()
+        }
         navigationController.pushViewController(userProfileViewController, animated: true)
     }
     

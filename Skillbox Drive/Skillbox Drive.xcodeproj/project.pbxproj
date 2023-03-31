@@ -59,7 +59,7 @@
 		838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */; };
 		839974E129CE262300628F5C /* NetworkCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839974E029CE262300628F5C /* NetworkCheck.swift */; };
 		839974E329CF638300628F5C /* AllFilesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839974E229CF638300628F5C /* AllFilesCoordinator.swift */; };
-		839974E729D0C75400628F5C /* DirectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839974E629D0C75400628F5C /* DirectoryViewController.swift */; };
+		839974E729D0C75400628F5C /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839974E629D0C75400628F5C /* FolderViewController.swift */; };
 		83B288A229C5FB2F002F7629 /* PanZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */; };
 		83B288A429C6B96B002F7629 /* YDFileLinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */; };
 		83B288A829C72844002F7629 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B288A729C72844002F7629 /* Observable.swift */; };
@@ -70,6 +70,7 @@
 		83DD614D2891A6110078100A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83DD614B2891A6110078100A /* LaunchScreen.storyboard */; };
 		83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815428DCF52E00F3C12F /* AuthViewController.swift */; };
 		83F4815728DCF77A00F3C12F /* LastUploadedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */; };
+		8705AECB29D56CF400937030 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8705AECA29D56CF400937030 /* KeychainManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,7 +124,7 @@
 		838DB62528D77E4B00BF54E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		839974E029CE262300628F5C /* NetworkCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCheck.swift; sourceTree = "<group>"; };
 		839974E229CF638300628F5C /* AllFilesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFilesCoordinator.swift; sourceTree = "<group>"; };
-		839974E629D0C75400628F5C /* DirectoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryViewController.swift; sourceTree = "<group>"; };
+		839974E629D0C75400628F5C /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanZoomImageView.swift; sourceTree = "<group>"; };
 		83B288A329C6B96B002F7629 /* YDFileLinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDFileLinkResponse.swift; sourceTree = "<group>"; };
 		83B288A729C72844002F7629 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 		83DD614E2891A6110078100A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83F4815428DCF52E00F3C12F /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedViewController.swift; sourceTree = "<group>"; };
+		8705AECA29D56CF400937030 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,9 +291,9 @@
 		8368BA2829BE561000ACB05A /* TabBarsCoordinators */ = {
 			isa = PBXGroup;
 			children = (
+				83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */,
 				8368BA2929BE567A00ACB05A /* LastUploadedCoordinator.swift */,
 				839974E229CF638300628F5C /* AllFilesCoordinator.swift */,
-				83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */,
 			);
 			path = TabBarsCoordinators;
 			sourceTree = "<group>";
@@ -311,7 +313,7 @@
 				836F9C2A29C1ECD200D0DE63 /* WebViewDetailViewController.swift */,
 				836F9C2C29C20AAB00D0DE63 /* PDFViewDetailViewController.swift */,
 				836F9C3329C38F4700D0DE63 /* UnknownDetailViewController.swift */,
-				839974E629D0C75400628F5C /* DirectoryViewController.swift */,
+				839974E629D0C75400628F5C /* FolderViewController.swift */,
 			);
 			path = TabsDetailViewControllers;
 			sourceTree = "<group>";
@@ -369,6 +371,7 @@
 		83DD613F2891A6110078100A /* Skillbox Drive */ = {
 			isa = PBXGroup;
 			children = (
+				8705AEC829D56A3900937030 /* Managers */,
 				839974DF29CE25F000628F5C /* Network */,
 				83B6500528F2E726004F1061 /* Launch */,
 				8368B99229B64EF300ACB05A /* Coordinators */,
@@ -388,8 +391,8 @@
 			isa = PBXGroup;
 			children = (
 				83DD61442891A6110078100A /* EnterViewController.swift */,
-				8368BA2729BD7FEB00ACB05A /* Onbording Screen */,
 				83F4815428DCF52E00F3C12F /* AuthViewController.swift */,
+				8368BA2729BD7FEB00ACB05A /* Onbording Screen */,
 				8368B9DB29B75B3E00ACB05A /* TabViewControllers */,
 			);
 			path = Controllers;
@@ -402,6 +405,22 @@
 				83178BBD29D3486A00C0CC3D /* YDResourceList.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8705AEC829D56A3900937030 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8705AEC929D56CD300937030 /* KeychainManager */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		8705AEC929D56CD300937030 /* KeychainManager */ = {
+			isa = PBXGroup;
+			children = (
+				8705AECA29D56CF400937030 /* KeychainManager.swift */,
+			);
+			path = KeychainManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -498,6 +517,7 @@
 				8368B9FD29B8FFD400ACB05A /* YDGetLastUploadedResponse.swift in Sources */,
 				836F9C2829C0F65900D0DE63 /* WKWebView + Extensions.swift in Sources */,
 				8368B99B29B6546100ACB05A /* LoginViewModel.swift in Sources */,
+				8705AECB29D56CF400937030 /* KeychainManager.swift in Sources */,
 				8368BA2D29BE599400ACB05A /* DetailViewControllerViewModel.swift in Sources */,
 				8368BA3029BE59EF00ACB05A /* ImageViewDetailViewController.swift in Sources */,
 				8368B9EA29B7C1EC00ACB05A /* AppCoordinator.swift in Sources */,
@@ -537,7 +557,7 @@
 				838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */,
 				8368B9E829B7C0AE00ACB05A /* LoginCoordinator.swift in Sources */,
 				8368B99429B64F0E00ACB05A /* Coordinator.swift in Sources */,
-				839974E729D0C75400628F5C /* DirectoryViewController.swift in Sources */,
+				839974E729D0C75400628F5C /* FolderViewController.swift in Sources */,
 				8368B9E429B7BFB500ACB05A /* UserProfileViewModel.swift in Sources */,
 				83DD61412891A6110078100A /* AppDelegate.swift in Sources */,
 				8368B9A229B660C300ACB05A /* DemoViewModel.swift in Sources */,

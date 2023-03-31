@@ -11,10 +11,6 @@ import Foundation
 final class YDService {
     static let shared = YDService()
     
-    let defaults = UserDefaults.standard
-    
-    private var token: String = ""
-    
     private init() { }
     
     enum YDServiceError: Error {
@@ -51,7 +47,7 @@ final class YDService {
     
     
     private func authorizedRequest(from ydRequest: YDRequest) -> URLRequest? {
-            token = defaults.object(forKey: "token") as? String ?? ""
+        let token = KeychainManager.shared.getTokenFromKeychain() ?? ""
             guard let url = ydRequest.url else { return nil }
             var request = URLRequest(url: url)
             //request.httpMethod = request.httpMethod
@@ -114,7 +110,6 @@ final class YDService {
             }
             task.resume()
         }
-    
     
     
     

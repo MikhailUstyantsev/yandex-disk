@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DirectoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+final class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     var dataViewModel: TableViewCellViewModel?
     var serviceViewModel: AllFilesViewModel?

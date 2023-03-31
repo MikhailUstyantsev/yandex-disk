@@ -10,8 +10,6 @@ import WebKit
 
 final class AuthViewModel: NSObject {
     
-    let defaults = UserDefaults.standard
-    
     var coordinator: LoginCoordinator?
     
     var didSendEventClosure: ((AuthViewModel.Event) -> Void) = {_ in }
@@ -55,13 +53,14 @@ extension AuthViewModel: WKNavigationDelegate {
             let token = components.queryItems?.first(where: { $0.name == "access_token"})?.value
             
             if let token = token {
-                //попробую, как альтернативу прокидыванию через протокола делегата, сохранить токен в user defaults
-                //                TODO: Переделать сохранение в Keychain
-                defaults.set(token, forKey: "token")
+                //MARK: сохранение ключа в Keychain
+                KeychainManager.shared.saveTokenInKeychain(token)
             }
             didSendEventClosure(.login)
         }
         decisionHandler(.allow)
     }
+  
+    
     
 }

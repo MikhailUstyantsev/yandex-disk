@@ -1,6 +1,5 @@
 //
-//  MessageTableViewCell.swift
-//  TestMyKnowledge-19(Self-Sizing Table View Cell In Code)
+//  YDTableTableViewCell.swift
 //
 //  Created by Mikhail Ustyantsev on 03.08.2022.
 //
@@ -8,7 +7,7 @@
 import UIKit
 
 class YDTableViewCell: UITableViewCell {
-
+    
     private var viewModel: TableViewCellViewModel?
 
     var downloadButtonPressed: () -> Void = {}

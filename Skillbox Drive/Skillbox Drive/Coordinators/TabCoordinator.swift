@@ -138,6 +138,7 @@ final class TabCoordinator: NSObject, Coordinator {
         case .profile:
             // If needed: Each tab bar flow can have it's own Coordinator.
             let userProfileCoordinator = UserProfileCoordinator(navController)
+            userProfileCoordinator.parentCoordinator = self
             userProfileCoordinator.start()
         case .lastUploaded:
             let lastUploadedCoordinator = LastUploadedCoordinator(navController)
@@ -161,6 +162,7 @@ final class TabCoordinator: NSObject, Coordinator {
         
         tabBarController.selectedIndex = page.pageOrderNumber()
     }
+    
 }
 
 // MARK: - UITabBarControllerDelegate

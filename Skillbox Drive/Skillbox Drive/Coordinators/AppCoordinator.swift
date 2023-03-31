@@ -58,12 +58,12 @@ extension AppCoordinator: CoordinatorFinishDelegate {
         switch childCoordinator.type {
                case .tab:
                    navigationController.viewControllers.removeAll()
-
                    showLoginFlow()
+            
                case .login:
                    navigationController.viewControllers.removeAll()
-
                    showMainFlow()
+            
                default:
                    break
                }
