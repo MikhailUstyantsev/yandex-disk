@@ -14,6 +14,7 @@ import Foundation
     case download = "resources/download"
     case move = "resources/move"
     case publish = "resources/publish"
+    case unpublish = "resources/unpublish"
     case resourcesOnly = "resources"
     case empty = ""
 }

@@ -17,6 +17,10 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     private let `label` = UILabel()
     var items = [UIBarButtonItem]()
     
+    var downloadFileURLString: String = ""
+    
+    var dataToShare: Data?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,8 +66,24 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
         activityIndicator.startAnimating()
         
         viewModel?.downloadFile(completion: { downloadResponse in
-            DispatchQueue.main.async {
-                self.webView.load(downloadResponse.href)
+            self.downloadFileURLString = downloadResponse.href
+            // setting up the local URL
+            let localURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            // setting up the local URL to the file itself
+            let fileName = self.viewModel?.cellViewModel?.name
+            let fileURL = URL(fileURLWithPath: "\(fileName ?? "unknown")", relativeTo: localURL).appendingPathExtension("\(self.viewModel?.cellViewModel?.mediaType ?? "unknown")")
+            // download the file and save to local storage
+            if let downloadFileURL = URL(string: self.downloadFileURLString) {
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: downloadFileURL)
+                    DispatchQueue.main.async {
+                        do {
+                            try? data?.write(to: fileURL)
+                        }
+                        //present file into webView using link to local storage
+                        self.webView.load(fileURL.absoluteString)
+                    }
+                }
             }
         })
     }
@@ -123,17 +143,21 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
         }
     }
     
+    
     @objc private func shareTapped() {
         //viewModel?.shareFile()
         self.presentShareAlert { [weak self] in
             let fileName = self?.viewModel?.cellViewModel?.name as Any
-            if let webViewData = self?.webView.url?.dataRepresentation {
-                let vc = UIActivityViewController(activityItems: [webViewData, fileName], applicationActivities: [])
-                DispatchQueue.main.async {
-                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
-                    self?.present(vc, animated: true)
+            /*
+             Cкачивание файла по ссылке и сохранение в локальном хранилище реализовано во ViewDidLoad, в момент передачи файла я делюсь ссылкой на локальное хранилище - и файл просто скачивается оттуда, например в мессенджер какому-то адресату или системное приложение Files
+             */
+            if let webViewData = self?.webView.url {
+                    let vc = UIActivityViewController(activityItems: [webViewData, fileName], applicationActivities: [])
+                    DispatchQueue.main.async {
+                        vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                        self?.present(vc, animated: true)
+                    }
                 }
-            }
         } action2: { [weak self] in
             self?.viewModel?.shareReferenceToFile()
             self?.viewModel?.shareFileURL = { [weak self] publicURLstring in

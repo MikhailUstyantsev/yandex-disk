@@ -1,9 +1,10 @@
 //
-//  UIAlertController+Extensions.swift
-//  TabBarProgrammatically
+//  UIViewController+Extensions.swift
+//  Skillbox Drive
 //
-//  Created by Mikhail Ustyantsev on 25.02.2023.
+//  Created by Mikhail Ustyantsev on 01.04.2023.
 //
+
 
 import UIKit
 
@@ -28,7 +29,7 @@ extension UIViewController {
             if let newName = alertController.textFields?[0].text {
                 action(newName)
             }
-          
+            
         }))
         present(alertController, animated: true)
     }
@@ -69,7 +70,7 @@ extension UIViewController {
             renamingLabel.heightAnchor.constraint(equalToConstant: 35),
             renamingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             renamingLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-              ])
+        ])
     }
     
     func removeRenamingLabel(_ renamingLabel: UILabel) {
@@ -94,7 +95,7 @@ extension UIViewController {
             deleteLabel.heightAnchor.constraint(equalToConstant: 35),
             deleteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             deleteLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-              ])
+        ])
     }
     
     
@@ -121,7 +122,7 @@ extension UIViewController {
             label.heightAnchor.constraint(equalToConstant: 40),
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-              ])
+        ])
     }
     
     func removeNoConnectionLabel(_ label: UILabel) {
@@ -148,10 +149,10 @@ extension UIViewController {
             label.heightAnchor.constraint(equalToConstant: 300),
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-              ])
+        ])
     }
     
-//    MARK: - Log out Alerts
+    //    MARK: - Log out Alerts
     
     func presentLogoutAlert(title: String = "Профиль", message: String? = nil, action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
@@ -171,5 +172,17 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
+    //    MARK: - Tableview Cell File actions alert
     
+    func presentPublishedFileActionsAlert(title: String, message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Скачать", style: .default, handler: { _ in
+            action1()
+        }))
+        alertController.addAction(UIAlertAction(title: "Убрать публикацию", style: .destructive, handler: { _ in
+            action2()
+        }))
+        present(alertController, animated: true)
+    }
 }

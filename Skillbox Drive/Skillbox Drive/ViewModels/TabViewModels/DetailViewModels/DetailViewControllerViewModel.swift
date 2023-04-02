@@ -68,7 +68,7 @@ final class DetailViewControllerViewModel: NSObject {
         guard let url = URL(string: urlString) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("OAuth \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("OAuth \(token ?? "")", forHTTPHeaderField: "Authorization")
         YDService.shared.getData(request, expecting: YDResource.self) { result in
             switch result {
             case .success(let fileMetaDataResponse):

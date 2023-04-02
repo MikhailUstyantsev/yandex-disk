@@ -47,7 +47,7 @@ final class YDService {
     
     
     private func authorizedRequest(from ydRequest: YDRequest) -> URLRequest? {
-        let token = KeychainManager.shared.getTokenFromKeychain() ?? ""
+            let token = KeychainManager.shared.getTokenFromKeychain() ?? ""
             guard let url = ydRequest.url else { return nil }
             var request = URLRequest(url: url)
             //request.httpMethod = request.httpMethod

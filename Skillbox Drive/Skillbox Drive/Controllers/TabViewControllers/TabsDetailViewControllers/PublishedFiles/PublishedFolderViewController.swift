@@ -1,21 +1,16 @@
 //
-//  RecentlyLoadItemsViewController.swift
+//  PublishedFolderViewController.swift
 //  Skillbox Drive
 //
-//  Created by Mikhail Ustyantsev on 23.09.2022.
+//  Created by Mikhail Ustyantsev on 01.04.2023.
 //
 
 import UIKit
-import Network
 
-class LastUploadedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, NetworkCheckObserver {
-   
+final class PublishedFolderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
-    var networkCheck = NetworkCheck.sharedInstance()
-    
-    var viewModel: LastUploadedViewModel?
-    
-    let `label` = UILabel()
+    var dataViewModel: TableViewCellViewModel?
+    var publishedFilesViewModel: PublishedFilesViewModel?
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -29,75 +24,50 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if networkCheck.currentStatus == .satisfied {
-            //Do something
-            viewModel?.fetchFiles()
-        } else {
-            //Show no network alert
-            self.showNoConnectionLabel(label)
-            print("No network connection")
-        }
-        networkCheck.addObserver(observer: self)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
-        
         activityIndicator.startAnimating()
-        // Do any additional setup after loading the view.
+        
         setupViews()
         setupHierarchy()
         setupLayout()
         
-        viewModel?.onUpdate = { [weak self] in
+        NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
+        
+        publishedFilesViewModel?.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
+                if self?.publishedFilesViewModel?.cellViewModels.count == 0 {
+                    self?.showNoFilesLabel()
+                }
                 self?.tableView.reloadData()
             }
         }
         
+        guard let path = dataViewModel?.filePath else { return }
         
+        publishedFilesViewModel?.fetchDirectoryFiles(path)
         
-        viewModel?.refreshTableView = { [weak self] in
-            self?.viewModel?.cellViewModels.removeAll()
+        publishedFilesViewModel?.refreshTableView = { [weak self] in
+            self?.publishedFilesViewModel?.cellViewModels.removeAll()
             DispatchQueue.main.async {
                 self?.tableView.refreshControl?.endRefreshing()
                 self?.tableView.reloadData()
             }
         }
         
-        
     }
     
-//        MARK: - Change of Network Status
-
-    func statusDidChange(status: NWPath.Status) {
-            if status == .satisfied {
-                       //Do something
-                self.removeNoConnectionLabel(label)
-                viewModel?.cellViewModels.removeAll()
-                viewModel?.fetchFiles()
-                print("We're online!")
-            } else if status == .unsatisfied {
-                //Show no network alert
-                viewModel?.cellViewModels.removeAll()
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                self.showNoConnectionLabel(label)
-                print("No network connection")
-            }
-        }
-        
-    //        As you turn on wifi, It notify for NWPath update but until then connection has not been established, it takes some moment to connect
-    //        The pathUpdateHandler does not work properly in an iOS simulator but works as expected on a real device.
     
     @objc func filesDidChanged(_ notification: Notification) {
-        viewModel?.cellViewModels.removeAll()
-        viewModel?.fetchFiles()
+        guard let path = dataViewModel?.filePath else { return }
+        
+        publishedFilesViewModel?.cellViewModels.removeAll()
+        publishedFilesViewModel?.fetchDirectoryFiles(path)
     }
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        title = "Последние"
+        title = dataViewModel?.name
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 70
@@ -109,6 +79,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         activityIndicator.style = .large
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
     }
+    
     
     private func setupHierarchy() {
         view.addSubviews(tableView, activityIndicator)
@@ -126,10 +97,10 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
-        guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
+        guard let viewModel = publishedFilesViewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
         cell.downloadButtonPressed = {
-            print("cell button tapped")
+            print("download button tapped")
             // 1. Сохранить вьюмодель данной ячейки в CoreData
             // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
             // 3. Обновить картинку кнопки загрузки на "download.finish"
@@ -138,24 +109,38 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.cellViewModels.count ?? 0
+        return publishedFilesViewModel?.cellViewModels.count ?? 0
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+        guard let isShowLoader = publishedFilesViewModel?.isShowLoader else { return }
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex && isShowLoader && publishedFilesViewModel?.cellViewModels.count ?? 0 >= 20 {
+            tableView.showLoadingFooter()
+        } else {
+            tableView.hideLoadingFooter()
+        }
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let viewModelToPass = viewModel?.cellViewModels[indexPath.row] else { return }
-        guard let mediaType = viewModel?.cellViewModels[indexPath.row].mediaType else { return }
-        viewModel?.didSelectRow(with: viewModelToPass, fileType: mediaType)
+        
+        guard let viewModelToPass = publishedFilesViewModel?.cellViewModels[indexPath.row] else { return }
+        guard let mediaType = publishedFilesViewModel?.cellViewModels[indexPath.row].mediaType else { return }
+        
+        guard let dirType = publishedFilesViewModel?.cellViewModels[indexPath.row].directoryType else { return }
+        
+        publishedFilesViewModel?.didSelectRowAtDirectoryViewController(with: viewModelToPass, fileType: mediaType, directoryType: dirType)
+        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        guard !viewModel!.isLoadingMoreData,
-              !viewModel!.cellViewModels.isEmpty
+        guard !publishedFilesViewModel!.isLoadingMoreData,
+              !publishedFilesViewModel!.cellViewModels.isEmpty
         else {
             return
         }
@@ -165,18 +150,19 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height
             
+            guard let path = self?.dataViewModel?.filePath else { return }
+            
             if offset >= (totalContentHeight - totalScrollViewFixedHeight) {
-                self?.viewModel?.fetchAdditionalFiles()
+                self?.publishedFilesViewModel?.fetchAdditionalDirectoryFiles(path)
             }
             t.invalidate()
         }
     }
     
     @objc func didPullToRefresh() {
-        viewModel?.reFetchData()
+        guard let path = dataViewModel?.filePath else { return }
+        publishedFilesViewModel?.reFetchDirectoryData(path)
     }
     
+    
 }
-
-
-

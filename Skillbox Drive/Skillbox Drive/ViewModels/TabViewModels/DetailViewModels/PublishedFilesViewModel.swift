@@ -1,17 +1,19 @@
 //
-//  AllFilesViewModel.swift
+//  PublishedFilesViewModel.swift
 //  Skillbox Drive
 //
-//  Created by Mikhail Ustyantsev on 07.03.2023.
+//  Created by Mikhail Ustyantsev on 31.03.2023.
 //
 
 import Foundation
 
-final class AllFilesViewModel {
+final class PublishedFilesViewModel {
     
-    var coordinator: AllFilesCoordinator?
+    var coordinator: UserProfileCoordinator?
     
     var isLoadingMoreData = false
+    
+    var isShowLoader = true
     
     var onUpdate: () -> Void = {}
     
@@ -21,8 +23,6 @@ final class AllFilesViewModel {
     
     private var offset = 0
     private let limit = 20
-    
-    var isShowLoader = true
     
     private(set) var files: [YDResource] = [] {
         didSet {
@@ -34,25 +34,23 @@ final class AllFilesViewModel {
     }
     
     
-    
-    public func fetchFiles() {
-        let request = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [
-            URLQueryItem(name: "path", value: "/")
-        ])
-        YDService.shared.execute(request, expecting: YDResource.self) { result in
+    func fetchPublishedFiles() {
+        let request = YDRequest.getPublicFilesRequest
+        
+        YDService.shared.execute(request, expecting: YDGetPublicResourcesListResponse.self) { result in
             switch result {
             case .success(let recievedItems):
-                self.files = recievedItems.embedded?.items ?? []
+                self.files = recievedItems.items
                 self.onUpdate()
+                print("You've got \(String(describing: recievedItems.items.count)) objects")
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+        
     }
     
-    
-    
-    public func fetchAdditionalFiles() {
+    public func fetchAdditionalPublishedFiles() {
         guard !isLoadingMoreData else {
             return
         }
@@ -61,16 +59,16 @@ final class AllFilesViewModel {
         offset += 20
         print(offset)
         //create additional request
-        let newRequest = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [
+        let newRequest = YDRequest(endpoint: .publicFiles, httpMethod: "GET", pathComponents: [], queryParameters: [
             URLQueryItem(name: "path", value: "/"),
             URLQueryItem(name: "limit", value: "\(limit)"),
             URLQueryItem(name: "offset", value: "\(offset)")
         ])
         
-        YDService.shared.execute(newRequest, expecting: YDResource.self) { result in
+        YDService.shared.execute(newRequest, expecting: YDGetPublicResourcesListResponse.self) { result in
             switch result {
             case .success(let moreResult):
-                let additionalItems = moreResult.embedded?.items ?? []
+                let additionalItems = moreResult.items
                 
                 if additionalItems.count < self.limit {
                     self.isShowLoader = false
@@ -105,12 +103,11 @@ final class AllFilesViewModel {
     
     
     func reFetchData() {
-        fetchFiles()
+        fetchPublishedFiles()
         refreshTableView()
     }
     
-    
-    //MARK: Directory ViewController methods:
+    //MARK: Folder ViewController methods:
     
     func fetchDirectoryFiles(_ pathForFetchingData: String) {
         //pass here directory path
@@ -183,8 +180,24 @@ final class AllFilesViewModel {
         }
     }
     
+//    MARK: Unpublish selected file
+    
+    func unpublishFile(_ path: String) {
+        print("unpublish file tapped")
+        let request = YDRequest(endpoint: .unpublish, httpMethod: "PUT", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(path)")])
+        YDService.shared.execute(request, expecting: YDFileLinkResponse.self) { result in
+            switch result {
+            case .success(_):
+                NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
+                self.onUpdate()
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
     deinit {
-        print("Deinit from AllFilesViewModel")
+        print("Deinit from PublishedFilesViewModel")
     }
     
 }

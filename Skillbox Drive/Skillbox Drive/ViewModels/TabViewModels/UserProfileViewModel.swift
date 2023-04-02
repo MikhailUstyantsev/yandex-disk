@@ -46,7 +46,7 @@ final class UserProfileViewModel: ChartViewDelegate {
     //MARK: - Navigation:
     
     func openPublishedFiles() {
-        print("Opening published files...")
+        coordinator?.showPublishedFiles()
     }
     
     

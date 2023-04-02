@@ -10,7 +10,8 @@ import UIKit
 final class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     var dataViewModel: TableViewCellViewModel?
-    var serviceViewModel: AllFilesViewModel?
+    var allFilesViewModel: AllFilesViewModel?
+    var publishedFilesViewModel: PublishedFilesViewModel?
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -32,10 +33,10 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
         
         NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
         
-        serviceViewModel?.onUpdate = { [weak self] in
+        allFilesViewModel?.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
-                if self?.serviceViewModel?.cellViewModels.count == 0 {
+                if self?.allFilesViewModel?.cellViewModels.count == 0 {
                     self?.showNoFilesLabel()
                 }
                 self?.tableView.reloadData()
@@ -44,10 +45,10 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
         
         guard let path = dataViewModel?.filePath else { return }
         
-        serviceViewModel?.fetchDirectoryFiles(path)
+        allFilesViewModel?.fetchDirectoryFiles(path)
         
-        serviceViewModel?.refreshTableView = { [weak self] in
-            self?.serviceViewModel?.cellViewModels.removeAll()
+        allFilesViewModel?.refreshTableView = { [weak self] in
+            self?.allFilesViewModel?.cellViewModels.removeAll()
             DispatchQueue.main.async {
                 self?.tableView.refreshControl?.endRefreshing()
                 self?.tableView.reloadData()
@@ -60,8 +61,8 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
     @objc func filesDidChanged(_ notification: Notification) {
         guard let path = dataViewModel?.filePath else { return }
         
-        serviceViewModel?.cellViewModels.removeAll()
-        serviceViewModel?.fetchDirectoryFiles(path)
+        allFilesViewModel?.cellViewModels.removeAll()
+        allFilesViewModel?.fetchDirectoryFiles(path)
     }
     
     private func setupViews() {
@@ -97,7 +98,7 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
-        guard let viewModel = serviceViewModel?.cellViewModels[indexPath.row] else { return cell }
+        guard let viewModel = allFilesViewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
         cell.downloadButtonPressed = {
             print("download button tapped")
@@ -110,26 +111,26 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return serviceViewModel?.cellViewModels.count ?? 0
+        return allFilesViewModel?.cellViewModels.count ?? 0
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard let viewModelToPass = serviceViewModel?.cellViewModels[indexPath.row] else { return }
-        guard let mediaType = serviceViewModel?.cellViewModels[indexPath.row].mediaType else { return }
+        guard let viewModelToPass = allFilesViewModel?.cellViewModels[indexPath.row] else { return }
+        guard let mediaType = allFilesViewModel?.cellViewModels[indexPath.row].mediaType else { return }
         
-        guard let dirType = serviceViewModel?.cellViewModels[indexPath.row].directoryType else { return }
+        guard let dirType = allFilesViewModel?.cellViewModels[indexPath.row].directoryType else { return }
         
-        serviceViewModel?.didSelectRowAtDirectoryViewController(with: viewModelToPass, fileType: mediaType, directoryType: dirType)
+        allFilesViewModel?.didSelectRowAtDirectoryViewController(with: viewModelToPass, fileType: mediaType, directoryType: dirType)
         
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        guard !serviceViewModel!.isLoadingMoreData,
-              !serviceViewModel!.cellViewModels.isEmpty
+        guard !allFilesViewModel!.isLoadingMoreData,
+              !allFilesViewModel!.cellViewModels.isEmpty
         else {
             return
         }
@@ -142,7 +143,7 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
             guard let path = self?.dataViewModel?.filePath else { return }
             
             if offset >= (totalContentHeight - totalScrollViewFixedHeight) {
-                self?.serviceViewModel?.fetchAdditionalDirectoryFiles(path)
+                self?.allFilesViewModel?.fetchAdditionalDirectoryFiles(path)
             }
             t.invalidate()
         }
@@ -150,7 +151,7 @@ final class FolderViewController: UIViewController, UITableViewDelegate, UITable
     
     @objc func didPullToRefresh() {
         guard let path = dataViewModel?.filePath else { return }
-        serviceViewModel?.reFetchDirectoryData(path)
+        allFilesViewModel?.reFetchDirectoryData(path)
     }
     
     

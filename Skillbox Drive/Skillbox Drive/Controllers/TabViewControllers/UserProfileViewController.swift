@@ -45,7 +45,7 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
 
                 let set = PieChartDataSet(entries: self?.viewModel?.entries ?? [])
                
-                set.colors = ChartColorTemplates.material()
+                set.colors = ChartColorTemplates.pastel()
                 let myAttrString = NSAttributedString(string: "\(totalEntry/1000) ГБ", attributes: [
                     .font: UIFont.systemFont(ofSize: 24, weight: .regular),
                     .foregroundColor: UIColor.label

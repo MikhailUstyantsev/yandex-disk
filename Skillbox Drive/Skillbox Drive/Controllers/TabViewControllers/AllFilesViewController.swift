@@ -92,7 +92,7 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
         guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
         cell.downloadButtonPressed = {
-            print("download button tapped")
+            print("cell button tapped")
             // 1. Сохранить вьюмодель данной ячейки в CoreData
             // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
             // 3. Обновить картинку кнопки загрузки на "download.finish"

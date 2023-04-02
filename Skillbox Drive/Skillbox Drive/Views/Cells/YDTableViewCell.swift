@@ -58,7 +58,7 @@ class YDTableViewCell: UITableViewCell {
     let downloadButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "download"), for: .normal)
+        button.setImage(UIImage(named: "settings"), for: .normal)
         button.addTarget(self, action: #selector(tappedDownload), for: .touchUpInside)
         return button
     }()
@@ -122,10 +122,10 @@ class YDTableViewCell: UITableViewCell {
             sizeLabel.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -24),
             sizeLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
             
-            downloadButton.heightAnchor.constraint(equalToConstant: 35),
-            downloadButton.widthAnchor.constraint(equalToConstant: 35),
+            downloadButton.heightAnchor.constraint(equalToConstant: 30),
+            downloadButton.widthAnchor.constraint(equalToConstant: 30),
             downloadButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -24),
-            downloadButton.bottomAnchor.constraint(equalTo: sizeLabel.topAnchor)
+            downloadButton.bottomAnchor.constraint(equalTo: sizeLabel.topAnchor, constant: -5)
         ])
     }
     

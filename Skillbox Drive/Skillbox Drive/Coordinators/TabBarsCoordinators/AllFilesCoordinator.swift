@@ -116,7 +116,7 @@ final class AllFilesCoordinator: Coordinator {
         folderViewController.dataViewModel = viewModeltoDisplay
         let serviceViewModel = AllFilesViewModel()
         serviceViewModel.coordinator = self
-        folderViewController.serviceViewModel = serviceViewModel
+        folderViewController.allFilesViewModel = serviceViewModel
         navigationController.pushViewController(folderViewController, animated: true)
     }
     
