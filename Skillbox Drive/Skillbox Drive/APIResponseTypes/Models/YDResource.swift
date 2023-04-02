@@ -8,6 +8,7 @@
 import Foundation
 
 import Foundation
+import CoreData
 
 struct YDResource: Codable {
     let publicKey: String?

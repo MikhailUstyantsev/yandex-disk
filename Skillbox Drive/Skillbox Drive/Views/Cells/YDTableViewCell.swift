@@ -55,6 +55,14 @@ class YDTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    let savedFileImageView: UIImageView = {
+       let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "mark.saved")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     let downloadButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +108,7 @@ class YDTableViewCell: UITableViewCell {
     }
     
     private func setupHierarchy() {
-        contentView.addSubviews(cellImageView, nameLabel, dateLabel, sizeLabel, downloadButton)
+        contentView.addSubviews(cellImageView, nameLabel, dateLabel, sizeLabel, downloadButton, savedFileImageView)
     }
     
     private func setupLayout() {
@@ -125,7 +133,12 @@ class YDTableViewCell: UITableViewCell {
             downloadButton.heightAnchor.constraint(equalToConstant: 30),
             downloadButton.widthAnchor.constraint(equalToConstant: 30),
             downloadButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -24),
-            downloadButton.bottomAnchor.constraint(equalTo: sizeLabel.topAnchor, constant: -5)
+            downloadButton.bottomAnchor.constraint(equalTo: sizeLabel.topAnchor, constant: -5),
+            
+            savedFileImageView.bottomAnchor.constraint(equalTo: sizeLabel.bottomAnchor),
+            savedFileImageView.trailingAnchor.constraint(equalTo: sizeLabel.leadingAnchor, constant: -5),
+            savedFileImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 2),
+            savedFileImageView.widthAnchor.constraint(equalToConstant: 20)
         ])
     }
     

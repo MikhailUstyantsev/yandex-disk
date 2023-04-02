@@ -185,4 +185,14 @@ extension UIViewController {
         }))
         present(alertController, animated: true)
     }
+    
+    func presentLastUploadedFileActionsAlert(title: String, message: String? = nil, action: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Сохранить офлайн", style: .default, handler: { _ in
+            action()
+        }))
+        present(alertController, animated: true)
+    }
+    
 }

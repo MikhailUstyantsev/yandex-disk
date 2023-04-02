@@ -128,11 +128,14 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
         guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
-        cell.downloadButtonPressed = {
-            print("cell button tapped")
+        cell.savedFileImageView.isHidden = true
+        cell.downloadButtonPressed = { [weak self] in
+            self?.presentLastUploadedFileActionsAlert(title: "\(viewModel.name)", action: {
+                self?.viewModel?.downloadFileToCoreData(viewModel)
+            })
             // 1. Сохранить вьюмодель данной ячейки в CoreData
             // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
-            // 3. Обновить картинку кнопки загрузки на "download.finish"
+            // 3. Показать картинку сохранения файла на - cell.savedFileImageView.isHidden = false
         }
         cell.selectionStyle = .default
         return cell
