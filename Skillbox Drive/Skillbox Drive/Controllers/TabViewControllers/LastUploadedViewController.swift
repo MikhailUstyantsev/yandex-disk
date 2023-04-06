@@ -36,6 +36,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         if networkCheck.currentStatus == .satisfied {
             //Do something
+            self.showGoodConnectionLabel(label)
             viewModel?.fetchFiles()
             viewModel?.fetchFilesFromCoreData()
         } else {
@@ -76,14 +77,14 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     func statusDidChange(status: NWPath.Status) {
             if status == .satisfied {
                        //Do something
-                
+                self.removeGoodConnectionLabel(label)
                 self.removeNoConnectionLabel(label)
                 viewModel?.cellViewModels.removeAll()
                 viewModel?.fetchFiles()
                 print("We're online!")
             } else if status == .unsatisfied {
                 //Show no network alert
-                
+                self.showGoodConnectionLabel(label)
                 self.showNoConnectionLabel(label)
                 viewModel?.cellViewModels.removeAll()
                 viewModel?.fetchFilesFromCoreData()
@@ -122,19 +123,20 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     private func setupLayout() {
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
+     
+            NSLayoutConstraint.activate([
+                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            ])
         
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         

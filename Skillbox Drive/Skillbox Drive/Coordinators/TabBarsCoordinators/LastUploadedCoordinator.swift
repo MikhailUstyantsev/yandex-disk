@@ -32,7 +32,7 @@ final class LastUploadedCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
-    //MARK: Navigate to WebViewViewController
+    //MARK: Online Navigation Methods
     
     func showWebViewDetailViewController(with viewModeltoDisplay: TableViewCellViewModel) {
         self.modalNavigationController = UINavigationController()
@@ -55,7 +55,7 @@ final class LastUploadedCoordinator: Coordinator {
 //        navigationController.pushViewController(webViewDetailViewController, animated: true)
     }
     
-    //MARK: Navigate to ImageViewViewController
+
     
     func showImageDetailViewController(with viewModeltoDisplay: TableViewCellViewModel) {
         self.modalNavigationController = UINavigationController()
@@ -81,7 +81,7 @@ final class LastUploadedCoordinator: Coordinator {
 //        navigationController.pushViewController(imageViewDetailViewController, animated: true)
     }
     
-    //MARK: Navigate to PDFViewViewController
+
     
     func showPDFViewDetailViewController(with viewModeltoDisplay: TableViewCellViewModel) {
         self.modalNavigationController = UINavigationController()
@@ -99,8 +99,7 @@ final class LastUploadedCoordinator: Coordinator {
         
 //        navigationController.pushViewController(pdfViewDetailViewController, animated: true)
     }
-    
-    //MARK: Navigate to UnknownViewController
+
     
     func showUnknowDetailViewController(with viewModeltoDisplay: TableViewCellViewModel) {
         let unknownDetailViewController = UnknownDetailViewController()
@@ -125,6 +124,7 @@ final class LastUploadedCoordinator: Coordinator {
         let lastUploadedDetailViewModel = DetailViewControllerViewModel()
         
         modalNavigationController?.setViewControllers([imageViewDetailViewController], animated: false)
+        
         lastUploadedDetailViewModel.offlineModel = offlineViewModel
         
         imageViewDetailViewController.viewModel = lastUploadedDetailViewModel
@@ -136,6 +136,62 @@ final class LastUploadedCoordinator: Coordinator {
         }
     }
     
+    
+    
+    func offlineShowWebViewDetailViewController(with offlineViewModel: YandexDiskItem) {
+        self.modalNavigationController = UINavigationController()
+        modalNavigationController?.modalTransitionStyle = .flipHorizontal
+        modalNavigationController?.modalPresentationStyle = .fullScreen
+        
+        let webViewDetailViewController = WebViewDetailViewController()
+        
+        modalNavigationController?.setViewControllers([webViewDetailViewController], animated: false)
+        
+        let lastUploadedDetailViewModel = DetailViewControllerViewModel()
+        
+        lastUploadedDetailViewModel.offlineModel = offlineViewModel
+        
+        webViewDetailViewController.viewModel = lastUploadedDetailViewModel
+        
+        lastUploadedDetailViewModel.coordinator = self
+        if let modalNavigationController = modalNavigationController {
+            navigationController.present(modalNavigationController, animated: true)
+        }
+    }
+    
+    
+    
+    func offlineShowPDFViewDetailViewController(with offlineViewModel: YandexDiskItem) {
+        self.modalNavigationController = UINavigationController()
+        modalNavigationController?.modalTransitionStyle = .flipHorizontal
+        modalNavigationController?.modalPresentationStyle = .fullScreen
+        
+        let pdfViewDetailViewController = PDFViewDetailViewController()
+        
+        modalNavigationController?.setViewControllers([pdfViewDetailViewController], animated: false)
+        
+        let lastUploadedDetailViewModel = DetailViewControllerViewModel()
+        
+        lastUploadedDetailViewModel.offlineModel = offlineViewModel
+        
+        pdfViewDetailViewController.viewModel = lastUploadedDetailViewModel
+        
+        lastUploadedDetailViewModel.coordinator = self
+        
+        if let modalNavigationController = modalNavigationController {
+            navigationController.present(modalNavigationController, animated: true)
+        }
+    }
+    
+    
+    func offlineShowUnknowDetailViewController(with offlineViewModel: YandexDiskItem) {
+        let unknownDetailViewController = UnknownDetailViewController()
+        let lastUploadedDetailViewModel = DetailViewControllerViewModel()
+        lastUploadedDetailViewModel.offlineModel = offlineViewModel
+        unknownDetailViewController.viewModel = lastUploadedDetailViewModel
+        lastUploadedDetailViewModel.coordinator = self
+        navigationController.pushViewController(unknownDetailViewController, animated: true)
+    }
     
     
 }

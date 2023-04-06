@@ -38,7 +38,6 @@ final class UserProfileCoordinator: Coordinator {
     }
     
     func showPublishedFiles() {
-        print("Opening published files...")
             let publishedFilesViewController = PublishedFilesViewController()
             let serviceViewModel = PublishedFilesViewModel()
             serviceViewModel.coordinator = self

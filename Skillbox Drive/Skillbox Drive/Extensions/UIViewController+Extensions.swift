@@ -157,6 +157,32 @@ extension UIViewController {
         }
     }
     
+    func showGoodConnectionLabel(_ label: UILabel) {
+        label.textColor = .label
+        label.numberOfLines = 2
+        label.backgroundColor = .systemGreen
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.text = "Cоединение установлено"
+        view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.widthAnchor.constraint(equalTo: view.widthAnchor),
+            label.heightAnchor.constraint(equalToConstant: 40),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        ])
+    }
+    
+    func removeGoodConnectionLabel(_ label: UILabel) {
+        DispatchQueue.main.async {
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.removeFromSuperview()
+        }
+    }
+    
     func showNoFilesLabel() {
         let label = UILabel()
         label.textColor = .label

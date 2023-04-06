@@ -7,10 +7,13 @@
 
 import UIKit
 import PDFKit
+import Network
 
 class PDFViewDetailViewController: UIViewController {
     
     var viewModel: DetailViewControllerViewModel?
+    
+    var networkCheck = NetworkCheck.sharedInstance()
     
     private let activityIndicator = UIActivityIndicatorView()
     let pdfView = PDFView()
@@ -64,13 +67,22 @@ class PDFViewDetailViewController: UIViewController {
         setupHierarchy()
         setupLayout()
         
-        viewModel?.downloadFile(completion: { downloadResponse in
-            self.resourceUrl = URL(string: downloadResponse.href)
+        if networkCheck.currentStatus == .satisfied {
+            viewModel?.downloadFile(completion: { downloadResponse in
+                self.resourceUrl = URL(string: downloadResponse.href)
+                self.displayPdf()
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                }
+            })
+        } else {
             self.displayPdf()
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
             }
-        })
+        }
+        
+        
         
     }
     
@@ -83,8 +95,14 @@ class PDFViewDetailViewController: UIViewController {
     }
     
     private func createPdfDocument() -> PDFDocument? {
-        if let url = resourceUrl  {
-            return PDFDocument(url: url)
+        if networkCheck.currentStatus == .satisfied {
+            if let url = resourceUrl  {
+                return PDFDocument(url: url)
+            }
+        } else {
+            if let data = viewModel?.offlineModel?.fileData {
+                return PDFDocument(data: data)
+            }
         }
         return nil
     }

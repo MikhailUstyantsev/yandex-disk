@@ -77,11 +77,11 @@ final class LastUploadedViewModel {
         switch fileType.lowercased() {
         case _ where fileType.localizedStandardContains("image"):
             coordinator?.offlineShowImageDetailViewController(with: viewModel)
-//        case _ where fileType.localizedStandardContains("xml"):
-//            coordinator?.showWebViewDetailViewController(with: viewModel)
-//        case _ where fileType.localizedStandardContains("pdf"):
-//            coordinator?.showPDFViewDetailViewController(with: viewModel)
-        default: break
+        case _ where fileType.localizedStandardContains("xml"):
+            coordinator?.offlineShowWebViewDetailViewController(with: viewModel)
+        case _ where fileType.localizedStandardContains("pdf"):
+            coordinator?.offlineShowPDFViewDetailViewController(with: viewModel)
+        default: coordinator?.offlineShowUnknowDetailViewController(with: viewModel)
         }
     }
     
@@ -98,7 +98,6 @@ final class LastUploadedViewModel {
     }
     
     func saveFileToCoreData(_ viewModelToSave: TableViewCellViewModel,_ imageData: Data?) {
-        print("download button tapped")
         // сохранить переданную модель в виде объекта CoreData
         CoreDataManager.shared.saveYandexDiskItem(viewModelToSave, imageData)
 

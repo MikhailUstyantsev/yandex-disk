@@ -7,10 +7,13 @@
 
 import Foundation
 import WebKit
+import Network
 
 class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUIDelegate {
     
     var viewModel: DetailViewControllerViewModel?
+    
+    var networkCheck = NetworkCheck.sharedInstance()
     
     private let webView = WKWebView()
     private let activityIndicator = UIActivityIndicatorView()
@@ -65,27 +68,47 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
         
         activityIndicator.startAnimating()
         
-        viewModel?.downloadFile(completion: { downloadResponse in
-            self.downloadFileURLString = downloadResponse.href
-            // setting up the local URL
-            let localURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            // setting up the local URL to the file itself
-            let fileName = self.viewModel?.cellViewModel?.name
-            let fileURL = URL(fileURLWithPath: "\(fileName ?? "unknown")", relativeTo: localURL).appendingPathExtension("\(self.viewModel?.cellViewModel?.mediaType ?? "unknown")")
-            // download the file and save to local storage
-            if let downloadFileURL = URL(string: self.downloadFileURLString) {
-                DispatchQueue.global().async {
-                    let data = try? Data(contentsOf: downloadFileURL)
-                    DispatchQueue.main.async {
-                        do {
-                            try? data?.write(to: fileURL)
+        if networkCheck.currentStatus == .satisfied {
+            viewModel?.downloadFile(completion: { downloadResponse in
+                self.downloadFileURLString = downloadResponse.href
+                // setting up the local URL
+                let localURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                // setting up the local URL to the file itself
+                let fileName = self.viewModel?.cellViewModel?.name
+                let fileURL = URL(fileURLWithPath: "\(fileName ?? "unknown")", relativeTo: localURL).appendingPathExtension("\(self.viewModel?.cellViewModel?.mediaType ?? "unknown")")
+                // download the file and save to local storage
+                if let downloadFileURL = URL(string: self.downloadFileURLString) {
+                    DispatchQueue.global().async {
+                        let data = try? Data(contentsOf: downloadFileURL)
+                        DispatchQueue.main.async {
+                            do {
+                                try? data?.write(to: fileURL)
+                            }
+                            //present file into webView using link to local storage
+                            self.webView.load(fileURL.absoluteString)
                         }
-                        //present file into webView using link to local storage
-                        self.webView.load(fileURL.absoluteString)
                     }
                 }
+            })
+        } else {
+            
+            let localURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+           
+            let fileURL = URL(fileURLWithPath: "\(viewModel?.offlineModel?.name ?? "unknown")", relativeTo: localURL).appendingPathExtension("\(viewModel?.offlineModel?.mediaType ?? "unknown")")
+            
+            if let data = viewModel?.offlineModel?.fileData {
+                // load data to webView from data?
+                DispatchQueue.main.async {
+                    do {
+                        try? data.write(to: fileURL)
+                    }
+                    self.webView.load(fileURL.absoluteString)
+                    
+                    self.activityIndicator.stopAnimating()
+                }
             }
-        })
+        }
+        
     }
     
     private func setupViews() {
@@ -135,50 +158,63 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     }
     
     @objc private func renameTapped() {
-        guard let name = viewModel?.cellViewModel?.name else { return }
-        self.presentRenameAlert(name: name) { [weak self] newName in
-            guard let label = self?.label else { return }
-            self?.viewModel?.renameFile(newName)
-            self?.showRenamingLabel(label)
+        if networkCheck.currentStatus == .satisfied {
+            guard let name = viewModel?.cellViewModel?.name else { return }
+            self.presentRenameAlert(name: name) { [weak self] newName in
+                guard let label = self?.label else { return }
+                self?.viewModel?.renameFile(newName)
+                self?.showRenamingLabel(label)
+            }
+        } else {
+            self.presentOfflineAlert()
         }
     }
     
     
     @objc private func shareTapped() {
-        //viewModel?.shareFile()
-        self.presentShareAlert { [weak self] in
-            let fileName = self?.viewModel?.cellViewModel?.name as Any
-            /*
-             Cкачивание файла по ссылке и сохранение в локальном хранилище реализовано во ViewDidLoad, в момент передачи файла я делюсь ссылкой на локальное хранилище - и файл просто скачивается оттуда, например в мессенджер какому-то адресату или системное приложение Files
-             */
-            if let webViewData = self?.webView.url {
+        if networkCheck.currentStatus == .satisfied {
+            self.presentShareAlert { [weak self] in
+                let fileName = self?.viewModel?.cellViewModel?.name as Any
+                /*
+                 Cкачивание файла по ссылке и сохранение в локальном хранилище реализовано во ViewDidLoad, в момент передачи файла я делюсь ссылкой на локальное хранилище - и файл просто скачивается оттуда, например в мессенджер какому-то адресату или системное приложение Files
+                 */
+                if let webViewData = self?.webView.url {
                     let vc = UIActivityViewController(activityItems: [webViewData, fileName], applicationActivities: [])
                     DispatchQueue.main.async {
                         vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
                         self?.present(vc, animated: true)
                     }
                 }
-        } action2: { [weak self] in
-            self?.viewModel?.shareReferenceToFile()
-            self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
-                let url = URL(string: publicURLstring) as Any
-                let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
-                DispatchQueue.main.async {
-                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
-                    self?.present(vc, animated: true)
+            } action2: { [weak self] in
+                self?.viewModel?.shareReferenceToFile()
+                self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
+                    let url = URL(string: publicURLstring) as Any
+                    let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+                    DispatchQueue.main.async {
+                        vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                        self?.present(vc, animated: true)
+                    }
                 }
             }
+            
+        } else {
+            self.presentOfflineAlert()
         }
-        
     }
     
     @objc private func deleteTapped() {
-        self.presentDeleteAlert { [weak self] in
-            self?.viewModel?.deleteFile()
-            guard let label = self?.label else { return }
-            self?.showDeleteLabel(label)
+        if networkCheck.currentStatus == .satisfied {
+            self.presentDeleteAlert { [weak self] in
+                self?.viewModel?.deleteFile()
+                guard let label = self?.label else { return }
+                self?.showDeleteLabel(label)
+            }
+        } else {
+            self.presentOfflineAlert()
         }
     }
+    
+    
     
     deinit {
         print("deinit from WebViewDetailViewController")
