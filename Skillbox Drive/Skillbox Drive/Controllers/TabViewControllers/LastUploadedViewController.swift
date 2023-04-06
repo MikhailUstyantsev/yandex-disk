@@ -17,6 +17,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     var viewModel: LastUploadedViewModel?
     
     let `label` = UILabel()
+    let goodLabel = UILabel()
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -36,7 +37,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         if networkCheck.currentStatus == .satisfied {
             //Do something
-            self.showGoodConnectionLabel(label)
+            self.showGoodConnectionLabel(goodLabel)
             viewModel?.fetchFiles()
             viewModel?.fetchFilesFromCoreData()
         } else {
@@ -77,14 +78,14 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     func statusDidChange(status: NWPath.Status) {
             if status == .satisfied {
                        //Do something
-                self.removeGoodConnectionLabel(label)
                 self.removeNoConnectionLabel(label)
+                self.showGoodConnectionLabel(goodLabel)
                 viewModel?.cellViewModels.removeAll()
                 viewModel?.fetchFiles()
                 print("We're online!")
             } else if status == .unsatisfied {
                 //Show no network alert
-                self.showGoodConnectionLabel(label)
+                self.removeGoodConnectionLabel(goodLabel)
                 self.showNoConnectionLabel(label)
                 viewModel?.cellViewModels.removeAll()
                 viewModel?.fetchFilesFromCoreData()

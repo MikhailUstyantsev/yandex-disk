@@ -146,44 +146,54 @@ class PDFViewDetailViewController: UIViewController {
     }
     
     @objc private func renameTapped() {
-        guard let name = viewModel?.cellViewModel?.name else { return }
-        self.presentRenameAlert(name: name) { [weak self] newName in
-            guard let label = self?.label else { return }
-            self?.viewModel?.renameFile(newName)
-            self?.showRenamingLabel(label)
+        if networkCheck.currentStatus == .satisfied {
+            guard let name = viewModel?.cellViewModel?.name else { return }
+            self.presentRenameAlert(name: name) { [weak self] newName in
+                guard let label = self?.label else { return }
+                self?.viewModel?.renameFile(newName)
+                self?.showRenamingLabel(label)
+            }
+        } else {
+            self.presentOfflineAlert()
         }
     }
     
     @objc private func shareTapped() {
-        //        viewModel?.shareFile()
-        self.presentShareAlert { [weak self] in
-            let fileName = self?.viewModel?.cellViewModel?.name as Any
-            if let pdfData = self?.pdfView.document?.dataRepresentation() {
-                let vc = UIActivityViewController(activityItems: [pdfData, fileName], applicationActivities: [])
-                DispatchQueue.main.async {
-                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
-                    self?.present(vc, animated: true)
+        if networkCheck.currentStatus == .satisfied {
+            self.presentShareAlert { [weak self] in
+                let fileName = self?.viewModel?.cellViewModel?.name as Any
+                if let pdfData = self?.pdfView.document?.dataRepresentation() {
+                    let vc = UIActivityViewController(activityItems: [pdfData, fileName], applicationActivities: [])
+                    DispatchQueue.main.async {
+                        vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                        self?.present(vc, animated: true)
+                    }
+                }
+            } action2: { [weak self] in
+                self?.viewModel?.shareReferenceToFile()
+                self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
+                    let url = URL(string: publicURLstring) as Any
+                    let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+                    DispatchQueue.main.async {
+                        vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                        self?.present(vc, animated: true)
+                    }
                 }
             }
-        } action2: { [weak self] in
-            self?.viewModel?.shareReferenceToFile()
-            self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
-                let url = URL(string: publicURLstring) as Any
-                let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
-                DispatchQueue.main.async {
-                    vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
-                    self?.present(vc, animated: true)
-                }
-            }
+        } else {
+            self.presentOfflineAlert()
         }
-        
     }
     
     @objc private func deleteTapped() {
-        self.presentDeleteAlert { [weak self] in
-            self?.viewModel?.deleteFile()
-            guard let label = self?.label else { return }
-            self?.showDeleteLabel(label)
+        if networkCheck.currentStatus == .satisfied {
+            self.presentDeleteAlert { [weak self] in
+                self?.viewModel?.deleteFile()
+                guard let label = self?.label else { return }
+                self?.showDeleteLabel(label)
+            }
+        } else {
+            self.presentOfflineAlert()
         }
     }
     
