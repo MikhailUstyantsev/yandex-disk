@@ -106,6 +106,31 @@ extension UIViewController {
         }
     }
     
+    func showSaveLabel(_ saveLabel: UILabel) {
+        saveLabel.textColor = .label
+        saveLabel.backgroundColor = .secondarySystemBackground
+        saveLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
+        saveLabel.clipsToBounds = true
+        saveLabel.layer.cornerRadius = 5
+        saveLabel.translatesAutoresizingMaskIntoConstraints = false
+        saveLabel.textAlignment = .center
+        saveLabel.text = "Сохраняется..."
+        view.addSubview(saveLabel)
+        NSLayoutConstraint.activate([
+            saveLabel.widthAnchor.constraint(equalToConstant: view.bounds.size.width - 130),
+            saveLabel.heightAnchor.constraint(equalToConstant: 35),
+            saveLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            saveLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    func removeSaveLabel(_ saveLabel: UILabel) {
+        DispatchQueue.main.async {
+            saveLabel.translatesAutoresizingMaskIntoConstraints = false
+            saveLabel.removeFromSuperview()
+        }
+    }
+    
     func showNoConnectionLabel(_ label: UILabel) {
         label.textColor = .label
         label.numberOfLines = 2
@@ -195,4 +220,11 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
+    
+    //MARK: - OFFLINE ALERT
+    func presentOfflineAlert(title: String = "Отсутствует соединение с интернетом") {
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(alertController, animated: true)
+    }
 }

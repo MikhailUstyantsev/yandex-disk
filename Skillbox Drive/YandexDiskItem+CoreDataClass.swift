@@ -2,7 +2,7 @@
 //  YandexDiskItem+CoreDataClass.swift
 //  Skillbox Drive
 //
-//  Created by Mikhail Ustyantsev on 03.04.2023.
+//  Created by Михаил on 06.04.2023.
 //
 //
 

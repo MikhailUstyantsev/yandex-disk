@@ -111,4 +111,31 @@ final class LastUploadedCoordinator: Coordinator {
         navigationController.pushViewController(unknownDetailViewController, animated: true)
     }
     
+    
+//    MARK: - Offline Navigation Methods
+    
+    func offlineShowImageDetailViewController(with offlineViewModel: YandexDiskItem) {
+        self.modalNavigationController = UINavigationController()
+        modalNavigationController?.modalTransitionStyle = .flipHorizontal
+        modalNavigationController?.modalPresentationStyle = .fullScreen
+      
+        let imageViewDetailViewController =
+        ImageViewDetailViewController()
+        
+        let lastUploadedDetailViewModel = DetailViewControllerViewModel()
+        
+        modalNavigationController?.setViewControllers([imageViewDetailViewController], animated: false)
+        lastUploadedDetailViewModel.offlineModel = offlineViewModel
+        
+        imageViewDetailViewController.viewModel = lastUploadedDetailViewModel
+        
+        lastUploadedDetailViewModel.coordinator = self
+        
+        if let modalNavigationController = modalNavigationController {
+            navigationController.present(modalNavigationController, animated: true)
+        }
+    }
+    
+    
+    
 }

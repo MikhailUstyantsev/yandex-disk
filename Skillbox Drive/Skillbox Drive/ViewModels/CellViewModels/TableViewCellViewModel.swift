@@ -18,6 +18,9 @@ final class TableViewCellViewModel {
     let filePath: String
     let mediaType: String
     let directoryType: String
+    let md5: String
+    
+    var fileData = Data()
     
     var formattedDate: String {
         let createdDate = Date.createDateFromString(dateString: date)
@@ -37,7 +40,7 @@ final class TableViewCellViewModel {
         }
     }
     
-    init(name: String, date: String, size: Int, preview: String, filePath: String, mediaType: String, directoryType: String) {
+    init(name: String, date: String, size: Int, preview: String, filePath: String, mediaType: String, directoryType: String, md5: String) {
         self.name = name
         self.date = date
         self.size = size
@@ -46,6 +49,7 @@ final class TableViewCellViewModel {
         self.mediaType = mediaType
         self.directoryType = directoryType
         self.token = KeychainManager.shared.getTokenFromKeychain() ?? ""
+        self.md5 = md5
     }
     
     

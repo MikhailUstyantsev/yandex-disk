@@ -26,7 +26,7 @@ final class LastUploadedViewModel {
     private(set) var files: [YDResource] = [] {
         didSet {
             for file in files where !cellViewModels.contains(where: { $0.name == file.name }) {
-                let viewModel = TableViewCellViewModel(name: file.name , date: file.created , size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path , mediaType: file.mimeType ?? "", directoryType: "")
+                let viewModel = TableViewCellViewModel(name: file.name , date: file.created , size: file.size ?? 0, preview: file.preview ?? "", filePath: file.path , mediaType: file.mimeType ?? "", directoryType: "", md5: file.md5 ?? "")
                 cellViewModels.append(viewModel)
             }
         }
@@ -71,22 +71,53 @@ final class LastUploadedViewModel {
         }
     }
     
+    func didSelectRowOffline(with viewModel: YandexDiskItem, fileType: String) {
+        print("file type: \(fileType)")
+        print("Downloaded: \(String(describing: viewModel.fileData?.count)) bytes")
+        switch fileType.lowercased() {
+        case _ where fileType.localizedStandardContains("image"):
+            coordinator?.offlineShowImageDetailViewController(with: viewModel)
+//        case _ where fileType.localizedStandardContains("xml"):
+//            coordinator?.showWebViewDetailViewController(with: viewModel)
+//        case _ where fileType.localizedStandardContains("pdf"):
+//            coordinator?.showPDFViewDetailViewController(with: viewModel)
+        default: break
+        }
+    }
     
     func reFetchData() {
         fetchFiles()
         refreshTableView()
     }
     
-    func downloadFileToCoreData(_ viewModelToSave: TableViewCellViewModel) {
-        print("download button tapped")
-//        сохранить переданную модель в виде объекта CoreData и добавить в массив
-//        savedInCoreDataFiles, который буду использовать для показа офлайн
-        CoreDataManager.shared.saveYandexDiskItem(viewModelToSave)
-//        заполнять массив savedInCoreDataFiles при отключении интернета за счет "притаскивания" данных из CoreData и вызывать кложур onUpdate, котрый будет релоадить таблицу, после чего пользователь увидит сохраненные офлайн файлы
-        savedInCoreDataFiles = CoreDataManager.shared.fetchSavedFiles()
-        onUpdate()
+//    MARK: - Core Data Methods
+    
+    func fetchFilesFromCoreData() {
+        // заполнять массив savedInCoreDataFiles при отключении интернета за счет "притаскивания" данных из CoreData и вызывать кложур onUpdate, который будет релоадить таблицу, после чего пользователь увидит сохраненные офлайн файлы
+            savedInCoreDataFiles = CoreDataManager.shared.fetchSavedFiles()
     }
     
+    func saveFileToCoreData(_ viewModelToSave: TableViewCellViewModel,_ imageData: Data?) {
+        print("download button tapped")
+        // сохранить переданную модель в виде объекта CoreData
+        CoreDataManager.shared.saveYandexDiskItem(viewModelToSave, imageData)
+
+    }
+    
+//    MARK: - Download file
+    
+    func downloadFile(path: String, completion: @escaping (YDFileLinkResponse)->Void) {
+        let request = YDRequest(endpoint: .download, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(path)")])
+        
+        YDService.shared.execute(request, expecting: YDFileLinkResponse.self) { result in
+            switch result {
+            case .success(let downloadResponse):
+                completion(downloadResponse)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     deinit {
         print("Deinit from LastUploadedViewModel")

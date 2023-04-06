@@ -15,8 +15,6 @@
 		830BFC6229D8952700890547 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830BFC6129D8952700890547 /* UIViewController+Extensions.swift */; };
 		830BFC6729DA05A500890547 /* SkillboxDrive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 830BFC6529DA05A500890547 /* SkillboxDrive.xcdatamodeld */; };
 		830BFC6929DA05E500890547 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830BFC6829DA05E500890547 /* CoreDataManager.swift */; };
-		830BFC6C29DA0A9D00890547 /* YandexDiskItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830BFC6A29DA0A9D00890547 /* YandexDiskItem+CoreDataClass.swift */; };
-		830BFC6D29DA0A9D00890547 /* YandexDiskItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830BFC6B29DA0A9D00890547 /* YandexDiskItem+CoreDataProperties.swift */; };
 		83178BAF29D20E7B00C0CC3D /* UserProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */; };
 		83178BB129D21C0800C0CC3D /* YDGetDiskDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */; };
 		83178BBC29D3480D00C0CC3D /* YDResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BBB29D3480D00C0CC3D /* YDResource.swift */; };
@@ -79,6 +77,8 @@
 		83F4815528DCF52E00F3C12F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815428DCF52E00F3C12F /* AuthViewController.swift */; };
 		83F4815728DCF77A00F3C12F /* LastUploadedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */; };
 		8705AECB29D56CF400937030 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8705AECA29D56CF400937030 /* KeychainManager.swift */; };
+		872D2B1129DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */; };
+		872D2B1229DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,8 +89,6 @@
 		830BFC6129D8952700890547 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		830BFC6629DA05A500890547 /* SkillboxDrive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SkillboxDrive.xcdatamodel; sourceTree = "<group>"; };
 		830BFC6829DA05E500890547 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		830BFC6A29DA0A9D00890547 /* YandexDiskItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YandexDiskItem+CoreDataClass.swift"; sourceTree = "<group>"; };
-		830BFC6B29DA0A9D00890547 /* YandexDiskItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YandexDiskItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		83178BAE29D20E7B00C0CC3D /* UserProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCoordinator.swift; sourceTree = "<group>"; };
 		83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDGetDiskDataResponse.swift; sourceTree = "<group>"; };
 		83178BBB29D3480D00C0CC3D /* YDResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDResource.swift; sourceTree = "<group>"; };
@@ -154,6 +152,8 @@
 		83F4815428DCF52E00F3C12F /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		83F4815628DCF77A00F3C12F /* LastUploadedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUploadedViewController.swift; sourceTree = "<group>"; };
 		8705AECA29D56CF400937030 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YandexDiskItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YandexDiskItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,15 +176,6 @@
 				830BFC5C29D785D600890547 /* PublishedFolderViewController.swift */,
 			);
 			path = PublishedFiles;
-			sourceTree = "<group>";
-		};
-		830BFC6E29DA0AC600890547 /* CoreDataModels */ = {
-			isa = PBXGroup;
-			children = (
-				830BFC6A29DA0A9D00890547 /* YandexDiskItem+CoreDataClass.swift */,
-				830BFC6B29DA0A9D00890547 /* YandexDiskItem+CoreDataProperties.swift */,
-			);
-			path = CoreDataModels;
 			sourceTree = "<group>";
 		};
 		8368B99129B64EBD00ACB05A /* ViewModels */ = {
@@ -392,6 +383,8 @@
 		83DD61342891A6110078100A = {
 			isa = PBXGroup;
 			children = (
+				872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */,
+				872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */,
 				83DD613F2891A6110078100A /* Skillbox Drive */,
 				83DD613E2891A6110078100A /* Products */,
 			);
@@ -408,7 +401,6 @@
 		83DD613F2891A6110078100A /* Skillbox Drive */ = {
 			isa = PBXGroup;
 			children = (
-				830BFC6E29DA0AC600890547 /* CoreDataModels */,
 				830BFC6529DA05A500890547 /* SkillboxDrive.xcdatamodeld */,
 				8705AEC829D56A3900937030 /* Managers */,
 				839974DF29CE25F000628F5C /* Network */,
@@ -590,7 +582,7 @@
 				8368BA0929BC143100ACB05A /* TableViewCellViewModel.swift in Sources */,
 				8368B99729B64F8F00ACB05A /* UIButton + Extensions.swift in Sources */,
 				8368B9E229B7BF7200ACB05A /* AllFilesViewModel.swift in Sources */,
-				830BFC6D29DA0A9D00890547 /* YandexDiskItem+CoreDataProperties.swift in Sources */,
+				872D2B1229DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift in Sources */,
 				838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */,
 				8368B9E829B7C0AE00ACB05A /* LoginCoordinator.swift in Sources */,
 				830BFC5D29D785D600890547 /* PublishedFolderViewController.swift in Sources */,
@@ -599,7 +591,7 @@
 				8368B9E429B7BFB500ACB05A /* UserProfileViewModel.swift in Sources */,
 				83DD61412891A6110078100A /* AppDelegate.swift in Sources */,
 				830BFC5929D762FE00890547 /* PublishedFilesViewModel.swift in Sources */,
-				830BFC6C29DA0A9D00890547 /* YandexDiskItem+CoreDataClass.swift in Sources */,
+				872D2B1129DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift in Sources */,
 				8368B9A229B660C300ACB05A /* DemoViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

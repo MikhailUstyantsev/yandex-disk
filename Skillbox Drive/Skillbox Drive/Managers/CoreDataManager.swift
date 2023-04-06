@@ -35,16 +35,15 @@ final class CoreDataManager {
         return nil
     }
     
-    func saveYandexDiskItem(_ viewModel: TableViewCellViewModel) {
+    func saveYandexDiskItem(_ viewModel: TableViewCellViewModel,_ imageData: Data?) {
         let yandexDiskItem = YandexDiskItem(context: viewContext)
-        yandexDiskItem.setValue(viewModel.name, forKey: "name")
-        yandexDiskItem.setValue(viewModel.size, forKey: "size")
-        yandexDiskItem.setValue(viewModel.preview, forKey: "preview")
-        yandexDiskItem.setValue(viewModel.date, forKey: "created")
-        yandexDiskItem.setValue(viewModel.mediaType, forKey: "mimeType")
-        yandexDiskItem.setValue(viewModel.filePath, forKey: "filePath")
-        yandexDiskItem.setValue(true, forKey: "isSavedLocally")
-        
+        yandexDiskItem.name = viewModel.name
+        yandexDiskItem.size = viewModel.sizeInMegaBytes
+        yandexDiskItem.created = viewModel.formattedDate
+        yandexDiskItem.image = imageData
+        yandexDiskItem.md5 = viewModel.md5
+        yandexDiskItem.mediaType = viewModel.mediaType
+        yandexDiskItem.fileData = viewModel.fileData
         do {
             try viewContext.save()
         } catch {
@@ -75,7 +74,22 @@ final class CoreDataManager {
     }
     
     
-    
+    func checkIfItemExist(md5: String) -> Bool {
+        let request = NSFetchRequest<YandexDiskItem>(entityName: "YandexDiskItem")
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "md5 == %@", md5)
+        do {
+            let count = try viewContext.count(for: request)
+            if count > 0 {
+                return true
+            } else {
+               return false
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return false
+        }
+    }
     
     
 }

@@ -58,8 +58,8 @@ class YDTableViewCell: UITableViewCell {
     let savedFileImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "mark.saved")
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "mark.unsaved")
         return imageView
     }()
     
@@ -96,6 +96,7 @@ class YDTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImageView.image = nil
+        savedFileImageView.image = nil
         nameLabel.text = nil
         dateLabel.text = nil
     }

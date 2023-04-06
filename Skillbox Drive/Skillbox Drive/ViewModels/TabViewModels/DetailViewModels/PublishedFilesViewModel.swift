@@ -27,7 +27,7 @@ final class PublishedFilesViewModel {
     private(set) var files: [YDResource] = [] {
         didSet {
             for file in files where !cellViewModels.contains(where: { $0.name == file.name }) {
-                let viewModel = TableViewCellViewModel(name: file.name, date: file.created, size: file.size ?? 0, preview: file.preview ?? "" , filePath: file.path , mediaType: file.mimeType ?? "", directoryType: file.type)
+                let viewModel = TableViewCellViewModel(name: file.name, date: file.created, size: file.size ?? 0, preview: file.preview ?? "" , filePath: file.path , mediaType: file.mimeType ?? "", directoryType: file.type, md5: file.md5 ?? "")
                 cellViewModels.append(viewModel)
             }
         }

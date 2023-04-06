@@ -14,6 +14,8 @@ final class DetailViewControllerViewModel: NSObject {
     
     var cellViewModel: TableViewCellViewModel?
     
+    var offlineModel: YandexDiskItem?
+    
     var shareFileURL: (String) -> Void = { _ in }
     
     var onRenameUpdate: (YDFileLinkResponse) -> Void = { _ in }

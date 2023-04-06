@@ -6,14 +6,17 @@
 //
 
 import UIKit
-
+import Network
 
 
 class ImageViewDetailViewController: UIViewController {
     
     var viewModel: DetailViewControllerViewModel?
     
+    var networkCheck = NetworkCheck.sharedInstance()
+    
     private let resizableImageView = PanZoomImageView()
+    
     private let activityIndicator = UIActivityIndicatorView()
     
     var items = [UIBarButtonItem]()
@@ -25,7 +28,7 @@ class ImageViewDetailViewController: UIViewController {
         
         viewModel?.onDeleteUpdate = { [weak self] deleteResponse in
             NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
-//            отправляя GET запрос по ссылке, полученной в блоке success удаления файла (тело ответа мы получаем только для непустой папки), мы можем узнать текущий статус операции удаления
+            //            отправляя GET запрос по ссылке, полученной в блоке success удаления файла (тело ответа мы получаем только для непустой папки), мы можем узнать текущий статус операции удаления
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 self?.dismiss(animated: true)
                 guard let label = self?.label else { return }
@@ -36,16 +39,16 @@ class ImageViewDetailViewController: UIViewController {
         viewModel?.onRenameUpdate = { [weak self] renameResponse in
             NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
             //при необходимости можно притащить с сервера новое имя и засетить в тайтл
-//            self?.viewModel?.getFileProperty(renameResponse.href, completion: { fileMetaDataResponse in
+            //            self?.viewModel?.getFileProperty(renameResponse.href, completion: { fileMetaDataResponse in
             //сделал небольшую задержку, чтобы дать время обновить данные в LastUploadedViewController после выпуска нотификации
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                    self?.dismiss(animated: true)
-                    guard let label = self?.label else { return }
-                    self?.removeRenamingLabel(label)
-                }
-//          })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.dismiss(animated: true)
+                guard let label = self?.label else { return }
+                self?.removeRenamingLabel(label)
+            }
+            //          })
         }
-                    
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(renameTapped))
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.backward"), style: .plain, target: self, action: #selector(backTapped))
@@ -68,14 +71,21 @@ class ImageViewDetailViewController: UIViewController {
         setupHierarchy()
         setupLayout()
         
-        viewModel?.downloadFile(completion: { downloadResponse in
-            DispatchQueue.main.async {
-                guard let url = URL(string: downloadResponse.href) else { return }
-                self.resizableImageView.imageView.sd_setImage(with: url) {_,_,_,_ in
-                    self.activityIndicator.stopAnimating()
+        if networkCheck.currentStatus == .satisfied {
+            viewModel?.downloadFile(completion: { downloadResponse in
+                DispatchQueue.main.async {
+                    guard let url = URL(string: downloadResponse.href) else { return }
+                    self.resizableImageView.imageView.sd_setImage(with: url) {_,_,_,_ in
+                        self.activityIndicator.stopAnimating()
+                    }
                 }
+            })
+        } else {
+            if let data = viewModel?.offlineModel?.fileData {
+                resizableImageView.imageView.image = UIImage(data: data)
+                self.activityIndicator.stopAnimating()
             }
-        })
+        }
     }
     
     private func setupViews() {
@@ -119,48 +129,61 @@ class ImageViewDetailViewController: UIViewController {
     
     
     @objc private func renameTapped() {
-        guard let name = viewModel?.cellViewModel?.name else { return }
-        self.presentRenameAlert(name: name) { [weak self] newName in
-            guard let label = self?.label else { return }
-            self?.viewModel?.renameFile(newName)
-            self?.showRenamingLabel(label)
+        if networkCheck.currentStatus == .satisfied {
+            guard let name = viewModel?.cellViewModel?.name else { return }
+            self.presentRenameAlert(name: name) { [weak self] newName in
+                guard let label = self?.label else { return }
+                self?.viewModel?.renameFile(newName)
+                self?.showRenamingLabel(label)
+            }
+        } else {
+            self.presentOfflineAlert()
         }
     }
     
     @objc private func deleteTapped() {
-        self.presentDeleteAlert { [weak self] in
-            self?.viewModel?.deleteFile()
-            guard let label = self?.label else { return }
-            self?.showDeleteLabel(label)
+        if networkCheck.currentStatus == .satisfied {
+            self.presentDeleteAlert { [weak self] in
+                self?.viewModel?.deleteFile()
+                guard let label = self?.label else { return }
+                self?.showDeleteLabel(label)
+            }
+        } else {
+            self.presentOfflineAlert()
         }
     }
     
     @objc private func shareTapped() {
-        self.presentShareAlert { [weak self] in
-            guard let imageData = self?.resizableImageView.imageView.image?.jpegData(compressionQuality: 0.8) else {
-                print("No image found")
-                return
-            }
-            let image = UIImage(data: imageData) as Any
-            let imageName = self?.viewModel?.cellViewModel?.name as Any
-            let vc = UIActivityViewController(activityItems: [image, imageName], applicationActivities: [])
-            DispatchQueue.main.async {
-                vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
-                self?.present(vc, animated: true)
-            }
-//            self?.viewModel?.shareFile()
-            
-        } action2: { [weak self] in
-            self?.viewModel?.shareReferenceToFile()
-            self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
-                let url = URL(string: publicURLstring) as Any
-                let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+        if networkCheck.currentStatus == .satisfied {
+            self.presentShareAlert { [weak self] in
+                guard let imageData = self?.resizableImageView.imageView.image?.jpegData(compressionQuality: 0.8) else {
+                    print("No image found")
+                    return
+                }
+                let image = UIImage(data: imageData) as Any
+                let imageName = self?.viewModel?.cellViewModel?.name as Any
+                let vc = UIActivityViewController(activityItems: [image, imageName], applicationActivities: [])
                 DispatchQueue.main.async {
                     vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
                     self?.present(vc, animated: true)
                 }
+                
+            } action2: { [weak self] in
+                self?.viewModel?.shareReferenceToFile()
+                self?.viewModel?.shareFileURL = { [weak self] publicURLstring in
+                    let url = URL(string: publicURLstring) as Any
+                    let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+                    DispatchQueue.main.async {
+                        vc.popoverPresentationController?.barButtonItem = self?.navigationItem.rightBarButtonItem
+                        self?.present(vc, animated: true)
+                    }
+                }
             }
+        } else {
+            self.presentOfflineAlert()
         }
+        
+        
     }
     
     
