@@ -7,7 +7,7 @@ class DemoViewController: UIPageViewController {
     
     var pages = [UIViewController]()
     
-    let nextButton = UIButton.customButton(title: "Далее", backgroundColor: UIColor(named: "PurpleButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
+    let nextButton = UIButton.customButton(title: Constants.Text.demoNextButton, backgroundColor: UIColor(named: "PurpleButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
     let pageControl = UIPageControl()
     let initialPage = 0
     
@@ -43,11 +43,11 @@ extension DemoViewController {
         
         pageControl.currentPageIndicatorTintColor = .label
         
-        let page1 = OnboardingViewController(imageName: "TwoFolders", titleText: "Теперь ваши документы в одном месте", subtitleText: "")
+        let page1 = OnboardingViewController(imageName: "TwoFolders", titleText: Constants.Text.page1TitleText, subtitleText: "")
         
-        let page2 = OnboardingViewController(imageName: "CheckedFolder", titleText: "Доступ к файлам без интернета", subtitleText: "")
+        let page2 = OnboardingViewController(imageName: "CheckedFolder", titleText: Constants.Text.page2TitleText, subtitleText: "")
         
-        let page3 = OnboardingViewController(imageName: "Pencil", titleText: "Делитесь вашими файлами с другими", subtitleText: "")
+        let page3 = OnboardingViewController(imageName: "Pencil", titleText: Constants.Text.page3TitleText, subtitleText: "")
         
         
         pages.append(page1)

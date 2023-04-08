@@ -54,7 +54,9 @@ final class UserProfileViewModel: ChartViewDelegate {
     func logoutUserProfile() {
         // удалить токен из Keychain
         KeychainManager.shared.delete()
-        
+        //удалить файлы из CoreData
+        CoreDataManager.shared.deleteAllFilesFromCoreData()
+        //переходим на экран с кнопкой "Войти"
         didSendEventClosure(.closeMainTabFlow)
     }
     

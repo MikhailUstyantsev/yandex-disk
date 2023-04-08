@@ -17,7 +17,6 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     var viewModel: LastUploadedViewModel?
     
     let `label` = UILabel()
-    let goodLabel = UILabel()
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -33,17 +32,14 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("In CoreData saved \(CoreDataManager.shared.fetchSavedFiles().count) objects")
-        
         if networkCheck.currentStatus == .satisfied {
             //Do something
-            self.showGoodConnectionLabel(goodLabel)
+
             viewModel?.fetchFiles()
             viewModel?.fetchFilesFromCoreData()
         } else {
             //Show no network alert
             self.showNoConnectionLabel(label)
-            print("No network connection")
             viewModel?.fetchFilesFromCoreData()
         }
         networkCheck.addObserver(observer: self)
@@ -79,20 +75,25 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
             if status == .satisfied {
                        //Do something
                 self.removeNoConnectionLabel(label)
-                self.showGoodConnectionLabel(goodLabel)
+                
+                NSLayoutConstraint.deactivate(offlineConstraints)
+                NSLayoutConstraint.activate(onlineConstraints)
+                
                 viewModel?.cellViewModels.removeAll()
                 viewModel?.fetchFiles()
-                print("We're online!")
             } else if status == .unsatisfied {
                 //Show no network alert
-                self.removeGoodConnectionLabel(goodLabel)
+                
+                NSLayoutConstraint.deactivate(onlineConstraints)
+                NSLayoutConstraint.activate(offlineConstraints)
+                
                 self.showNoConnectionLabel(label)
                 viewModel?.cellViewModels.removeAll()
                 viewModel?.fetchFilesFromCoreData()
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                print("No network connection")
+                
             }
         }
         
@@ -106,7 +107,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        title = "Последние"
+        title = Constants.Text.lastUploadedScreenTitle
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 70
@@ -123,19 +124,40 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         view.addSubviews(tableView, activityIndicator)
     }
     
-    private func setupLayout() {
-     
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+    //   MARK: - Constraints
+        
+        private lazy var commonConstraints: [NSLayoutConstraint] = {
+            return [
                 tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
                 tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-            ])
-        
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+                tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ]
+        }()
+    
+    private lazy var onlineConstraints: [NSLayoutConstraint] = {
+       return [
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+       ]
+    }()
+    
+    private lazy var offlineConstraints: [NSLayoutConstraint] = {
+       return [
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40)
+       ]
+    }()
+    
+    private func setupLayout() {
+    
+        NSLayoutConstraint.activate(commonConstraints)
+        if networkCheck.currentStatus == .satisfied {
+            NSLayoutConstraint.activate(onlineConstraints)
+        } else {
+            NSLayoutConstraint.activate(offlineConstraints)
+        }
+    
     }
     
     

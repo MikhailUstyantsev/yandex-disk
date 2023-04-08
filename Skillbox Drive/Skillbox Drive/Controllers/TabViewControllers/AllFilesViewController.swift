@@ -59,7 +59,7 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        title = "Все файлы"
+        title = Constants.Text.allFilesScreenTitle
         
         tableView.delegate = self
         tableView.dataSource = self

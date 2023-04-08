@@ -114,7 +114,6 @@ final class AllFilesViewModel {
     
     func fetchDirectoryFiles(_ pathForFetchingData: String) {
         //pass here directory path
-        
         let request = YDRequest(endpoint: .resourcesOnly, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(pathForFetchingData)")])
         
         YDService.shared.execute(request, expecting: YDResource.self) { result in

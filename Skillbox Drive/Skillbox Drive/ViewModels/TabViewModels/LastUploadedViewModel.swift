@@ -53,7 +53,8 @@ final class LastUploadedViewModel {
         isLoadingMoreData = true
         print("Fetching more files")
         //create additional request
-//        в блоке success меняем флаг на false
+        //NB! API Яндекс диска не поддерживает пагинацию при запросе последних добавленных файлов
+        //в блоке success меняем флаг на false
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
             self.isLoadingMoreData = false            
         }
@@ -72,8 +73,6 @@ final class LastUploadedViewModel {
     }
     
     func didSelectRowOffline(with viewModel: YandexDiskItem, fileType: String) {
-        print("file type: \(fileType)")
-        print("Downloaded: \(String(describing: viewModel.fileData?.count)) bytes")
         switch fileType.lowercased() {
         case _ where fileType.localizedStandardContains("image"):
             coordinator?.offlineShowImageDetailViewController(with: viewModel)
@@ -93,7 +92,7 @@ final class LastUploadedViewModel {
 //    MARK: - Core Data Methods
     
     func fetchFilesFromCoreData() {
-        // заполнять массив savedInCoreDataFiles при отключении интернета за счет "притаскивания" данных из CoreData и вызывать кложур onUpdate, который будет релоадить таблицу, после чего пользователь увидит сохраненные офлайн файлы
+        // заполнять массив savedInCoreDataFiles при отключении интернета за счет "притаскивания" данных из CoreData
             savedInCoreDataFiles = CoreDataManager.shared.fetchSavedFiles()
     }
     

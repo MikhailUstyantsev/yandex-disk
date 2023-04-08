@@ -16,7 +16,7 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
     
     let pieChart = PieChartView()
     
-    let showPublishedButton = UIButton.customButton(title: "Опубликованные файлы", backgroundColor: .systemBackground, titleColor: .label, fontSize: 18, radius: 5)
+    let showPublishedButton = UIButton.customButton(title: Constants.Text.profilePublishedButtonTitle, backgroundColor: .systemBackground, titleColor: .label, fontSize: 18, radius: 5)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +39,21 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
                 self?.pieChart.drawEntryLabelsEnabled = true
             
                 self?.viewModel?.entries.append(
-                        PieChartDataEntry(value: occupiedEntry/1000, label: "Занято"))
+                    PieChartDataEntry(value: occupiedEntry/1000, label:  Constants.Text.profileOccupied))
                 self?.viewModel?.entries.append(
-                        PieChartDataEntry(value: freeSpaceEntry/1000, label: "Доступно"))
+                    PieChartDataEntry(value: freeSpaceEntry/1000, label: Constants.Text.profileAvailable))
 
                 let set = PieChartDataSet(entries: self?.viewModel?.entries ?? [])
                
                 set.colors = ChartColorTemplates.pastel()
-                let myAttrString = NSAttributedString(string: "\(totalEntry/1000) ГБ", attributes: [
+                let myAttrString = NSAttributedString(string: "\(totalEntry/1000) \(Constants.Text.profileAbbreviationGB)", attributes: [
                     .font: UIFont.systemFont(ofSize: 24, weight: .regular),
                     .foregroundColor: UIColor.label
                 ])
                 self?.pieChart.centerAttributedText = myAttrString
                 
                 self?.pieChart.entryLabelColor = .label
-                set.label = " Гигабайт"
+                set.label = Constants.Text.profilePieChartLabel
                 let data = PieChartData(dataSet: set)
                 self?.pieChart.data = data
             }
@@ -64,7 +64,7 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        title = "Профиль"
+        title = Constants.Text.profileScreenTitle
         pieChart.translatesAutoresizingMaskIntoConstraints = false
         let legend = pieChart.legend
         
@@ -76,7 +76,7 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
         activityIndicator.style = .large
         pieChart.delegate = viewModel
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(logoutTapped))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constants.Text.profileLogoutButton, style: .plain, target: self, action: #selector(logoutTapped))
         
         guard let arrow = UIImage(named: "rightArrow") else { return }
         

@@ -24,7 +24,7 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
     private let noFilesImageView = UIImageView()
     private let noFilesLabel = UILabel()
     
-    private let refreshButton = UIButton.customButton(title: "Обновить", backgroundColor: UIColor(red: 216/255, green: 233/255, blue: 234/255, alpha: 1.0), titleColor: .black, fontSize: 20, radius: 10)
+    private let refreshButton = UIButton.customButton(title: Constants.Text.reload, backgroundColor: UIColor(red: 216/255, green: 233/255, blue: 234/255, alpha: 1.0), titleColor: .black, fontSize: 20, radius: 10)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +76,7 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     private func setupViews() {
-        title = "Опубликованные файлы"
+        title = Constants.Text.publishedFiles
         view.backgroundColor = .systemBackground
         
         tableView.delegate = self
@@ -97,7 +97,7 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         
         noFilesLabel.translatesAutoresizingMaskIntoConstraints = false
         noFilesLabel.isHidden = true
-        noFilesLabel.text = "У вас пока нет опубликованных файлов"
+        noFilesLabel.text = Constants.Text.haveNopublishedFiles
         noFilesLabel.numberOfLines = 2
         noFilesLabel.textAlignment = .center
         noFilesLabel.textColor = .label

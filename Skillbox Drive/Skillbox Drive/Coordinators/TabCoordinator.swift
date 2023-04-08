@@ -30,11 +30,11 @@ enum TabBarPage {
     func pageTitleValue() -> String {
         switch self {
         case .profile:
-            return "Профиль"
+            return Constants.Text.pageTitleProfile
         case .lastUploaded:
-            return "Последние"
+            return  Constants.Text.pageTitleLastUploaded
         case .allFiles:
-            return "Все файлы"
+            return Constants.Text.pageTitleAllFiles
         }
     }
 

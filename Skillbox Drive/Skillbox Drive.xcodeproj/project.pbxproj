@@ -79,6 +79,8 @@
 		8705AECB29D56CF400937030 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8705AECA29D56CF400937030 /* KeychainManager.swift */; };
 		872D2B1129DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */; };
 		872D2B1229DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */; };
+		872D2B1429E029F500E5CAED /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872D2B1329E029F500E5CAED /* Constants.swift */; };
+		872D2B1729E02A1E00E5CAED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872D2B1929E02A1E00E5CAED /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -154,6 +156,10 @@
 		8705AECA29D56CF400937030 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YandexDiskItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YandexDiskItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		872D2B1329E029F500E5CAED /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		872D2B1829E02A1E00E5CAED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		872D2B1A29E02B4000E5CAED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		872D2B1B29E02B4000E5CAED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +231,8 @@
 			children = (
 				8368BA0F29BC1AA100ACB05A /* Fonts */,
 				83DD61492891A6110078100A /* Assets.xcassets */,
+				872D2B1329E029F500E5CAED /* Constants.swift */,
+				872D2B1929E02A1E00E5CAED /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -493,6 +501,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 83DD61342891A6110078100A;
 			packageReferences = (
@@ -514,6 +523,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8368BA1D29BC1CE200ACB05A /* Inter-Thin.ttf in Resources */,
+				872D2B1729E02A1E00E5CAED /* Localizable.strings in Resources */,
 				8368BA1C29BC1CE200ACB05A /* Inter-SemiBold.ttf in Resources */,
 				8368BA2429BC1CE200ACB05A /* Inter-Bold.ttf in Resources */,
 				8368BA2129BC1CE200ACB05A /* Inter-Light.ttf in Resources */,
@@ -569,6 +579,7 @@
 				83178BBE29D3486A00C0CC3D /* YDResourceList.swift in Sources */,
 				8368B9F829B8D94000ACB05A /* YDService.swift in Sources */,
 				836F9C2D29C20AAB00D0DE63 /* PDFViewDetailViewController.swift in Sources */,
+				872D2B1429E029F500E5CAED /* Constants.swift in Sources */,
 				8368B9FA29B8D99300ACB05A /* YDRequest.swift in Sources */,
 				836F9C3429C38F4700D0DE63 /* UnknownDetailViewController.swift in Sources */,
 				839974E129CE262300628F5C /* NetworkCheck.swift in Sources */,
@@ -603,8 +614,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				83DD614C2891A6110078100A /* Base */,
+				872D2B1A29E02B4000E5CAED /* ru */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		872D2B1929E02A1E00E5CAED /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				872D2B1829E02A1E00E5CAED /* en */,
+				872D2B1B29E02B4000E5CAED /* ru */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -614,6 +635,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -674,6 +696,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -748,6 +771,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Mikhail.Ust.Skillbox-Drive";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -778,6 +804,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Mikhail.Ust.Skillbox-Drive";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

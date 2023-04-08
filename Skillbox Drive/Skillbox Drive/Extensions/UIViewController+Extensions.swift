@@ -10,21 +10,21 @@ import UIKit
 
 extension UIViewController {
     
-    func presentUnknownFileAlert(title: String = "К сожалению данный формат пока не поддерживается", message: String? = "Мы работаем над этим", buttonTitle: String = "OK", action: @escaping () -> Void) {
+    func presentUnknownFileAlert(title: String = Constants.Text.notSupportedFormat, message: String? = Constants.Text.workOnSubject, buttonTitle: String = "OK", action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
         alertController.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { _ in
             action()
         }))
         present(alertController, animated: true)
     }
     
-    func presentRenameAlert(title: String = "Переименовать", message: String? = "Введите новое имя файла", buttonTitle: String = "Готово", name: String, action: @escaping (String) -> Void) {
+    func presentRenameAlert(title: String = Constants.Text.renameFile, message: String? = Constants.Text.enterName, buttonTitle: String = Constants.Text.doneButtonTitle, name: String, action: @escaping (String) -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addTextField { textfield in
             textfield.text = name
         }
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
         alertController.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { _ in
             if let newName = alertController.textFields?[0].text {
                 action(newName)
@@ -34,22 +34,22 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
-    func presentDeleteAlert(title: String = "Удалить объект?", message: String? = nil, buttonTitle: String = "Удалить", action: @escaping () -> Void) {
+    func presentDeleteAlert(title: String = Constants.Text.deleteTitle, message: String? = nil, buttonTitle: String = Constants.Text.deleteButton, action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
         alertController.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: { _ in
             action()
         }))
         present(alertController, animated: true)
     }
     
-    func presentShareAlert(title: String = "Поделиться", message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
+    func presentShareAlert(title: String = Constants.Text.shareAlertTitle, message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-        alertController.addAction(UIAlertAction(title: "Файлом", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.shareFileButton, style: .default, handler: { _ in
             action1()
         }))
-        alertController.addAction(UIAlertAction(title: "Ссылкой", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Constants.Text.shareLinkButton, style: .default, handler: { _ in
             action2()
         }))
         present(alertController, animated: true)
@@ -63,7 +63,7 @@ extension UIViewController {
         renamingLabel.layer.cornerRadius = 5
         renamingLabel.translatesAutoresizingMaskIntoConstraints = false
         renamingLabel.textAlignment = .center
-        renamingLabel.text = "Переименовывается..."
+        renamingLabel.text = Constants.Text.renamingLabelText
         view.addSubview(renamingLabel)
         NSLayoutConstraint.activate([
             renamingLabel.widthAnchor.constraint(equalToConstant: view.bounds.size.width - 130),
@@ -88,7 +88,7 @@ extension UIViewController {
         deleteLabel.layer.cornerRadius = 5
         deleteLabel.translatesAutoresizingMaskIntoConstraints = false
         deleteLabel.textAlignment = .center
-        deleteLabel.text = "Удаляется..."
+        deleteLabel.text = Constants.Text.deleteLabelText
         view.addSubview(deleteLabel)
         NSLayoutConstraint.activate([
             deleteLabel.widthAnchor.constraint(equalToConstant: view.bounds.size.width - 130),
@@ -114,7 +114,7 @@ extension UIViewController {
         saveLabel.layer.cornerRadius = 5
         saveLabel.translatesAutoresizingMaskIntoConstraints = false
         saveLabel.textAlignment = .center
-        saveLabel.text = "Сохраняется..."
+        saveLabel.text = Constants.Text.savingLabelText
         view.addSubview(saveLabel)
         NSLayoutConstraint.activate([
             saveLabel.widthAnchor.constraint(equalToConstant: view.bounds.size.width - 130),
@@ -140,7 +140,7 @@ extension UIViewController {
         label.layer.cornerRadius = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.text = "Отсутствует подключение к интернету"
+        label.text = Constants.Text.noConnectionLabelText
         view.addSubview(label)
         NSLayoutConstraint.activate([
             label.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -157,31 +157,6 @@ extension UIViewController {
         }
     }
     
-    func showGoodConnectionLabel(_ label: UILabel) {
-        label.textColor = .label
-        label.numberOfLines = 2
-        label.backgroundColor = .systemGreen
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.clipsToBounds = true
-        label.layer.cornerRadius = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        label.text = "Cоединение установлено"
-        view.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.widthAnchor.constraint(equalTo: view.widthAnchor),
-            label.heightAnchor.constraint(equalToConstant: 40),
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        ])
-    }
-    
-    func removeGoodConnectionLabel(_ label: UILabel) {
-        DispatchQueue.main.async {
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.removeFromSuperview()
-        }
-    }
     
     func showNoFilesLabel() {
         let label = UILabel()
@@ -193,7 +168,7 @@ extension UIViewController {
         label.layer.cornerRadius = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.text = "Директория не содержит файлов"
+        label.text = Constants.Text.noFilesInFolder
         view.addSubview(label)
         NSLayoutConstraint.activate([
             label.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -205,18 +180,18 @@ extension UIViewController {
     
     //    MARK: - Log out Alerts
     
-    func presentLogoutAlert(title: String = "Профиль", message: String? = nil, action: @escaping () -> Void) {
+    func presentLogoutAlert(title: String = Constants.Text.profileScreenTitle, message: String? = nil, action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-        alertController.addAction(UIAlertAction(title: "Выйти", style: .destructive, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.profileLogoutButton, style: .destructive, handler: { _ in
             action()
         }))
         present(alertController, animated: true)
     }
     
-    func presentConfirmLogoutAlert(title: String = "Выход", message: String = "Вы уверены, что хотите выйти?", buttonTitle: String = "Да", action: @escaping () -> Void) {
+    func presentConfirmLogoutAlert(title: String = Constants.Text.profileLogoutButton, message: String = Constants.Text.confirmLogOutTitle, buttonTitle: String = Constants.Text.yes, action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Нет", style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.no, style: .cancel))
         alertController.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: { _ in
             action()
         }))
@@ -227,11 +202,11 @@ extension UIViewController {
     
     func presentPublishedFileActionsAlert(title: String, message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-        alertController.addAction(UIAlertAction(title: "Скачать", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.saveToDevice, style: .default, handler: { _ in
             action1()
         }))
-        alertController.addAction(UIAlertAction(title: "Убрать публикацию", style: .destructive, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Constants.Text.unpublish, style: .destructive, handler: { _ in
             action2()
         }))
         present(alertController, animated: true)
@@ -239,8 +214,8 @@ extension UIViewController {
     
     func presentLastUploadedFileActionsAlert(title: String, message: String? = nil, action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-        alertController.addAction(UIAlertAction(title: "Сохранить офлайн", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.saveToDevice, style: .default, handler: { _ in
             action()
         }))
         present(alertController, animated: true)
@@ -248,7 +223,7 @@ extension UIViewController {
     
     
     //MARK: - OFFLINE ALERT
-    func presentOfflineAlert(title: String = "Отсутствует соединение с интернетом") {
+    func presentOfflineAlert(title: String = Constants.Text.noConnectionLabelText) {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alertController, animated: true)

@@ -46,7 +46,6 @@ final class LoginCoordinator: LoginCoordinatorProtocol {
     }
     
     func goToOnboarding() {
-        print("Go to onboarding")
         let demoViewController = DemoViewController()
         let demoViewModel = DemoViewModel()
         demoViewModel.coordinator = self
@@ -55,7 +54,6 @@ final class LoginCoordinator: LoginCoordinatorProtocol {
     }
     
     func goToAuthPage() {
-        print("Go to AuthPage")
         let authViewController = AuthViewController()
         let authViewModel = AuthViewModel()
         authViewModel.coordinator = self

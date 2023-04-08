@@ -39,7 +39,7 @@ class LoginView: UIView {
             .foregroundColor: UIColor.label
         ]
         
-        let string = "Skillbox Drive"
+        let string = Constants.Text.skillboxDrive
         
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: string)
         
@@ -61,7 +61,7 @@ class LoginView: UIView {
         return stackView
     }()
     
-    private let loginButton = UIButton.customButton(title: "Войти", backgroundColor: UIColor(named: "EnterButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
+    private let loginButton = UIButton.customButton(title: Constants.Text.loginViewButton, backgroundColor: UIColor(named: "EnterButton") ?? .systemBlue, titleColor: .white, fontSize: 16, radius: 10)
     
     private func setupBehaviour() {
         loginButton.addTarget(self, action: #selector(onButtonTapHandler), for: .touchUpInside)

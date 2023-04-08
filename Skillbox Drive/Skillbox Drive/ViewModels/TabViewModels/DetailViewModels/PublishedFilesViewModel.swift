@@ -42,7 +42,6 @@ final class PublishedFilesViewModel {
             case .success(let recievedItems):
                 self.files = recievedItems.items
                 self.onUpdate()
-                print("You've got \(String(describing: recievedItems.items.count)) objects")
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -130,7 +129,7 @@ final class PublishedFilesViewModel {
             return
         }
         isLoadingMoreData = true
-        print("Fetching more files")
+        
         offset += 20
         print(offset)
         //create additional request

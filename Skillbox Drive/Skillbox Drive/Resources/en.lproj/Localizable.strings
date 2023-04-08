@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  Skillbox Drive
+
+  Created by Михаил on 07.04.2023.
+  
+*/
+//MARK: - Login View
+"LoginView.loginButtonTitle"="Log in";
+"SkillboxDrive"="Skillbox Drive";
+
+//MARK: - DemoViewController
+"DemoViewController.nextButton"="Next";
+"DemoViewController.skipButton"="Skip";
+"page1TitleText"="All your documents now in one place";
+"page2TitleText"="Access your files offline";
+"page3TitleText"="Share your files";
+
+//MARK: - TabCoordinator
+"pageTitle.profile"="Profile";
+"pageTitle.lastUploaded"="Last Uploaded";
+"pageTitle.allFiles"="All files";
+
+//MARK: - UserProfileViewController
+"userProfile.publishedButtonTitle"="Published files";
+"userProfile.screenTitle"="Profile";
+"userProfile.occupied"="Occupied";
+"userProfile.available"="Available";
+"userProfile.abbreviationGB"="GB";
+"userProfile.gigabyte"="Gigabyte";
+"userProfile.logoutButton"="Log out";
+
+//MARK: - LastUploadedViewController
+"lastUploaded.screenTitle"="Last uploaded";
+
+//MARK: - AllFilesViewController
+"allFiles.screenTitle"="All files";
+
+//MARK: - extension UIViewController
+"ViewControllerExtension.notSupportedFormat"="Sorry, this format is not supported yet";
+"ViewControllerExtension.workOnSubject"="We work on this subject";
+"ViewControllerExtension.cancel"="Cancel";
+"ViewControllerExtension.renameFile"="Rename";
+"ViewControllerExtension.enterName"="Enter a new file name";
+"ViewControllerExtension.done"="Done";
+"ViewControllerExtension.deleteTitle"="Delete object?";
+"ViewControllerExtension.deleteButton"="Delete";
+"ViewControllerExtension.shareAlertTitle"="Share";
+"ViewControllerExtension.shareFileButton"="File";
+"ViewControllerExtension.shareLinkButton"="Link";
+"ViewControllerExtension.renamingLabelText"="Renaming...";
+"ViewControllerExtension.deleteLabelText"="Deleting...";
+"ViewControllerExtension.savingLabelText"="Saving...";
+"ViewControllerExtension.noConnectionLabelText"="No internet connection";
+"ViewControllerExtension.noFilesInFolder"="Directory contains no files";
+"ViewControllerExtension.signOffTitle"="Sign off";
+"ViewControllerExtension.confirmLogOutTitle"="Are you sure you want to exit profile?";
+"ViewControllerExtension.yes"="Yes";
+"ViewControllerExtension.no"="No";
+"ViewControllerExtension.saveToDevice"="Save to device";
+"ViewControllerExtension.unpublish"="Unpublish";
+
+//MARK: - PublishedFilesViewController
+"ViewControllerExtension.reload"="Reload";
+"ViewControllerExtension.publishedFiles"="Published files";
+"ViewControllerExtension.haveNopublishedFiles"="You don't have any published files yet";

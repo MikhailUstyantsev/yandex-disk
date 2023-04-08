@@ -74,6 +74,19 @@ final class CoreDataManager {
     }
     
     
+    func deleteAllFilesFromCoreData() {
+        let request: NSFetchRequest<YandexDiskItem> = YandexDiskItem.fetchRequest()
+        do {
+            let files = try viewContext.fetch(request)
+            files.forEach { file in
+                deleteItem(file)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    
     func checkIfItemExist(md5: String) -> Bool {
         let request = NSFetchRequest<YandexDiskItem>(entityName: "YandexDiskItem")
         request.fetchLimit = 1

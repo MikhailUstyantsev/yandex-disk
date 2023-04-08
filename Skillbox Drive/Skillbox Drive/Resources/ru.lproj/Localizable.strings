@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  Skillbox Drive
+
+  Created by Михаил on 07.04.2023.
+  
+*/
+//MARK: - Login View
+"LoginView.loginButtonTitle"="Войти";
+"SkillboxDrive"="Skillbox Диск";
+
+//MARK: - DemoViewController
+"DemoViewController.nextButton"="Далее";
+"DemoViewController.skipButton"="Пропустить";
+"page1TitleText"="Теперь ваши документы в одном месте";
+"page2TitleText"="Доступ к файлам без интернета";
+"page3TitleText"="Делитесь вашими файлами с другими";
+
+//MARK: - TabCoordinator
+"pageTitle.profile"="Профиль";
+"pageTitle.lastUploaded"="Последние";
+"pageTitle.allFiles"="Все файлы";
+
+//MARK: - UserProfileViewController
+"userProfile.publishedButtonTitle"="Опубликованные файлы";
+"userProfile.screenTitle"="Профиль";
+"userProfile.occupied"="Занято";
+"userProfile.available"="Доступно";
+"userProfile.abbreviationGB"="ГБ";
+"userProfile.gigabyte"="Гигабайт";
+"userProfile.logoutButton"="Выйти";
+
+//MARK: - LastUploadedViewController
+"lastUploaded.screenTitle"="Последние";
+
+//MARK: - AllFilesViewController
+"allFiles.screenTitle"="Все файлы";
+
+//MARK: - extension UIViewController
+"ViewControllerExtension.notSupportedFormat"="К сожалению данный формат пока не поддерживается";
+"ViewControllerExtension.workOnSubject"="Мы работаем над этим";
+"ViewControllerExtension.cancel"="Отмена";
+"ViewControllerExtension.renameFile"="Переименовать";
+"ViewControllerExtension.enterName"="Введите новое имя файла";
+"ViewControllerExtension.done"="Готово";
+"ViewControllerExtension.deleteTitle"="Удалить объект?";
+"ViewControllerExtension.deleteButton"="Удалить";
+"ViewControllerExtension.shareAlertTitle"="Поделиться";
+"ViewControllerExtension.shareFileButton"="Файлом";
+"ViewControllerExtension.shareLinkButton"="Ссылкой";
+"ViewControllerExtension.renamingLabelText"="Переименовывается...";
+"ViewControllerExtension.deleteLabelText"="Удаляется...";
+"ViewControllerExtension.savingLabelText"="Сохраняется...";
+"ViewControllerExtension.noConnectionLabelText"="Отсутствует подключение к интернету";
+"ViewControllerExtension.noFilesInFolder"="Директория не содержит файлов";
+"ViewControllerExtension.signOffTitle"="Выход";
+"ViewControllerExtension.confirmLogOutTitle"="Вы уверены, что хотите выйти?";
+"ViewControllerExtension.yes"="Да";
+"ViewControllerExtension.no"="Нет";
+"ViewControllerExtension.saveToDevice"="Скачать";
+"ViewControllerExtension.unpublish"="Убрать публикацию";
+
+//MARK: - PublishedFilesViewController
+"ViewControllerExtension.reload"="Обновить";
+"ViewControllerExtension.publishedFiles"="Опубликованные файлы";
+"ViewControllerExtension.haveNopublishedFiles"="У вас пока нет опубликованных файлов";
