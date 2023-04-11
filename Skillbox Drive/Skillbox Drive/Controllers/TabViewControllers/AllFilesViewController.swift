@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Network
 
 class AllFilesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     var viewModel: AllFilesViewModel?
     
+    var count: Int = 0
+    
+    var networkCheck = NetworkCheck.sharedInstance()
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -21,6 +25,7 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
         return table
     }()
     
+    let `label` = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +96,37 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
         guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
+      
+        if CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
+                cell.savedFileImageView.image = UIImage(named: "mark.saved")
+        } else {
+            cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
+        }
+       
+        
+        YDService.shared.downloadFile(path: viewModel.filePath) { downloadResponse in
+                // setting up the local cache URL
+                let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                // setting up the local cache file URL to the file itself using unique ID - md5
+            let localFileURL = localCacheURL.appendingPathComponent(viewModel.md5)
+                DispatchQueue.global().async {
+                    if let downloadFileURL = URL(string: downloadResponse.href) {
+                        let data = try? Data(contentsOf: downloadFileURL)
+                        DispatchQueue.main.async {
+                            do {
+                                try? data?.write(to: localFileURL)
+                            }
+                        }
+                        let filePath = localFileURL.path
+                        if let dataToSave = data {
+                            //таким образом по адресу localFileURL.path будет лежать файл с уникальным идентификатором md5 и данными dataToSave
+                            YDService.shared.moveItemToLocalStorage(filePath: filePath, data: dataToSave)
+                    }
+                }
+            }
+        }
+        
+        
         cell.downloadButtonPressed = {
             print("cell button tapped")
             // 1. Сохранить вьюмодель данной ячейки в CoreData
@@ -119,12 +155,15 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         guard let viewModelToPass = viewModel?.cellViewModels[indexPath.row] else { return }
         guard let mediaType = viewModel?.cellViewModels[indexPath.row].mediaType else { return }
         
         guard let dirType = viewModel?.cellViewModels[indexPath.row].directoryType else { return }
         
         viewModel?.didSelectRow(with: viewModelToPass, fileType: mediaType, directoryType: dirType)
+        
+ 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

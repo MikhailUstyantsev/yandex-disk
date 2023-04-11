@@ -83,6 +83,8 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
         showPublishedButton.contentHorizontalAlignment = .left
         showPublishedButton.addRightImage(image: arrow, offset: 5)
         showPublishedButton.addTarget(self, action: #selector(openPublishedTapped), for: .touchUpInside)
+        
+        showPublishedButton.createDefaultShadow(for: showPublishedButton, cornerRadius: 5)
     }
     
     @objc private func logoutTapped() {
@@ -114,6 +116,7 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
             
             showPublishedButton.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             showPublishedButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            showPublishedButton.heightAnchor.constraint(equalToConstant: 40),
             showPublishedButton.topAnchor.constraint(equalTo: pieChart.bottomAnchor, constant: 50)
         ])
     }

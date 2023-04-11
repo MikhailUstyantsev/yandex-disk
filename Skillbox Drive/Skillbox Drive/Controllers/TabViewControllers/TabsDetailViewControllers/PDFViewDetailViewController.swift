@@ -69,10 +69,23 @@ class PDFViewDetailViewController: UIViewController {
         
         if networkCheck.currentStatus == .satisfied {
             viewModel?.downloadFile(completion: { downloadResponse in
-                self.resourceUrl = URL(string: downloadResponse.href)
-                self.displayPdf()
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
+                //load image from local storage
+                let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                let localFileURL = localCacheURL.appendingPathComponent(self.viewModel?.cellViewModel?.md5 ?? "")
+                let path = localFileURL.path
+                //если по указанному пути есть файл, то грузим оттуда картинку (открытие происходит быстро, так как предварительно файл с уникальным идентификатором был сохранен в кеш)
+                if FileManager.default.fileExists(atPath: path) {
+                    self.resourceUrl = URL(string: localFileURL.absoluteString)
+                    self.displayPdf()
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                } else {
+                    self.resourceUrl = URL(string: downloadResponse.href)
+                    self.displayPdf()
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
                 }
             })
         } else {

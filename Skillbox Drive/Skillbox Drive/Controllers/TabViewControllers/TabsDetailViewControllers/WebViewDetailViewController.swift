@@ -20,9 +20,6 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     private let `label` = UILabel()
     var items = [UIBarButtonItem]()
     
-    var downloadFileURLString: String = ""
-    
-    var dataToShare: Data?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,22 +67,40 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
         
         if networkCheck.currentStatus == .satisfied {
             viewModel?.downloadFile(completion: { downloadResponse in
-                self.downloadFileURLString = downloadResponse.href
+                //пытаемся сначал получить файл из локального кеша
+                let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                let localFileURL = localCacheURL.appendingPathComponent(self.viewModel?.cellViewModel?.md5 ?? "")
+                let path = localFileURL.path
+                //если по указанному пути есть файл, то грузим оттуда файл (открытие происходит быстро, так как предварительно файл с уникальным идентификатором был сохранен в кеш)
+                if FileManager.default.fileExists(atPath: path) {
+                    guard let data = FileManager.default.contents(atPath: path) else { return }
+                    guard let mimeType = self.viewModel?.cellViewModel?.mediaType else { return }
+                    print(data.count as Any)
+                    DispatchQueue.main.async {
+                        self.webView.load(data, mimeType: mimeType, characterEncodingName: "UTF-8", baseURL: localCacheURL)
+//                        self.webView.load(localFileURL.absoluteString)
+//                        self.webView.loadFileURL(localFileURL, allowingReadAccessTo: localCacheURL)
+                        self.activityIndicator.stopAnimating()
+                    }
+                } else {
+                    //если условие не прошло проверку, то грузим файл в вебвью предварительно скачанный по удаленному URL напрямую с Яндекс Диска - а скачиваем файл опять же в documentDirectory - это нужно для того, чтобы иметь возможность поделиться непосредственно файлом
+                
                 // setting up the local URL
                 let localURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 // setting up the local URL to the file itself
                 let fileName = self.viewModel?.cellViewModel?.name
                 let fileURL = URL(fileURLWithPath: "\(fileName ?? "unknown")", relativeTo: localURL).appendingPathExtension("\(self.viewModel?.cellViewModel?.mediaType ?? "unknown")")
                 // download the file and save to local storage
-                if let downloadFileURL = URL(string: self.downloadFileURLString) {
+                if let downloadFileURL = URL(string: downloadResponse.href) {
                     DispatchQueue.global().async {
                         let data = try? Data(contentsOf: downloadFileURL)
                         DispatchQueue.main.async {
                             do {
                                 try? data?.write(to: fileURL)
                             }
-                            //present file into webView using link to local storage
                             self.webView.load(fileURL.absoluteString)
+                            self.activityIndicator.stopAnimating()
+                            }
                         }
                     }
                 }
@@ -109,6 +124,16 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
             }
         }
         
+    }
+    
+    
+    func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let serverTrust = challenge.protectionSpace.serverTrust  else {
+            completionHandler(.useCredential, nil)
+            return
+        }
+        let credential = URLCredential(trust: serverTrust)
+        completionHandler(.useCredential, credential)
     }
     
     private func setupViews() {

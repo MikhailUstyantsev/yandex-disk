@@ -25,8 +25,8 @@ extension UIButton {
             self.setImage(image, for: .normal)
             self.imageView?.translatesAutoresizingMaskIntoConstraints = false
 //            self.imageView?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0.0).isActive = true
-        self.imageView?.topAnchor.constraint(equalTo: self.topAnchor, constant: 4.0).isActive = true
-        self.imageView?.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4.0).isActive = true
+        self.imageView?.topAnchor.constraint(equalTo: self.topAnchor, constant: 10.0).isActive = true
+        self.imageView?.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
             self.imageView?.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -offset).isActive = true
         }
     

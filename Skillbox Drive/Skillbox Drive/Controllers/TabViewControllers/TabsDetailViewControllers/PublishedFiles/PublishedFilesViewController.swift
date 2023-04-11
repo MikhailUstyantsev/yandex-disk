@@ -40,13 +40,15 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         serviceViewModel?.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
-                if self?.serviceViewModel?.cellViewModels.count == 0 {
-                    //показать сообщение и картинку об отсутствии опубликованных файлов
-                    self?.noFilesImageView.isHidden = false
-                    self?.noFilesLabel.isHidden = false
-                    self?.refreshButton.isHidden = false
-                }
                 self?.tableView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if self?.serviceViewModel?.cellViewModels.count == 0 {
+                        //показать сообщение и картинку об отсутствии опубликованных файлов
+                        self?.noFilesImageView.isHidden = false
+                        self?.noFilesLabel.isHidden = false
+                        self?.refreshButton.isHidden = false
+                    }
+                }
             }
         }
         
@@ -71,6 +73,11 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
     
 
     @objc func filesDidChanged(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.noFilesImageView.isHidden = true
+            self.noFilesLabel.isHidden = true
+            self.refreshButton.isHidden = true
+        }
         serviceViewModel?.cellViewModels.removeAll()
         serviceViewModel?.fetchPublishedFiles()
     }
@@ -105,6 +112,8 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         
         refreshButton.isHidden = true
         refreshButton.addTarget(self, action: #selector(didPullToRefresh), for: .touchUpInside)
+        
+        refreshButton.createDefaultShadow(for: refreshButton, cornerRadius: 10)
     }
 
     
@@ -143,6 +152,13 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
         guard let viewModel = serviceViewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
+        
+        if CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
+                cell.savedFileImageView.image = UIImage(named: "mark.saved")
+        } else {
+            cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
+        }
+        
         cell.downloadButtonPressed = { [weak self] in
             self?.presentPublishedFileActionsAlert(title: viewModel.name, action1: {
                 print("download file tapped")

@@ -75,8 +75,19 @@ class ImageViewDetailViewController: UIViewController {
             viewModel?.downloadFile(completion: { downloadResponse in
                 DispatchQueue.main.async {
                     guard let url = URL(string: downloadResponse.href) else { return }
-                    self.resizableImageView.imageView.sd_setImage(with: url) {_,_,_,_ in
+                    //load image from local storage
+                    let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                    let localFileURL = localCacheURL.appendingPathComponent(self.viewModel?.cellViewModel?.md5 ?? "")
+                    let path = localFileURL.path
+                    //если по указанному пути есть файл, то грузим оттуда картинку (открытие происходит быстро, так как предварительно файл с уникальным идентификатором был сохранен в кеш)
+                    if FileManager.default.fileExists(atPath: path) {
+                        self.resizableImageView.imageView.image = UIImage(contentsOfFile: path)
                         self.activityIndicator.stopAnimating()
+                    } else {
+                        //если условие не прошло проверку, то грузим файл по удаленному URL напрямую с Яндекс Диска
+                        self.resizableImageView.imageView.sd_setImage(with: url) {_,_,_,_ in
+                            self.activityIndicator.stopAnimating()
+                        }
                     }
                 }
             })

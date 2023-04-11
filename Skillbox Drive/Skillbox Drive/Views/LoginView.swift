@@ -110,6 +110,7 @@ class LoginView: UIView {
         backgroundColor = .systemBackground
         NSLayoutConstraint.activate(commonConstraints)
         configureView(for: traitCollection)
+        loginButton.createDefaultShadow(for: loginButton, cornerRadius: 10)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

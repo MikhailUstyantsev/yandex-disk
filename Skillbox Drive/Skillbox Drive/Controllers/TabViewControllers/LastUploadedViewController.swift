@@ -185,7 +185,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
                             self?.showSaveLabel(label)
                         }
                         //отправить запрос на скачивание файла (как перед открытием детального VC)
-                        self?.viewModel?.downloadFile(path: viewModel.filePath, completion: { linkResponse in
+                        YDService.shared.downloadFile(path: viewModel.filePath, completion: { linkResponse in
                             //из полученного ответа извлекаем ссылку для скачивания файла и скачиваем в виде Data
                             DispatchQueue.main.async {
                                 guard let url = URL(string: linkResponse.href) else { return }
@@ -207,6 +207,8 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
                                                     self?.removeSaveLabel(label)
                                                 }
                                                 self?.viewModel?.saveFileToCoreData(viewModel, previewImageData)
+                                                //отправляем уведомление через NotificationCenter, чтобы все контроллеры обновили закладку сохранения файла в своих таблицах
+                                                NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
                                                 //Показать картинку закладку сохранения файла в cell.savedFileImageView
                                                 cell.savedFileImageView.image = UIImage(named: "mark.saved")
                                             }

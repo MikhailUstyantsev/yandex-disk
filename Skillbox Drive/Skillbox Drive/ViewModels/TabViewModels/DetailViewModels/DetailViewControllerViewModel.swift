@@ -100,6 +100,8 @@ final class DetailViewControllerViewModel: NSObject {
                 self.getFileMetaData(success.href) { fileMetaData in
                     //передаем эту ссылку (string) в комплишн
                     guard let urlString = fileMetaData.publicURL else { return }
+                    //отправляем уведомление, чтобы автоматически обновился список в контроллере опубликованных файлов
+                    NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
                     self.shareFileURL(urlString)
                     //в контроллере реализуем комплишн, презентуя UIActivityViewController
                 }

@@ -97,25 +97,12 @@ final class LastUploadedViewModel {
     }
     
     func saveFileToCoreData(_ viewModelToSave: TableViewCellViewModel,_ imageData: Data?) {
-        // сохранить переданную модель в виде объекта CoreData
+        // сохранить переданную ВьюМодель в виде объекта CoreData
         CoreDataManager.shared.saveYandexDiskItem(viewModelToSave, imageData)
 
     }
     
-//    MARK: - Download file
-    
-    func downloadFile(path: String, completion: @escaping (YDFileLinkResponse)->Void) {
-        let request = YDRequest(endpoint: .download, httpMethod: "GET", pathComponents: [], queryParameters: [URLQueryItem(name: "path", value: "\(path)")])
-        
-        YDService.shared.execute(request, expecting: YDFileLinkResponse.self) { result in
-            switch result {
-            case .success(let downloadResponse):
-                completion(downloadResponse)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
+
     
     deinit {
         print("Deinit from LastUploadedViewModel")
