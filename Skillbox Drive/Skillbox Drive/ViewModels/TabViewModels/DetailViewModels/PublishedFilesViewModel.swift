@@ -21,6 +21,8 @@ final class PublishedFilesViewModel {
     
     var cellViewModels: [TableViewCellViewModel] = []
     
+    var savedInCoreDataFiles: [YandexDiskItem] = []
+    
     private var offset = 0
     private let limit = 20
     
@@ -194,6 +196,20 @@ final class PublishedFilesViewModel {
             }
         }
     }
+    
+    //    MARK: - Core Data Methods
+        
+        func fetchFilesFromCoreData() {
+            // заполнять массив savedInCoreDataFiles при отключении интернета за счет "притаскивания" данных из CoreData
+                savedInCoreDataFiles = CoreDataManager.shared.fetchSavedFiles()
+        }
+        
+        func saveFileToCoreData(_ viewModelToSave: TableViewCellViewModel,_ imageData: Data?) {
+            // сохранить переданную ВьюМодель в виде объекта CoreData
+            CoreDataManager.shared.saveYandexDiskItem(viewModelToSave, imageData)
+
+        }
+    
     
     deinit {
         print("Deinit from PublishedFilesViewModel")

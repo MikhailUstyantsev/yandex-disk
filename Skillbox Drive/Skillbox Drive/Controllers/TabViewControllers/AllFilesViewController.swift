@@ -8,11 +8,9 @@
 import UIKit
 import Network
 
-class AllFilesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class AllFilesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, NetworkCheckObserver {
     
     var viewModel: AllFilesViewModel?
-    
-    var count: Int = 0
     
     var networkCheck = NetworkCheck.sharedInstance()
     
@@ -30,7 +28,21 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator.startAnimating()
+        
+        if networkCheck.currentStatus == .satisfied {
+            //Do something
+            activityIndicator.startAnimating()
+            viewModel?.fetchFiles()
+            viewModel?.fetchFilesFromCoreData()
+        } else {
+            //Show no network alert
+            self.showNoConnectionLabel(label)
+            viewModel?.fetchFilesFromCoreData()
+        }
+        
+        networkCheck.addObserver(observer: self)
+        
+       
         
         setupViews()
         setupHierarchy()
@@ -45,8 +57,6 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-        viewModel?.fetchFiles()
-        
         viewModel?.refreshTableView = { [weak self] in
             self?.viewModel?.cellViewModels.removeAll()
             DispatchQueue.main.async {
@@ -56,6 +66,34 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
     }
+    
+    //        MARK: - Change of Network Status
+
+        func statusDidChange(status: NWPath.Status) {
+                if status == .satisfied {
+                           //Do something
+                    self.removeNoConnectionLabel(label)
+                    
+                    NSLayoutConstraint.deactivate(offlineConstraints)
+                    NSLayoutConstraint.activate(onlineConstraints)
+                    
+                    viewModel?.cellViewModels.removeAll()
+                    viewModel?.fetchFiles()
+                } else if status == .unsatisfied {
+                    //Show no network alert
+                    
+                    NSLayoutConstraint.deactivate(onlineConstraints)
+                    NSLayoutConstraint.activate(offlineConstraints)
+                    
+                    self.showNoConnectionLabel(label)
+                    viewModel?.cellViewModels.removeAll()
+                    viewModel?.fetchFilesFromCoreData()
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    
+                }
+            }
     
     @objc func filesDidChanged(_ notification: Notification) {
         viewModel?.cellViewModels.removeAll()
@@ -82,33 +120,68 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubviews(tableView, activityIndicator)
     }
     
-    private func setupLayout() {
-        tableView.pinToSuperviewEdges()
+    
+    //   MARK: - Constraints
         
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
+        private lazy var commonConstraints: [NSLayoutConstraint] = {
+            return [
+                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ]
+        }()
+    
+    private lazy var onlineConstraints: [NSLayoutConstraint] = {
+       return [
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+       ]
+    }()
+    
+    private lazy var offlineConstraints: [NSLayoutConstraint] = {
+       return [
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40)
+       ]
+    }()
+    
+    
+    private func setupLayout() {
+        
+            NSLayoutConstraint.activate(commonConstraints)
+            if networkCheck.currentStatus == .satisfied {
+                NSLayoutConstraint.activate(onlineConstraints)
+            } else {
+                NSLayoutConstraint.activate(offlineConstraints)
+            }
+        
+        }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
-        guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
-        cell.update(with: viewModel)
-      
-        if CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
-                cell.savedFileImageView.image = UIImage(named: "mark.saved")
-        } else {
-            cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? YDTableViewCell else {
+            return UITableViewCell()
         }
-       
         
-        YDService.shared.downloadFile(path: viewModel.filePath) { downloadResponse in
+        if networkCheck.currentStatus == .satisfied {
+            
+            guard let viewModel = viewModel?.cellViewModels[indexPath.row] else { return cell }
+            cell.update(with: viewModel)
+            
+            if CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
+                cell.savedFileImageView.image = UIImage(named: "mark.saved")
+            } else {
+                cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
+            }
+            
+            
+            YDService.shared.downloadFile(path: viewModel.filePath) { downloadResponse in
                 // setting up the local cache URL
                 let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
                 // setting up the local cache file URL to the file itself using unique ID - md5
-            let localFileURL = localCacheURL.appendingPathComponent(viewModel.md5)
+                let localFileURL = localCacheURL.appendingPathComponent(viewModel.md5)
                 DispatchQueue.global().async {
                     if let downloadFileURL = URL(string: downloadResponse.href) {
                         let data = try? Data(contentsOf: downloadFileURL)
@@ -121,24 +194,46 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
                         if let dataToSave = data {
                             //таким образом по адресу localFileURL.path будет лежать файл с уникальным идентификатором md5 и данными dataToSave
                             YDService.shared.moveItemToLocalStorage(filePath: filePath, data: dataToSave)
+                        }
                     }
                 }
             }
+            
+            cell.downloadButtonPressed = {
+                // сохранить из CoreData
+                print("cell button tapped")
+                // 1. Сохранить вьюмодель данной ячейки в CoreData
+                // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
+                // 3. Обновить картинку кнопки загрузки на "download.finish"
+            }
+        } else {
+            if let viewModel = viewModel?.savedInCoreDataFiles[indexPath.row] {
+                cell.nameLabel.text = viewModel.name
+                cell.sizeLabel.text = viewModel.size
+                cell.dateLabel.text = viewModel.created
+                if let data = viewModel.image {
+                    cell.cellImageView.image = UIImage(data: data)
+                }
+                cell.savedFileImageView.image = UIImage(named: "mark.saved")
+                cell.downloadButtonPressed = {
+                    // удалить из CoreData
+                }
+            }
         }
-        
-        
-        cell.downloadButtonPressed = {
-            print("cell button tapped")
-            // 1. Сохранить вьюмодель данной ячейки в CoreData
-            // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
-            // 3. Обновить картинку кнопки загрузки на "download.finish"
-        }
+            
         cell.selectionStyle = .default
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.cellViewModels.count ?? 0
+        if networkCheck.currentStatus == .satisfied {
+            return viewModel?.cellViewModels.count ?? 0
+        } else {
+            if viewModel?.savedInCoreDataFiles.count ?? 0 < 20 {
+                viewModel?.isShowLoader = false
+            }
+            return viewModel?.savedInCoreDataFiles.count ?? 0
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -156,14 +251,18 @@ class AllFilesViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard let viewModelToPass = viewModel?.cellViewModels[indexPath.row] else { return }
-        guard let mediaType = viewModel?.cellViewModels[indexPath.row].mediaType else { return }
-        
-        guard let dirType = viewModel?.cellViewModels[indexPath.row].directoryType else { return }
-        
-        viewModel?.didSelectRow(with: viewModelToPass, fileType: mediaType, directoryType: dirType)
-        
+        if networkCheck.currentStatus == .satisfied {
+            guard let viewModelToPass = viewModel?.cellViewModels[indexPath.row] else { return }
+            guard let mediaType = viewModel?.cellViewModels[indexPath.row].mediaType else { return }
+            
+            guard let dirType = viewModel?.cellViewModels[indexPath.row].directoryType else { return }
+            
+            viewModel?.didSelectRow(with: viewModelToPass, fileType: mediaType, directoryType: dirType)
+        } else {
+            
+        }
  
+        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -16,6 +16,7 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     var networkCheck = NetworkCheck.sharedInstance()
     
     private let webView = WKWebView()
+    
     private let activityIndicator = UIActivityIndicatorView()
     private let `label` = UILabel()
     var items = [UIBarButtonItem]()
@@ -67,22 +68,24 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
         
         if networkCheck.currentStatus == .satisfied {
             viewModel?.downloadFile(completion: { downloadResponse in
-                //пытаемся сначал получить файл из локального кеша
+                //пытаемся сначала получить файл из локального кеша
                 let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
                 let localFileURL = localCacheURL.appendingPathComponent(self.viewModel?.cellViewModel?.md5 ?? "")
+
                 let path = localFileURL.path
+//           TODO: Загрузка из локального кеша с помощью HTML занимает такое же кол-во времени, как и загрузка с удаленного URL, другие реализации локальной загрузки офисных файлов пока не приводят к результату - баг вебвью?
                 //если по указанному пути есть файл, то грузим оттуда файл (открытие происходит быстро, так как предварительно файл с уникальным идентификатором был сохранен в кеш)
-                if FileManager.default.fileExists(atPath: path) {
-                    guard let data = FileManager.default.contents(atPath: path) else { return }
-                    guard let mimeType = self.viewModel?.cellViewModel?.mediaType else { return }
-                    print(data.count as Any)
-                    DispatchQueue.main.async {
-                        self.webView.load(data, mimeType: mimeType, characterEncodingName: "UTF-8", baseURL: localCacheURL)
-//                        self.webView.load(localFileURL.absoluteString)
-//                        self.webView.loadFileURL(localFileURL, allowingReadAccessTo: localCacheURL)
-                        self.activityIndicator.stopAnimating()
-                    }
-                } else {
+//                if FileManager.default.fileExists(atPath: path) {
+//                    guard let data = FileManager.default.contents(atPath: path) else { return }
+//                    guard let mimeType = self.viewModel?.cellViewModel?.mediaType else { return }
+//                    print(data.count as Any)
+//                    let htmlContent = "<iframe width=\"100%\" height=\"100%\" src=\"data:\(mimeType);base64,\(data.base64EncodedString())\"></iframe>"
+//                    DispatchQueue.main.async {
+//                        self.webView.loadHTMLString(htmlContent, baseURL: nil)
+////                        self.webView.loadFileURL(localFileURL, allowingReadAccessTo: localFileURL)
+//                        self.activityIndicator.stopAnimating()
+//                    }
+//                } else {
                     //если условие не прошло проверку, то грузим файл в вебвью предварительно скачанный по удаленному URL напрямую с Яндекс Диска - а скачиваем файл опять же в documentDirectory - это нужно для того, чтобы иметь возможность поделиться непосредственно файлом
                 
                 // setting up the local URL
@@ -102,7 +105,7 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
                             self.activityIndicator.stopAnimating()
                             }
                         }
-                    }
+//                    }
                 }
             })
         } else {
@@ -247,3 +250,6 @@ class WebViewDetailViewController: UIViewController,  WKNavigationDelegate, WKUI
     
     
 }
+
+
+

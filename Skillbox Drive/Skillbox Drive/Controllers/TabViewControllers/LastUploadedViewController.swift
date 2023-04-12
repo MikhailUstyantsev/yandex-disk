@@ -34,7 +34,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         if networkCheck.currentStatus == .satisfied {
             //Do something
-
+            activityIndicator.startAnimating()
             viewModel?.fetchFiles()
             viewModel?.fetchFilesFromCoreData()
         } else {
@@ -46,7 +46,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
         
-        activityIndicator.startAnimating()
+       
         // Do any additional setup after loading the view.
         setupViews()
         setupHierarchy()

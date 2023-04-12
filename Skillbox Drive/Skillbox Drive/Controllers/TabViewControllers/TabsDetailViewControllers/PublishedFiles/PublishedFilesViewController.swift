@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import Network
 
-class PublishedFilesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PublishedFilesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NetworkCheckObserver {
 
     var dataViewModel: TableViewCellViewModel?
     var serviceViewModel: PublishedFilesViewModel?
+    
+    var networkCheck = NetworkCheck.sharedInstance()
+    
+    let `label` = UILabel()
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -29,11 +34,26 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        activityIndicator.startAnimating()
+        if networkCheck.currentStatus == .satisfied {
+            //Do something
+            activityIndicator.startAnimating()
+            serviceViewModel?.fetchPublishedFiles()
+            serviceViewModel?.fetchFilesFromCoreData()
+        } else {
+            //Show no network alert
+            self.showNoConnectionLabel(label)
+            
+        }
+        
+        networkCheck.addObserver(observer: self)
         
         setupViews()
         setupHierarchy()
         setupLayout()
+        
+        
+        
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
         
@@ -81,6 +101,28 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         serviceViewModel?.cellViewModels.removeAll()
         serviceViewModel?.fetchPublishedFiles()
     }
+    
+    
+    func statusDidChange(status: NWPath.Status) {
+            if status == .satisfied {
+                       //Do something
+                self.removeNoConnectionLabel(label)
+                serviceViewModel?.cellViewModels.removeAll()
+                serviceViewModel?.fetchPublishedFiles()
+            } else if status == .unsatisfied {
+                //Show no network alert
+                self.noFilesImageView.isHidden = true
+                self.noFilesLabel.isHidden = true
+                self.refreshButton.isHidden = true
+                self.showNoConnectionLabel(label)
+                serviceViewModel?.cellViewModels.removeAll()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            }
+        }
+    
     
     private func setupViews() {
         title = Constants.Text.publishedFiles

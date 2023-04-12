@@ -7,10 +7,15 @@
 
 import UIKit
 import Charts
+import Network
 
-class UserProfileViewController: UIViewController, ChartViewDelegate {
+class UserProfileViewController: UIViewController, ChartViewDelegate, NetworkCheckObserver {
 
     var viewModel: UserProfileViewModel?
+    
+    var networkCheck = NetworkCheck.sharedInstance()
+    
+    let `label` = UILabel()
     
     private let activityIndicator = UIActivityIndicatorView()
     
@@ -21,45 +26,55 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
-        setupHierarchy()
-        
-        activityIndicator.startAnimating()
-        
-        viewModel?.fetchDiskData()
-        
-        setupLayout()
-        
-        viewModel?.onUpdate = { [weak self] in
-            DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-
-                guard let occupiedEntry = self?.viewModel?.occupiedData, let totalEntry = self?.viewModel?.totalData, let freeSpaceEntry = self?.viewModel?.freeSpace else { return }
-                
-                self?.pieChart.drawEntryLabelsEnabled = true
+        if networkCheck.currentStatus == .satisfied {
             
-                self?.viewModel?.entries.append(
-                    PieChartDataEntry(value: occupiedEntry/1000, label:  Constants.Text.profileOccupied))
-                self?.viewModel?.entries.append(
-                    PieChartDataEntry(value: freeSpaceEntry/1000, label: Constants.Text.profileAvailable))
-
-                let set = PieChartDataSet(entries: self?.viewModel?.entries ?? [])
-               
-                set.colors = ChartColorTemplates.pastel()
-                let myAttrString = NSAttributedString(string: "\(totalEntry/1000) \(Constants.Text.profileAbbreviationGB)", attributes: [
-                    .font: UIFont.systemFont(ofSize: 24, weight: .regular),
-                    .foregroundColor: UIColor.label
-                ])
-                self?.pieChart.centerAttributedText = myAttrString
-                
-                self?.pieChart.entryLabelColor = .label
-                set.label = Constants.Text.profilePieChartLabel
-                let data = PieChartData(dataSet: set)
-                self?.pieChart.data = data
+            setupViews()
+            setupHierarchy()
+            
+            activityIndicator.startAnimating()
+            
+            viewModel?.fetchDiskData()
+            
+            setupLayout()
+            
+            viewModel?.onUpdate = { [weak self] in
+                self?.setPieChartData()
             }
+            
+        } else {
+            self.showNoConnectionLabel(label)
+            setupViews()
+            setupHierarchy()
+            setupLayout()
+            pieChart.isHidden = true
+            showPublishedButton.isHidden = true
         }
+        
+        networkCheck.addObserver(observer: self)
+        
     }
     
+    
+    func statusDidChange(status: NWPath.Status) {
+            if status == .satisfied {
+                       //Do something
+                viewModel?.fetchDiskData()
+                
+                viewModel?.onUpdate = { [weak self] in
+                    self?.setPieChartData()
+                }
+                
+                self.removeNoConnectionLabel(label)
+                pieChart.isHidden = false
+                showPublishedButton.isHidden = false
+                
+            } else if status == .unsatisfied {
+                //Show no network alert
+                self.showNoConnectionLabel(label)
+                pieChart.isHidden = true
+                showPublishedButton.isHidden = true
+            }
+        }
     
     
     private func setupViews() {
@@ -121,6 +136,39 @@ class UserProfileViewController: UIViewController, ChartViewDelegate {
         ])
     }
 
+    
+    //    MARK: - Setup PieChart
+        
+        private func setPieChartData() {
+            DispatchQueue.main.async {
+                self.viewModel?.entries.removeAll()
+                
+                self.activityIndicator.stopAnimating()
+                
+                guard let occupiedEntry = self.viewModel?.occupiedData, let totalEntry = self.viewModel?.totalData, let freeSpaceEntry = self.viewModel?.freeSpace else { return }
+                
+                self.pieChart.drawEntryLabelsEnabled = true
+                
+                self.viewModel?.entries.append(
+                    PieChartDataEntry(value: occupiedEntry/1000, label:  Constants.Text.profileOccupied))
+                self.viewModel?.entries.append(
+                    PieChartDataEntry(value: freeSpaceEntry/1000, label: Constants.Text.profileAvailable))
+                
+                let set = PieChartDataSet(entries: self.viewModel?.entries ?? [])
+                
+                set.colors = ChartColorTemplates.pastel()
+                let myAttrString = NSAttributedString(string: "\(totalEntry/1000) \(Constants.Text.profileAbbreviationGB)", attributes: [
+                    .font: UIFont.systemFont(ofSize: 24, weight: .regular),
+                    .foregroundColor: UIColor.label
+                ])
+                self.pieChart.centerAttributedText = myAttrString
+                
+                self.pieChart.entryLabelColor = .label
+                set.label = Constants.Text.profilePieChartLabel
+                let data = PieChartData(dataSet: set)
+                self.pieChart.data = data
+            }
+        }
     
     
 }
