@@ -19,6 +19,7 @@
 		83178BB129D21C0800C0CC3D /* YDGetDiskDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */; };
 		83178BBC29D3480D00C0CC3D /* YDResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BBB29D3480D00C0CC3D /* YDResource.swift */; };
 		83178BBE29D3486A00C0CC3D /* YDResourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83178BBD29D3486A00C0CC3D /* YDResourceList.swift */; };
+		831942AF29E7E0BF0003BDD0 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831942AE29E7E0BF0003BDD0 /* FileManager+Extensions.swift */; };
 		8368B99429B64F0E00ACB05A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B99329B64F0E00ACB05A /* Coordinator.swift */; };
 		8368B99729B64F8F00ACB05A /* UIButton + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B99629B64F8F00ACB05A /* UIButton + Extensions.swift */; };
 		8368B99B29B6546100ACB05A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8368B99A29B6546100ACB05A /* LoginViewModel.swift */; };
@@ -95,6 +96,7 @@
 		83178BB029D21C0800C0CC3D /* YDGetDiskDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDGetDiskDataResponse.swift; sourceTree = "<group>"; };
 		83178BBB29D3480D00C0CC3D /* YDResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDResource.swift; sourceTree = "<group>"; };
 		83178BBD29D3486A00C0CC3D /* YDResourceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDResourceList.swift; sourceTree = "<group>"; };
+		831942AE29E7E0BF0003BDD0 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		8368B99329B64F0E00ACB05A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		8368B99629B64F8F00ACB05A /* UIButton + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extensions.swift"; sourceTree = "<group>"; };
 		8368B99A29B6546100ACB05A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				8368B9ED29B7E38700ACB05A /* ImageLoader.swift */,
 				83B288A129C5FB2F002F7629 /* PanZoomImageView.swift */,
 				83B288A729C72844002F7629 /* Observable.swift */,
+				831942AE29E7E0BF0003BDD0 /* FileManager+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				872D2B1229DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift in Sources */,
 				838DB62628D77E4B00BF54E9 /* OnboardingViewController.swift in Sources */,
 				8368B9E829B7C0AE00ACB05A /* LoginCoordinator.swift in Sources */,
+				831942AF29E7E0BF0003BDD0 /* FileManager+Extensions.swift in Sources */,
 				830BFC5D29D785D600890547 /* PublishedFolderViewController.swift in Sources */,
 				8368B99429B64F0E00ACB05A /* Coordinator.swift in Sources */,
 				839974E729D0C75400628F5C /* FolderViewController.swift in Sources */,

@@ -26,11 +26,21 @@ final class CoreDataManager {
         return persistentContainer.viewContext
     }
     
-    func getItemFromStorage(_ id: NSManagedObjectID) -> YandexDiskItem? {
-        do {
-            return try viewContext.existingObject(with: id) as? YandexDiskItem
-        } catch {
-            print(error)
+//    func getItemFromStorage(_ id: NSManagedObjectID) -> YandexDiskItem? {
+//        do {
+//            return try viewContext.existingObject(with: id) as? YandexDiskItem
+//        } catch {
+//            print(error)
+//        }
+//        return nil
+//    }
+    
+    func getItemFromStorageWithID(_ md5: String) -> YandexDiskItem? {
+        let allCoreDataItems = fetchSavedFiles()
+        for item in allCoreDataItems {
+            if item.md5 == md5 {
+                return item
+            }
         }
         return nil
     }

@@ -51,11 +51,9 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         setupHierarchy()
         setupLayout()
         
-        
-        
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCellBookmarks(_:)), name: NSNotification.Name("updateBookmarks"), object: nil)
         
         serviceViewModel?.onUpdate = { [weak self] in
             DispatchQueue.main.async {
@@ -102,6 +100,10 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         serviceViewModel?.fetchPublishedFiles()
     }
     
+    
+    @objc func updateCellBookmarks(_ notification: Notification) {
+        self.tableView.reloadData()
+    }
     
     func statusDidChange(status: NWPath.Status) {
             if status == .satisfied {
@@ -191,7 +193,11 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! YDTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? YDTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        
         guard let viewModel = serviceViewModel?.cellViewModels[indexPath.row] else { return cell }
         cell.update(with: viewModel)
         
@@ -200,17 +206,63 @@ class PublishedFilesViewController: UIViewController, UITableViewDataSource, UIT
         } else {
             cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
         }
-        
+        let group = DispatchGroup()
         cell.downloadButtonPressed = { [weak self] in
-            self?.presentPublishedFileActionsAlert(title: viewModel.name, action1: {
-                print("download file tapped")
-            }, action2: {
-                self?.activityIndicator.startAnimating()
-                self?.serviceViewModel?.unpublishFile(viewModel.filePath)
-            })
-            // 1. Сохранить вьюмодель данной ячейки в CoreData
-            // 2. Добавить эту модель в отдельный массив во вью модели контроллера - что-то вроде downloadedCellViewModels? - с ним вероятно работать при отсутствии интернета?
-            // 3. Обновить картинку кнопки загрузки на "download.finish"
+            if !CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
+                self?.presentPublishedSaveFileAlert(title: viewModel.name, action1: {
+                    //логика сохранения в CoreData
+                    if let label = self?.label {
+                        self?.showSaveLabel(label)
+                    }
+                    //отправить запрос на скачивание файла (как перед открытием детального VC)
+                    YDService.shared.downloadFile(path: viewModel.filePath, completion: { linkResponse in
+                        //из полученного ответа извлекаем ссылку для скачивания файла и скачиваем в виде Data
+                        DispatchQueue.main.async {
+                            guard let url = URL(string: linkResponse.href) else { return }
+                            DispatchQueue.global().async {
+                                group.enter()
+                                let data = try? Data(contentsOf: url)
+                                group.leave()
+                                DispatchQueue.main.async {
+                                    group.enter()
+                                    viewModel.fileData = data ?? Data()
+                                    group.leave()
+                                    //данные файла сохраняются в формате Data() и далее готовы к сохранению в один из аттрибутов YandexDiskItem - fileData (полученные данные будем использовать для показа файла в детальном просмотре offline)
+                                    let previewImageData = cell.cellImageView.image?.pngData()
+                                    //Сохранить вьюмодель данной ячейки в CoreData
+                                    //в случае, если такой еще нет в Core Data
+                                    
+                                    group.notify(queue: .main) {
+                                        if let label = self?.label {
+                                            self?.removeSaveLabel(label)
+                                        }
+                                        self?.serviceViewModel?.saveFileToCoreData(viewModel, previewImageData)
+                                        //отправляем уведомление через NotificationCenter, чтобы все контроллеры обновили закладку сохранения файла в своих таблицах
+                                        NotificationCenter.default.post(name: NSNotification.Name("updateBookmarks"), object: nil)
+                                        //Показать картинку закладку сохранения файла в cell.savedFileImageView
+                                        cell.savedFileImageView.image = UIImage(named: "mark.saved")
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }, action2: {
+                    self?.activityIndicator.startAnimating()
+                    self?.serviceViewModel?.unpublishFile(viewModel.filePath)
+                })
+            } else {
+                self?.presentPublishedDeleteFileAlert(title: viewModel.name, action1: {
+                    //логика удаления из CoreData
+                    if let itemToDelete = CoreDataManager.shared.getItemFromStorageWithID(viewModel.md5) {
+                        CoreDataManager.shared.deleteItem(itemToDelete)
+                        NotificationCenter.default.post(name: NSNotification.Name("updateBookmarks"), object: nil)
+                        cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
+                    }
+                }, action2: {
+                    self?.activityIndicator.startAnimating()
+                    self?.serviceViewModel?.unpublishFile(viewModel.filePath)
+                })
+            }
         }
         cell.selectionStyle = .default
         return cell

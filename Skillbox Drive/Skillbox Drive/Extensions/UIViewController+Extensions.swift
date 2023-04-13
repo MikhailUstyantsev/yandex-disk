@@ -200,7 +200,7 @@ extension UIViewController {
     
     //    MARK: - Tableview Cell File actions alert
     
-    func presentPublishedFileActionsAlert(title: String, message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
+    func presentPublishedSaveFileAlert(title: String, message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
         alertController.addAction(UIAlertAction(title: Constants.Text.saveToDevice, style: .default, handler: { _ in
@@ -212,7 +212,19 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
-    func presentLastUploadedFileActionsAlert(title: String, message: String? = nil, action: @escaping () -> Void) {
+    func presentPublishedDeleteFileAlert(title: String, message: String? = nil, action1: @escaping () -> Void, action2: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.removeFromDevice, style: .default, handler: { _ in
+            action1()
+        }))
+        alertController.addAction(UIAlertAction(title: Constants.Text.unpublish, style: .destructive, handler: { _ in
+            action2()
+        }))
+        present(alertController, animated: true)
+    }
+    
+    func presentLastUploadedSaveFileAlert(title: String, message: String? = nil, action: @escaping () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
         alertController.addAction(UIAlertAction(title: Constants.Text.saveToDevice, style: .default, handler: { _ in
@@ -221,6 +233,14 @@ extension UIViewController {
         present(alertController, animated: true)
     }
     
+    func presentLastUploadedDeleteFileAlert(title: String, message: String? = nil, action: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: Constants.Text.cancel, style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constants.Text.removeFromDevice, style: .default, handler: { _ in
+            action()
+        }))
+        present(alertController, animated: true)
+    }
     
     //MARK: - OFFLINE ALERT
     func presentOfflineAlert(title: String = Constants.Text.noConnectionLabelText) {

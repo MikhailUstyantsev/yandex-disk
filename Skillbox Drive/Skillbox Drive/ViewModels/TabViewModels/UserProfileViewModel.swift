@@ -52,6 +52,8 @@ final class UserProfileViewModel: ChartViewDelegate {
     
     
     func logoutUserProfile() {
+        //очистить .cachesDirectory
+        FileManager.removeAllFilesDirectory()
         // удалить токен из Keychain
         KeychainManager.shared.delete()
         //удалить файлы из CoreData

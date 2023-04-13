@@ -63,7 +63,8 @@ enum Constants {
         static let confirmLogOutTitle = Bundle.main.localizedString(forKey: "ViewControllerExtension.confirmLogOutTitle", value: "Вы уверены, что хотите выйти?", table: "Localizable")
         static let yes = Bundle.main.localizedString(forKey: "ViewControllerExtension.yes", value: "Да", table: "Localizable")
         static let no = Bundle.main.localizedString(forKey: "ViewControllerExtension.no", value: "Нет", table: "Localizable")
-        static let saveToDevice = Bundle.main.localizedString(forKey: "ViewControllerExtension.saveToDevice", value: "Скачать", table: "Localizable")
+        static let saveToDevice = Bundle.main.localizedString(forKey: "ViewControllerExtension.saveToDevice", value: "Сохранить в избранное", table: "Localizable")
+        static let removeFromDevice = Bundle.main.localizedString(forKey: "ViewControllerExtension.deleteFromDevice", value: "Удалить из избранного", table: "Localizable")
         static let unpublish = Bundle.main.localizedString(forKey: "ViewControllerExtension.unpublish", value: "Убрать публикацию", table: "Localizable")
         
         //MARK: - PublishedFilesViewController

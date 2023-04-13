@@ -57,7 +57,8 @@
 "ViewControllerExtension.confirmLogOutTitle"="Вы уверены, что хотите выйти?";
 "ViewControllerExtension.yes"="Да";
 "ViewControllerExtension.no"="Нет";
-"ViewControllerExtension.saveToDevice"="Скачать";
+"ViewControllerExtension.saveToDevice"="Сохранить в избранное";
+"ViewControllerExtension.deleteFromDevice"="Удалить из избранного";
 "ViewControllerExtension.unpublish"="Убрать публикацию";
 
 //MARK: - PublishedFilesViewController

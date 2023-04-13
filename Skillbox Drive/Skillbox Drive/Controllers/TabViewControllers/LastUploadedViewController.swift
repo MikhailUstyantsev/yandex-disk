@@ -46,6 +46,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
         
         NotificationCenter.default.addObserver(self, selector: #selector(filesDidChanged(_:)), name: NSNotification.Name("filesDidChange"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCellBookmarks(_:)), name: NSNotification.Name("updateBookmarks"), object: nil)
        
         // Do any additional setup after loading the view.
         setupViews()
@@ -103,6 +104,10 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
     @objc func filesDidChanged(_ notification: Notification) {
         viewModel?.cellViewModels.removeAll()
         viewModel?.fetchFiles()
+    }
+    
+    @objc func updateCellBookmarks(_ notification: Notification) {
+        self.tableView.reloadData()
     }
     
     private func setupViews() {
@@ -178,48 +183,87 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
                         cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
                     }
                 
+                //MARK: Кеширование по мере презентации ячеек таблицы - позволяет мгновенно открывать картинки и pdf-файлы (не ожидяя каждый раз скачивания в детальном контроллере)
+                
+                YDService.shared.downloadFile(path: viewModel.filePath) { downloadResponse in
+                    // setting up the local cache URL
+                    let localCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                    // setting up the local cache file URL to the file itself using unique ID - md5
+                    let localFileURL = localCacheURL.appendingPathComponent(viewModel.md5)
+                    DispatchQueue.global().async {
+                        if let downloadFileURL = URL(string: downloadResponse.href) {
+                            let data = try? Data(contentsOf: downloadFileURL)
+                            DispatchQueue.main.async {
+                                do {
+                                    try? data?.write(to: localFileURL)
+                                }
+                            }
+                            let filePath = localFileURL.path
+                            if let dataToSave = data {
+                                //таким образом по адресу localFileURL.path будет лежать файл с уникальным идентификатором md5 и данными dataToSave
+                                YDService.shared.moveItemToLocalStorage(filePath: filePath, data: dataToSave)
+                            }
+                        }
+                    }
+                }
+                // MARK: отработка нажатия на кнопку в ячейке
+                
                 cell.downloadButtonPressed = { [weak self] in
                     let group = DispatchGroup()
-                    self?.presentLastUploadedFileActionsAlert(title: "\(viewModel.name)", action: {
-                        if let label = self?.label {
-                            self?.showSaveLabel(label)
-                        }
-                        //отправить запрос на скачивание файла (как перед открытием детального VC)
-                        YDService.shared.downloadFile(path: viewModel.filePath, completion: { linkResponse in
-                            //из полученного ответа извлекаем ссылку для скачивания файла и скачиваем в виде Data
-                            DispatchQueue.main.async {
-                                guard let url = URL(string: linkResponse.href) else { return }
-                                DispatchQueue.global().async {
-                                    group.enter()
-                                    let data = try? Data(contentsOf: url)
-                                    group.leave()
-                                    DispatchQueue.main.async {
+                    
+                    if !CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
+                        
+                        self?.presentLastUploadedSaveFileAlert(title: "\(viewModel.name)", action: {
+                            if let label = self?.label {
+                                self?.showSaveLabel(label)
+                            }
+                            //отправить запрос на скачивание файла (как перед открытием детального VC)
+                            YDService.shared.downloadFile(path: viewModel.filePath, completion: { linkResponse in
+                                //из полученного ответа извлекаем ссылку для скачивания файла и скачиваем в виде Data
+                                DispatchQueue.main.async {
+                                    guard let url = URL(string: linkResponse.href) else { return }
+                                    DispatchQueue.global().async {
                                         group.enter()
-                                        viewModel.fileData = data ?? Data()
+                                        let data = try? Data(contentsOf: url)
                                         group.leave()
-                                        //данные файла сохраняются в формате Data() и далее готовы к сохранению в один из аттрибутов YandexDiskItem - fileData (полученные данные будем использовать для показа файла в детальном просмотре offline)
-                                        let previewImageData = cell.cellImageView.image?.pngData()
-                                        //Сохранить вьюмодель данной ячейки в CoreData
-                                        //в случае, если такой еще нет в Core Data
-                                        if !CoreDataManager.shared.checkIfItemExist(md5: viewModel.md5) {
+                                        DispatchQueue.main.async {
+                                            group.enter()
+                                            viewModel.fileData = data ?? Data()
+                                            group.leave()
+                                            //данные файла сохраняются в формате Data() и далее готовы к сохранению в один из аттрибутов YandexDiskItem - fileData (полученные данные будем использовать для показа файла в детальном просмотре offline)
+                                            let previewImageData = cell.cellImageView.image?.pngData()
+                                            //Сохранить вьюмодель данной ячейки в CoreData
+                                            //в случае, если такой еще нет в Core Data
+                                            
                                             group.notify(queue: .main) {
                                                 if let label = self?.label {
                                                     self?.removeSaveLabel(label)
                                                 }
                                                 self?.viewModel?.saveFileToCoreData(viewModel, previewImageData)
                                                 //отправляем уведомление через NotificationCenter, чтобы все контроллеры обновили закладку сохранения файла в своих таблицах
-                                                NotificationCenter.default.post(name: NSNotification.Name("filesDidChange"), object: nil)
+                                                NotificationCenter.default.post(name: NSNotification.Name("updateBookmarks"), object: nil)
                                                 //Показать картинку закладку сохранения файла в cell.savedFileImageView
                                                 cell.savedFileImageView.image = UIImage(named: "mark.saved")
                                             }
+                                            
                                         }
                                     }
                                 }
+                            })
+                        })
+                    } else {
+                        //если уже есть файл в кордате, то показать алерт удаления из избранных
+                        self?.presentLastUploadedDeleteFileAlert(title: "\(viewModel.name)", action: {
+                            if let itemToDelete = CoreDataManager.shared.getItemFromStorageWithID(viewModel.md5) {
+                                CoreDataManager.shared.deleteItem(itemToDelete)
+                                NotificationCenter.default.post(name: NSNotification.Name("updateBookmarks"), object: nil)
+                                cell.savedFileImageView.image = UIImage(named: "mark.unsaved")
                             }
                         })
-                    })
+                    }
                 }
             }
+            // если отсутствует интернет, то будут показываться файлы из избранного
         } else {
             if let viewModel = viewModel?.savedInCoreDataFiles[indexPath.row] {
                 cell.nameLabel.text = viewModel.name
@@ -230,7 +274,7 @@ class LastUploadedViewController: UIViewController, UITableViewDelegate, UITable
                 }
                 cell.savedFileImageView.image = UIImage(named: "mark.saved")
                 cell.downloadButtonPressed = {
-                    // удалить из CoreData
+                    self.presentOfflineAlert()
                 }
             }
         }

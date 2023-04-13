@@ -58,6 +58,7 @@
 "ViewControllerExtension.yes"="Yes";
 "ViewControllerExtension.no"="No";
 "ViewControllerExtension.saveToDevice"="Save to device";
+"ViewControllerExtension.deleteFromDevice"="Remove from device";
 "ViewControllerExtension.unpublish"="Unpublish";
 
 //MARK: - PublishedFilesViewController
