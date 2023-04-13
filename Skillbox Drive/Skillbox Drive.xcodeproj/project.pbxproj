@@ -186,6 +186,16 @@
 			path = PublishedFiles;
 			sourceTree = "<group>";
 		};
+		831942B029E7E7A40003BDD0 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */,
+				872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */,
+				830BFC6529DA05A500890547 /* SkillboxDrive.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		8368B99129B64EBD00ACB05A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,8 +404,6 @@
 		83DD61342891A6110078100A = {
 			isa = PBXGroup;
 			children = (
-				872D2B0F29DEE45D00E5CAED /* YandexDiskItem+CoreDataClass.swift */,
-				872D2B1029DEE45D00E5CAED /* YandexDiskItem+CoreDataProperties.swift */,
 				83DD613F2891A6110078100A /* Skillbox Drive */,
 				83DD613E2891A6110078100A /* Products */,
 			);
@@ -412,7 +420,7 @@
 		83DD613F2891A6110078100A /* Skillbox Drive */ = {
 			isa = PBXGroup;
 			children = (
-				830BFC6529DA05A500890547 /* SkillboxDrive.xcdatamodeld */,
+				831942B029E7E7A40003BDD0 /* CoreData */,
 				8705AEC829D56A3900937030 /* Managers */,
 				839974DF29CE25F000628F5C /* Network */,
 				83B6500528F2E726004F1061 /* Launch */,
