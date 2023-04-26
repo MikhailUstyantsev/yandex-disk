@@ -14,7 +14,7 @@ _____
 
 [Профиль пользователя]<img src="https://github.com/MikhailUstyantsev/yandex-disk/blob/main/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20Max%20-%202023-04-27%20at%2003.11.46.png" width="300">
 
-<img src="path/to/screenshot.png" width="500">
+[Экран все файлы - закладкой отмечены избранные файлы]<img src="https://github.com/MikhailUstyantsev/yandex-disk/blob/main/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20Max%20-%202023-04-27%20at%2003.12.25.png" width="300">
 
 <img src="path/to/screenshot.png" width="500">
 
