@@ -10,7 +10,7 @@ _____
 
 
 <img src="https://github.com/MikhailUstyantsev/yandex-disk/blob/main/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20Max%20-%202023-04-27%20at%2003.10.33.png" width="250">
-[Экран входа]
+Экран входа
 
 
 <img src="https://github.com/MikhailUstyantsev/yandex-disk/blob/main/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20Max%20-%202023-04-27%20at%2003.10.45.png" width="250">
